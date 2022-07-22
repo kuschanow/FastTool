@@ -3,20 +3,18 @@
   <PropertyGroup>
 	  <LangVersion>10.0</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>FastTool</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\IsExternalInit.cs" Link="IsExternalInit.cs" />
+    <Compile Remove="Migrations\20220722100318_init.cs" />
+    <Compile Remove="Migrations\20220722100318_init.Designer.cs" />
+    <Compile Remove="Migrations\20220722100930_init.cs" />
+    <Compile Remove="Migrations\20220722100930_init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\FastTool.Models\FastTool.Models.csproj" />
   </ItemGroup>
 
 </Project>
