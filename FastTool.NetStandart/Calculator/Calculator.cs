@@ -7,30 +7,65 @@ namespace FastTool;
 
 public static class Calculator
 {
-    private static Regex simpleExpression = new Regex(@"^(\-?\d+([.,]\d+)?) *([+\-/*^]) *(\-?\d+([.,]\d+)?)$");
-    private static Regex oneNumExpression = new Regex(@"^(\-?\d+([.,]\d+)?) *$");
-    private static Regex divisionExpression = new Regex(@"^(\-?\d+) *\% *(\-?\d+)$");
-    private static Regex DegExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[\^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
-    private static Regex multiDivExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
-    private static Regex addSubExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[+\-] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
-    private static Regex bkt = new Regex(@"[()]");
+    private static Regex simpleExp = new Regex(@"^(\-?\d+([.,]\d+)?) *([+\-/*^]) *(\-?\d+([.,]\d+)?)$");
+    private static Regex oneNumExp = new Regex(@"^(\-?\d+([.,]\d+)?) *$");
+    private static Regex divisionExp = new Regex(@"^(\-?\d+) *\% *(\-?\d+)$");
+    private static Regex DegExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[\^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex multiDivExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex addSubExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[+\-] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex bktExp = new Regex(@"[()]");
+    private static Regex _bktExp = new Regex(@"[(]");
+    private static Regex bkt_Exp = new Regex(@"[)]");
+    private static Regex numExp = new Regex(@"(?<!\d|[)]|\d |\) )\-?\d+([.,]\d+)?");
+    private static Regex pctExp = new Regex(@"[,.]");
+    private static Regex actExp = new Regex(@"[+\-/*^]");
+    private static Regex othExp = new Regex(@"[^+\-/*^]");
 
     public static double Calculate(string exp) { return Calculate(exp, 6); }
     public static double Calculate(string exp, int digits)
     {
         double result = 0;
 
-        if (simpleExpression.IsMatch(exp))
+        if (simpleExp.IsMatch(exp))
         {
             result = SimpleCalculate(exp);
         }
-        else if (divisionExpression.IsMatch(exp))
+        else if (divisionExp.IsMatch(exp))
         {
             result = Convert.ToDouble(DivisionCalculate(exp));
         }
-        else if (oneNumExpression.IsMatch(exp))
+        else if (oneNumExp.IsMatch(exp))
         {
             result = Convert.ToDouble(exp.Trim());
+        }
+        else
+        {
+            string tempExp = exp;
+
+            tempExp = tempExp.Replace(" ", "");
+            int numMathesCount = numExp.Matches(tempExp).Count;
+            tempExp = numExp.Replace(tempExp, "");
+            if (pctExp.IsMatch(tempExp))
+            {
+                throw new Exception("Invalid expression");
+            }
+            if (_bktExp.IsMatch(tempExp) || bkt_Exp.IsMatch(tempExp))
+            {
+                if (_bktExp.Matches(tempExp).Count != bkt_Exp.Matches(tempExp).Count)
+                {
+                    throw new Exception("Invalid expression");
+                }
+                tempExp = bktExp.Replace(tempExp, "");
+            }
+            if (othExp.IsMatch(tempExp))
+            {
+                throw new Exception("Invalid expression");
+            }
+            if (actExp.Matches(tempExp).Count != numMathesCount - 1)
+            {
+                throw new Exception("Invalid expression");
+            }
+            result = DifficultCalculate(exp);
         }
 
         return Math.Round(result, digits);
@@ -38,7 +73,7 @@ public static class Calculator
 
     private static double SimpleCalculate(string exp)
     {
-        Match match = simpleExpression.Match(exp);
+        Match match = simpleExp.Match(exp);
 
         double result = 0;
 
@@ -73,7 +108,7 @@ public static class Calculator
 
     private static int DivisionCalculate(string exp)
     {
-        Match match = divisionExpression.Match(exp);
+        Match match = divisionExp.Match(exp);
 
         int num1 = Convert.ToInt32(match.Groups[1].Value),
             num2 = Convert.ToInt32(match.Groups[2].Value);
@@ -81,11 +116,11 @@ public static class Calculator
         return num1 % num2;
     }
 
-    public static double DifficultCalculate(string exp)
+    private static double DifficultCalculate(string exp)
     {
         double result;
 
-        //Находим поочередно все скобки, рекурсией вычисляем их, после находим поочередно все умножения, деления и степени,
+        //Находим поочередно все скобки, рекурсией вычисляем их, после находим поочередно все степени, умножения и деления,
         //вычисляем их, затем то же самое делаем с прибавлением и вычитанием, пока не останеться одно число, которое и есть результат
 
         int _bkt, bkt_, inLavel;
@@ -99,7 +134,7 @@ public static class Calculator
             bkt_ = -1;
             inLavel = 0;
 
-            if (bkt.IsMatch(exp))
+            if (bktExp.IsMatch(exp))
             {
                 for (int i = 0; i < exp.Length; i++)
                 {
@@ -142,9 +177,9 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match DegMatch = DegExpression.Match(exp);
+            Match DegMatch = DegExp.Match(exp);
 
-            if (DegExpression.IsMatch(exp))
+            if (DegExp.IsMatch(exp))
             {
                 string newExp = DegMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
@@ -157,9 +192,9 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match multiDiviDegMatch = multiDivExpression.Match(exp);
+            Match multiDiviDegMatch = multiDivExp.Match(exp);
 
-            if (multiDivExpression.IsMatch(exp))
+            if (multiDivExp.IsMatch(exp))
             {
                 string newExp = multiDiviDegMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
@@ -172,9 +207,9 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match addSubMatch = addSubExpression.Match(exp);
+            Match addSubMatch = addSubExp.Match(exp);
 
-            if (addSubExpression.IsMatch(exp))
+            if (addSubExp.IsMatch(exp))
             {
                 string newExp = addSubMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
