@@ -10,7 +10,8 @@ public static class Calculator
     private static Regex simpleExpression = new Regex(@"^(\-?\d+([.,]\d+)?) *([+\-/*^]) *(\-?\d+([.,]\d+)?)$");
     private static Regex oneNumExpression = new Regex(@"^(\-?\d+([.,]\d+)?) *$");
     private static Regex divisionExpression = new Regex(@"^(\-?\d+) *\% *(\-?\d+)$");
-    private static Regex multiDiviDegExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex DegExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[\^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex multiDivExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
     private static Regex addSubExpression = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[+\-] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
     private static Regex bkt = new Regex(@"[()]");
 
@@ -91,7 +92,6 @@ public static class Calculator
 
         bool smthIsFind;
 
-
         do
         {
             smthIsFind = false;
@@ -139,14 +139,27 @@ public static class Calculator
             }
         } while (smthIsFind);
 
-        Match addSubDegMatch = addSubExpression.Match(exp);
+        do
+        {
+            smthIsFind = false;
+            Match DegMatch = DegExpression.Match(exp);
+
+            if (DegExpression.IsMatch(exp))
+            {
+                string newExp = DegMatch.Value;
+                string res = SimpleCalculate(newExp).ToString();
+                exp = exp.Replace(newExp, res);
+                smthIsFind = true;
+            }
+
+        } while (smthIsFind);
 
         do
         {
             smthIsFind = false;
-            Match multiDiviDegMatch = multiDiviDegExpression.Match(exp);
+            Match multiDiviDegMatch = multiDivExpression.Match(exp);
 
-            if (multiDiviDegExpression.IsMatch(exp))
+            if (multiDivExpression.IsMatch(exp))
             {
                 string newExp = multiDiviDegMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
@@ -155,7 +168,6 @@ public static class Calculator
             }
 
         } while (smthIsFind);
-
 
         do
         {
