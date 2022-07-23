@@ -35,4 +35,29 @@ public class CalculatorTests
         answer6.Should().Be(1);
         answer7.Should().Be(-4);
     }
+
+    [Fact]
+    public void WhenDifficultExpression_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut1 = "2 + 2^3";
+        string sut2 = "(2 - 2)";
+        string sut3 = "(3 - 1) - 3 * 3";
+        string sut4 = "((3 - 1) - 3) ^ 3";
+        string sut5 = "3^2/3";
+
+        // Act
+        var answer1 = Calculator.DifficultCalculate(sut1);
+        var answer2 = Calculator.DifficultCalculate(sut2);
+        var answer3 = Calculator.DifficultCalculate(sut3);
+        var answer4 = Calculator.DifficultCalculate(sut4);
+        var answer5 = Calculator.DifficultCalculate(sut5);
+
+        // Assert
+        answer1.Should().Be(10);
+        answer2.Should().Be(0);
+        answer3.Should().Be(-7);
+        answer4.Should().Be(-1);
+        answer5.Should().Be(3);
+    }
 }
