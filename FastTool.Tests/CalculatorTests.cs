@@ -16,6 +16,7 @@ public class CalculatorTests
         string sut5 = "2 ^ 3";
         string sut6 = "3 % 2";
         string sut7 = "-2 * 2";
+        string sut8 = "-2";
 
         // Act
         var answer1 = Calculator.Calculate(sut1);
@@ -25,6 +26,7 @@ public class CalculatorTests
         var answer5 = Calculator.Calculate(sut5);
         var answer6 = Calculator.Calculate(sut6);
         var answer7 = Calculator.Calculate(sut7);
+        var answer8 = Calculator.Calculate(sut8);
 
         // Assert
         answer1.Should().Be(4);
@@ -34,6 +36,7 @@ public class CalculatorTests
         answer5.Should().Be(8);
         answer6.Should().Be(1);
         answer7.Should().Be(-4);
+        answer8.Should().Be(-2);
     }
 
     [Fact]

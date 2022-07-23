@@ -24,7 +24,7 @@ public static class Calculator
     public static double Calculate(string exp) { return Calculate(exp, 6); }
     public static double Calculate(string exp, int digits)
     {
-        double result = 0;
+        double result;
 
         if (simpleExp.IsMatch(exp))
         {
