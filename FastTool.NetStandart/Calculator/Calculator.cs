@@ -7,8 +7,16 @@ namespace FastTool;
 
 public static class Calculator
 {
+    public enum Mode
+    {
+        Deg,
+        Rad,
+        Grad
+    }
+
     private static Regex simpleExp = new Regex(@"^(\-?\d+([.,]\d+)?) *([+\-/*^]) *(\-?\d+([.,]\d+)?)$");
     private static Regex oneNumExp = new Regex(@"^(\-?\d+([.,]\d+)?) *$");
+    private static Regex numInBktExp = new Regex(@"\((\-?\d+([.,]\d+)?)\)");
     private static Regex divisionExp = new Regex(@"^(\-?\d+) *\% *(\-?\d+)$");
     private static Regex DegExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[\^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
     private static Regex multiDivExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
@@ -22,9 +30,14 @@ public static class Calculator
     private static Regex actExp = new Regex(@"[+\-/*^]");
     private static Regex othExp = new Regex(@"[^+\-/*^]");
     private static Regex sqrtExp = new Regex(@"sqrt\((.+)\)");
+    private static Regex cbrtExp = new Regex(@"cbrt\((.+)\)");
+    private static Regex fulltrigonometryExp = new Regex(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?$");
+    private static Regex trigonometryExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?");
+    private static Regex funcExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)");
 
-    public static double Calculate(string exp) { return Calculate(exp, 6); }
-    public static double Calculate(string exp, int digits)
+    public static double Calculate(string exp) { return Calculate(exp, Mode.Deg,  10); }
+    public static double Calculate(string exp, Mode mode) { return Calculate(exp, mode, 10); }
+    public static double Calculate(string exp, Mode mode, int digits)
     {
         double result;
 
@@ -39,6 +52,10 @@ public static class Calculator
         else if (oneNumExp.IsMatch(exp))
         {
             result = Convert.ToDouble(exp.Trim());
+        }
+        else if (fulltrigonometryExp.IsMatch(exp))
+        {
+            result = TrigonometryCalculate(exp, mode);
         }
         else
         {
@@ -64,10 +81,21 @@ public static class Calculator
                 }
             }
 
+            if (cbrtExp.IsMatch(tempExp))
+            {
+                MatchCollection multiBktMatches = cbrtExp.Matches(tempExp);
+
+                foreach (Match match in multiBktMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, $"({match.Groups[1].Value}) ^ (1 / 3)");
+                }
+            }
+
             tempExp = tempExp.Replace(" ", "");
 
             int numMathesCount = numExp.Matches(tempExp).Count;
             tempExp = numExp.Replace(tempExp, "");
+            tempExp = funcExp.Replace(tempExp, "");
             if (pctExp.IsMatch(tempExp))
             {
                 throw new Exception("Invalid expression");
@@ -88,7 +116,7 @@ public static class Calculator
             {
                 throw new Exception("Invalid expression");
             }
-            result = DifficultCalculate(exp);
+            result = DifficultCalculate(exp, mode);
         }
 
         return Math.Round(result, digits);
@@ -129,6 +157,89 @@ public static class Calculator
         return result;
     }
 
+    private static double TrigonometryCalculate(string exp, Mode mode)
+    {
+        Match match = trigonometryExp.Match(exp);
+
+        double result = 0;
+
+        double num = Convert.ToDouble(match.Groups[3].Value.Replace('.', ','));
+
+        if (!match.Groups[1].Success)
+        {
+            switch (mode)
+            {
+                case Mode.Deg:
+                    num *= (Math.PI / 180);
+                    break;
+
+                case Mode.Rad:
+                    break;
+
+                case Mode.Grad:
+                    num *= (Math.PI / 200);
+                    break;
+            }
+        }
+
+        switch (match.Groups[2].Value)
+        {
+            case "sin":
+                if (match.Groups[1].Success)
+                {
+                    result = Math.Asin(num);
+                    break;
+                }
+                result = Math.Sin(num);
+                break;
+
+            case "cos":
+                if (match.Groups[1].Success)
+                {
+                    result = Math.Acos(num);
+                    break;
+                }
+                result = Math.Cos(num); break;
+
+            case "tg":
+            case "tan":
+                if (match.Groups[1].Success)
+                {
+                    result = Math.Atan(num);
+                    break;
+                }
+                result = Math.Tan(num); break;
+
+            case "ctg":
+            case "cot":
+                if (match.Groups[1].Success)
+                {
+                    result = (Math.PI / 2) - Math.Atan(num);
+                    break;
+                }
+                result = 1 / Math.Tan(num); break;
+        }
+
+        if (match.Groups[1].Success)
+        {
+            switch (mode)
+            {
+                case Mode.Deg:
+                    result /= (Math.PI / 180);
+                    break;
+
+                case Mode.Rad:
+                    break;
+
+                case Mode.Grad:
+                    result /= (Math.PI / 200);
+                    break;
+            }
+        }
+
+        return Math.Round(result, 15);
+    }
+
     private static int DivisionCalculate(string exp)
     {
         Match match = divisionExp.Match(exp);
@@ -139,7 +250,7 @@ public static class Calculator
         return num1 % num2;
     }
 
-    private static double DifficultCalculate(string exp)
+    private static double DifficultCalculate(string exp, Mode mode)
     {
         double result;
 
@@ -170,8 +281,44 @@ public static class Calculator
             }
         }
 
+        if (cbrtExp.IsMatch(exp))
+        {
+            MatchCollection multiBktMatches = cbrtExp.Matches(exp);
+
+            foreach (Match match in multiBktMatches)
+            {
+                exp = exp.Replace(match.Value, $"({match.Groups[1].Value}) ^ (1 / 3)");
+            }
+        }
+
         do
         {
+            do
+            {
+                smthIsFind = false;
+                Match TrigonometryMatch = trigonometryExp.Match(exp);
+
+                if (trigonometryExp.IsMatch(exp))
+                {
+                    string newExp = TrigonometryMatch.Value;
+                    string res = TrigonometryCalculate(newExp, mode).ToString();
+                    exp = exp.Replace(newExp, res);
+                    smthIsFind = true;
+                }
+
+            } while (smthIsFind);
+
+
+            if (numInBktExp.IsMatch(exp))
+            {
+                MatchCollection numInBktMatches = numInBktExp.Matches(exp);
+
+                foreach (Match match in numInBktMatches)
+                {
+                    exp = exp.Replace(match.Value, match.Groups[1].Value);
+                }
+            }
+
             smthIsFind = false;
             _bkt = -1;
             bkt_ = -1;
@@ -210,8 +357,8 @@ public static class Calculator
                 if (_bkt > -1 && bkt_ > 0)
                 {
                     string newExp = exp.Substring(_bkt + 1, bkt_ - _bkt - 1);
-                    string res = DifficultCalculate(newExp).ToString();
-                    exp = exp.Replace($"({newExp})", res);
+                    string res = DifficultCalculate(newExp, mode).ToString();
+                    exp = exp.Replace(newExp, res);
                 }
 
             }

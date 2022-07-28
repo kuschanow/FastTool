@@ -136,18 +136,61 @@ public class CalculatorTests
     }
 
     [Fact]
-    public void WhenSqrt_ThenCorrectAnswer()
+    public void WhenSqrtOrCbrt_ThenCorrectAnswer()
     {
         // Arrange
         string sut1 = "4 - sqrt(3) + 3";
         string sut2 = "4 - sqrt(3 + 4) + 3";
+        string sut3 = "4 - cbrt(3 + 4) + 3";
 
         // Act
-        var answer1 = Calculator.Calculate(sut1, 3);
-        var answer2 = Calculator.Calculate(sut2, 3);
+        var answer1 = Calculator.Calculate(sut1, Calculator.Mode.Deg, 3);
+        var answer2 = Calculator.Calculate(sut2, Calculator.Mode.Deg, 3);
+        var answer3 = Calculator.Calculate(sut3, Calculator.Mode.Deg, 3);
 
         // Assert
         answer1.Should().Be(5.268);
         answer2.Should().Be(4.354);
+        answer3.Should().Be(5.087);
+    }
+
+    [Fact]
+    public void WhenTrigonometryFunc_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut1 = "sin(90)";
+        string sut2 = "cos(90)";
+        string sut3 = "tg(35)";
+        string sut4 = "ctg(35)";
+        string sut5 = "arcsin(1)";
+        string sut6 = "acos(1)";
+        string sut7 = "atg(1)";
+        string sut8 = "arccot(1)";
+        string sut9 = "arccot(1) + (4(5-3))";
+        string sut10 = "(4 * cos(90) - 8) + 4";
+
+        // Act
+        var answer1 = Calculator.Calculate(sut1, Calculator.Mode.Deg, 4);
+        var answer2 = Calculator.Calculate(sut2, Calculator.Mode.Deg, 4);
+        var answer3 = Calculator.Calculate(sut3, Calculator.Mode.Rad, 4);
+        var answer4 = Calculator.Calculate(sut4, Calculator.Mode.Rad, 4);
+        var answer5 = Calculator.Calculate(sut5, Calculator.Mode.Rad, 4);
+        var answer6 = Calculator.Calculate(sut6, Calculator.Mode.Deg, 4);
+        var answer7 = Calculator.Calculate(sut7, Calculator.Mode.Deg, 4);
+        var answer8 = Calculator.Calculate(sut8, Calculator.Mode.Deg, 4);
+        var answer9 = Calculator.Calculate(sut9, Calculator.Mode.Deg, 4);
+        var answer10 = Calculator.Calculate(sut10, Calculator.Mode.Deg, 4);
+
+        // Assert
+        answer1.Should().Be(1);
+        answer2.Should().Be(0);
+        answer3.Should().Be(0.4738);
+        answer4.Should().Be(2.1105);
+        answer5.Should().Be(1.5708);
+        answer6.Should().Be(0);
+        answer7.Should().Be(45);
+        answer8.Should().Be(45);
+        answer9.Should().Be(53);
+        answer10.Should().Be(-4);
     }
 }
