@@ -21,6 +21,7 @@ public static class Calculator
     private static Regex pctExp = new Regex(@"[,.]");
     private static Regex actExp = new Regex(@"[+\-/*^]");
     private static Regex othExp = new Regex(@"[^+\-/*^]");
+    private static Regex sqrtExp = new Regex(@"sqrt\((.+)\)");
 
     public static double Calculate(string exp) { return Calculate(exp, 6); }
     public static double Calculate(string exp, int digits)
@@ -50,6 +51,16 @@ public static class Calculator
                 foreach (Match match in multiBktMatches)
                 {
                     tempExp = tempExp.Replace(match.Value, $"{match.Groups[1].Value} * (");
+                }
+            }
+
+            if (sqrtExp.IsMatch(tempExp))
+            {
+                MatchCollection multiBktMatches = sqrtExp.Matches(tempExp);
+
+                foreach (Match match in multiBktMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, $"({match.Groups[1].Value}) ^ 0.5");
                 }
             }
 
@@ -146,6 +157,16 @@ public static class Calculator
             foreach (Match match in multiBktMatches)
             {
                 exp = exp.Replace(match.Value, $"{match.Groups[1].Value} * (");
+            }
+        }
+
+        if (sqrtExp.IsMatch(exp))
+        {
+            MatchCollection multiBktMatches = sqrtExp.Matches(exp);
+
+            foreach (Match match in multiBktMatches)
+            {
+                exp = exp.Replace(match.Value, $"({match.Groups[1].Value}) ^ 0.5");
             }
         }
 

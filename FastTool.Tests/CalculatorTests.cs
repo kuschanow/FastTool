@@ -134,4 +134,20 @@ public class CalculatorTests
         // Assert
         answer.Should().Be(18);
     }
+
+    [Fact]
+    public void WhenSqrt_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut1 = "4 - sqrt(3) + 3";
+        string sut2 = "4 - sqrt(3 + 4) + 3";
+
+        // Act
+        var answer1 = Calculator.Calculate(sut1, 3);
+        var answer2 = Calculator.Calculate(sut2, 3);
+
+        // Assert
+        answer1.Should().Be(5.268);
+        answer2.Should().Be(4.354);
+    }
 }
