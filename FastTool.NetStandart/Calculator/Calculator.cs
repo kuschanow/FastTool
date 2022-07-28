@@ -34,6 +34,9 @@ public static class Calculator
     private static Regex fulltrigonometryExp = new Regex(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?$");
     private static Regex trigonometryExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?");
     private static Regex funcExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)");
+    private static Regex fullabsExp = new Regex(@"^\| *(\-?\d+([.,]\d+)?) *\|$");
+    private static Regex absExp = new Regex(@"\| *(\-?\d+([.,]\d+)?) *\|");
+    private static Regex minusExp = new Regex(@"\-([^\d ])");
 
     public static double Calculate(string exp) { return Calculate(exp, Mode.Deg,  10); }
     public static double Calculate(string exp, Mode mode) { return Calculate(exp, mode, 10); }
@@ -57,9 +60,33 @@ public static class Calculator
         {
             result = TrigonometryCalculate(exp, mode);
         }
+        else if (fullabsExp.IsMatch(exp))
+        {
+            result = AbsCalculate(exp);
+        }
         else
         {
             string tempExp = exp;
+
+            if (minusExp.IsMatch(tempExp))
+            {
+                MatchCollection minusMatches = minusExp.Matches(tempExp);
+
+                foreach (Match match in minusMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, $"-1 * {match.Groups[1].Value}");
+                }
+            }
+
+            if (absExp.IsMatch(tempExp))
+            {
+                MatchCollection absMatches = absExp.Matches(tempExp);
+
+                foreach (Match match in absMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, match.Groups[1].Value);
+                }
+            }
 
             if (multiBktExp.IsMatch(tempExp))
             {
@@ -250,6 +277,15 @@ public static class Calculator
         return num1 % num2;
     }
 
+    private static double AbsCalculate(string exp)
+    {
+        Match match = absExp.Match(exp);
+
+        double num = Convert.ToInt32(match.Groups[1].Value);
+
+        return Math.Abs(num);
+    }
+
     private static double DifficultCalculate(string exp, Mode mode)
     {
         double result;
@@ -260,6 +296,31 @@ public static class Calculator
         int _bkt, bkt_, inLavel;
 
         bool smthIsFind;
+
+        if (minusExp.IsMatch(exp))
+        {
+            MatchCollection minusMatches = minusExp.Matches(exp);
+
+            foreach (Match match in minusMatches)
+            {
+                exp = exp.Replace(match.Value, $"-1 * {match.Groups[1].Value}");
+            }
+        }
+
+        do
+        {
+            smthIsFind = false;
+            Match absMatch = absExp.Match(exp);
+
+            if (absExp.IsMatch(exp))
+            {
+                string newExp = absMatch.Value;
+                string res = AbsCalculate(newExp).ToString();
+                exp = exp.Replace(newExp, res);
+                smthIsFind = true;
+            }
+
+        } while (smthIsFind);
 
         if (multiBktExp.IsMatch(exp))
         {
@@ -307,7 +368,6 @@ public static class Calculator
                 }
 
             } while (smthIsFind);
-
 
             if (numInBktExp.IsMatch(exp))
             {

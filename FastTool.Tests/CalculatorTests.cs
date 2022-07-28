@@ -193,4 +193,17 @@ public class CalculatorTests
         answer9.Should().Be(53);
         answer10.Should().Be(-4);
     }
+
+    [Fact]
+    public void WhenMinusBehindFunc_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut = "-(50 + -cos(60)) + 4(-|3| + 4)";
+
+        // Act
+        var answer = Calculator.Calculate(sut, Calculator.Mode.Deg, 4);
+
+        // Assert
+        answer.Should().Be(-45.5);
+    }
 }
