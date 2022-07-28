@@ -347,10 +347,10 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match absMatch = absExp.Match(exp);
 
             if (absExp.IsMatch(exp))
             {
+                Match absMatch = absExp.Match(exp);
                 string newExp = absMatch.Value;
                 string res = AbsCalculate(newExp).ToString();
                 exp = exp.Replace(newExp, res);
@@ -394,10 +394,10 @@ public static class Calculator
             do
             {
                 smthIsFind = false;
-                Match TrigonometryMatch = trigonometryExp.Match(exp);
 
                 if (trigonometryExp.IsMatch(exp))
                 {
+                    Match TrigonometryMatch = trigonometryExp.Match(exp);
                     string newExp = TrigonometryMatch.Value;
                     string res = TrigonometryCalculate(newExp, mode).ToString();
                     exp = exp.Replace(newExp, res);
@@ -409,12 +409,10 @@ public static class Calculator
             do
             {
                 smthIsFind = false;
-                Match logMatch = logExp.Match(exp);
-                Match lgMatch = lgExp.Match(exp);
-                Match lnMatch = lnExp.Match(exp);
 
                 if (logExp.IsMatch(exp))
                 {
+                    Match logMatch = logExp.Match(exp);
                     string newExp = logMatch.Value;
                     string res = LogCalculate(newExp).ToString();
                     exp = exp.Replace(newExp, res);
@@ -423,6 +421,7 @@ public static class Calculator
 
                 if (lgExp.IsMatch(exp))
                 {
+                    Match lgMatch = lgExp.Match(exp);
                     string newExp = lgMatch.Value;
                     string res = LogCalculate(newExp).ToString();
                     exp = exp.Replace(newExp, res);
@@ -431,6 +430,7 @@ public static class Calculator
 
                 if (lnExp.IsMatch(exp))
                 {
+                    Match lnMatch = lnExp.Match(exp);
                     string newExp = lnMatch.Value;
                     string res = LogCalculate(newExp).ToString();
                     exp = exp.Replace(newExp, res);
@@ -497,10 +497,10 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match DegMatch = DegExp.Match(exp);
 
             if (DegExp.IsMatch(exp))
             {
+                Match DegMatch = DegExp.Match(exp);
                 string newExp = DegMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
                 exp = exp.Replace(newExp, res);
@@ -512,10 +512,10 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match multiDiviDegMatch = multiDivExp.Match(exp);
 
             if (multiDivExp.IsMatch(exp))
             {
+                Match multiDiviDegMatch = multiDivExp.Match(exp);
                 string newExp = multiDiviDegMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
                 exp = exp.Replace(newExp, res);
@@ -527,10 +527,10 @@ public static class Calculator
         do
         {
             smthIsFind = false;
-            Match addSubMatch = addSubExp.Match(exp);
 
             if (addSubExp.IsMatch(exp))
             {
+                Match addSubMatch = addSubExp.Match(exp);
                 string newExp = addSubMatch.Value;
                 string res = SimpleCalculate(newExp).ToString();
                 exp = exp.Replace(newExp, res);
