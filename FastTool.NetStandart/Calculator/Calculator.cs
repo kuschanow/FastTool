@@ -17,6 +17,7 @@ public static class Calculator
     private static Regex _bktExp = new Regex(@"[(]");
     private static Regex bkt_Exp = new Regex(@"[)]");
     private static Regex numExp = new Regex(@"(?<!\d|[)]|\d |\) )\-?\d+([.,]\d+)?");
+    private static Regex multiBktExp = new Regex(@"((?<!\d|[)]|\d |\) )\-?\d+([.,]\d+)?) *\(");
     private static Regex pctExp = new Regex(@"[,.]");
     private static Regex actExp = new Regex(@"[+\-/*^]");
     private static Regex othExp = new Regex(@"[^+\-/*^]");
@@ -42,7 +43,18 @@ public static class Calculator
         {
             string tempExp = exp;
 
+            if (multiBktExp.IsMatch(tempExp))
+            {
+                MatchCollection multiBktMatches = multiBktExp.Matches(tempExp);
+
+                foreach (Match match in multiBktMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, $"{match.Groups[1].Value} * (");
+                }
+            }
+
             tempExp = tempExp.Replace(" ", "");
+
             int numMathesCount = numExp.Matches(tempExp).Count;
             tempExp = numExp.Replace(tempExp, "");
             if (pctExp.IsMatch(tempExp))
@@ -126,6 +138,16 @@ public static class Calculator
         int _bkt, bkt_, inLavel;
 
         bool smthIsFind;
+
+        if (multiBktExp.IsMatch(exp))
+        {
+            MatchCollection multiBktMatches = multiBktExp.Matches(exp);
+
+            foreach (Match match in multiBktMatches)
+            {
+                exp = exp.Replace(match.Value, $"{match.Groups[1].Value} * (");
+            }
+        }
 
         do
         {

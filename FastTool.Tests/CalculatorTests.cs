@@ -121,4 +121,17 @@ public class CalculatorTests
         answer13.Should().Be(1);
         answer14.Should().Be(-4);
     }
+
+    [Fact]
+    public void WhenMultiplicationIsUnsigned_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut = "3 - 3(4-1+4(3-4)) + 5 + 3(3 - 2) + 4";
+
+        // Act
+        var answer = Calculator.Calculate(sut);
+
+        // Assert
+        answer.Should().Be(18);
+    }
 }
