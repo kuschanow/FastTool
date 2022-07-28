@@ -14,29 +14,29 @@ public static class Calculator
         Grad
     }
 
-    private static Regex simpleExp = new Regex(@"^(\-?\d+([.,]\d+)?) *([+\-/*^]) *(\-?\d+([.,]\d+)?)$");
-    private static Regex oneNumExp = new Regex(@"^(\-?\d+([.,]\d+)?) *$");
-    private static Regex numInBktExp = new Regex(@"\((\-?\d+([.,]\d+)?)\)");
-    private static Regex divisionExp = new Regex(@"^(\-?\d+) *\% *(\-?\d+)$");
-    private static Regex DegExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[\^] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
-    private static Regex multiDivExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[*/] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
-    private static Regex addSubExp = new Regex(@"(?:(\-?\d+([.,]\d+)?)) *[+\-] *(?:(\-?\d+([.,]\d+)?))(?!\.)");
+    private static Regex simpleExp = new Regex(@"^([+-]?\d+([.,]\d+)?) *([+\-/*^]) *([+-]?\d+([.,]\d+)?)$");
+    private static Regex oneNumExp = new Regex(@"^([+-]?\d+([.,]\d+)?) *$");
+    private static Regex numInBktExp = new Regex(@"\(([+-]?\d+([.,]\d+)?)\)");
+    private static Regex divisionExp = new Regex(@"^([+-]?\d+) *\% *([+-]?\d+)$");
+    private static Regex DegExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[\^] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
+    private static Regex multiDivExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[*/] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
+    private static Regex addSubExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[+-] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
     private static Regex bktExp = new Regex(@"[()]");
     private static Regex _bktExp = new Regex(@"[(]");
     private static Regex bkt_Exp = new Regex(@"[)]");
-    private static Regex numExp = new Regex(@"(?<!\d|[)]|\d |\) )\-?\d+([.,]\d+)?");
-    private static Regex multiBktExp = new Regex(@"((?<!\d|[)]|\d |\) )\-?\d+([.,]\d+)?) *\(");
+    private static Regex numExp = new Regex(@"(?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?");
+    private static Regex multiBktExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *\(");
     private static Regex pctExp = new Regex(@"[,.]");
     private static Regex actExp = new Regex(@"[+\-/*^]");
     private static Regex othExp = new Regex(@"[^+\-/*^]");
     private static Regex sqrtExp = new Regex(@"sqrt\((.+)\)");
     private static Regex cbrtExp = new Regex(@"cbrt\((.+)\)");
-    private static Regex fulltrigonometryExp = new Regex(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?$");
-    private static Regex trigonometryExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *(\-?\d+([.,]\d+)?) *\)?");
+    private static Regex fulltrigonometryExp = new Regex(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?$");
+    private static Regex trigonometryExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?");
     private static Regex funcExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)");
-    private static Regex fullabsExp = new Regex(@"^\| *(\-?\d+([.,]\d+)?) *\|$");
-    private static Regex absExp = new Regex(@"\| *(\-?\d+([.,]\d+)?) *\|");
-    private static Regex minusExp = new Regex(@"\-([^\d ])");
+    private static Regex fullabsExp = new Regex(@"^\| *([+-]?\d+([.,]\d+)?) *\|$");
+    private static Regex absExp = new Regex(@"\| *([+-]?\d+([.,]\d+)?) *\|");
+    private static Regex plusMinusExp = new Regex(@"([+-])([^\d ])");
 
     public static double Calculate(string exp) { return Calculate(exp, Mode.Deg,  10); }
     public static double Calculate(string exp, Mode mode) { return Calculate(exp, mode, 10); }
@@ -68,13 +68,13 @@ public static class Calculator
         {
             string tempExp = exp;
 
-            if (minusExp.IsMatch(tempExp))
+            if (plusMinusExp.IsMatch(tempExp))
             {
-                MatchCollection minusMatches = minusExp.Matches(tempExp);
+                MatchCollection minusMatches = plusMinusExp.Matches(tempExp);
 
                 foreach (Match match in minusMatches)
                 {
-                    tempExp = tempExp.Replace(match.Value, $"-1 * {match.Groups[1].Value}");
+                    tempExp = tempExp.Replace(match.Value, $"{match.Groups[1].Value}1 * {match.Groups[2].Value}");
                 }
             }
 
@@ -297,13 +297,13 @@ public static class Calculator
 
         bool smthIsFind;
 
-        if (minusExp.IsMatch(exp))
+        if (plusMinusExp.IsMatch(exp))
         {
-            MatchCollection minusMatches = minusExp.Matches(exp);
+            MatchCollection minusMatches = plusMinusExp.Matches(exp);
 
             foreach (Match match in minusMatches)
             {
-                exp = exp.Replace(match.Value, $"-1 * {match.Groups[1].Value}");
+                exp = exp.Replace(match.Value, $"{match.Groups[1].Value}1 * {match.Groups[2].Value}");
             }
         }
 
