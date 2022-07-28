@@ -14,31 +14,37 @@ public static class Calculator
         Grad
     }
 
-    private static Regex simpleExp = new Regex(@"^([+-]?\d+([.,]\d+)?) *([+\-/*^]) *([+-]?\d+([.,]\d+)?)$");
-    private static Regex oneNumExp = new Regex(@"^([+-]?\d+([.,]\d+)?) *$");
-    private static Regex numInBktExp = new Regex(@"\(([+-]?\d+([.,]\d+)?)\)");
-    private static Regex divisionExp = new Regex(@"^([+-]?\d+) *\% *([+-]?\d+)$");
-    private static Regex DegExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[\^] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
-    private static Regex multiDivExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[*/] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
-    private static Regex addSubExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[+-] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
-    private static Regex bktExp = new Regex(@"[()]");
-    private static Regex _bktExp = new Regex(@"[(]");
-    private static Regex bkt_Exp = new Regex(@"[)]");
-    private static Regex numExp = new Regex(@"(?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?");
-    private static Regex multiBktExp = new Regex(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *\(");
-    private static Regex pctExp = new Regex(@"[,.]");
-    private static Regex actExp = new Regex(@"[+\-/*^]");
-    private static Regex othExp = new Regex(@"[^+\-/*^]");
-    private static Regex sqrtExp = new Regex(@"sqrt\((.+)\)");
-    private static Regex cbrtExp = new Regex(@"cbrt\((.+)\)");
-    private static Regex fulltrigonometryExp = new Regex(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?$");
-    private static Regex trigonometryExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?");
-    private static Regex funcExp = new Regex(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)");
-    private static Regex fullabsExp = new Regex(@"^\| *([+-]?\d+([.,]\d+)?) *\|$");
-    private static Regex absExp = new Regex(@"\| *([+-]?\d+([.,]\d+)?) *\|");
-    private static Regex plusMinusExp = new Regex(@"([+-])([^\d ])");
+    private static readonly Regex simpleExp = new(@"^([+-]?\d+([.,]\d+)?) *([+\-/*^]) *([+-]?\d+([.,]\d+)?)$");
+    private static readonly Regex oneNumExp = new(@"^([+-]?\d+([.,]\d+)?) *$");
+    private static readonly Regex numInBktExp = new(@"\(([+-]?\d+([.,]\d+)?)\)");
+    private static readonly Regex divisionExp = new(@"^([+-]?\d+) *\% *([+-]?\d+)$");
+    private static readonly Regex DegExp = new(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[\^] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
+    private static readonly Regex multiDivExp = new(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[*/] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
+    private static readonly Regex addSubExp = new(@"((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *[+-] *((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)");
+    private static readonly Regex bktExp = new(@"[()]");
+    private static readonly Regex _bktExp = new(@"[(]");
+    private static readonly Regex bkt_Exp = new(@"[)]");
+    private static readonly Regex numExp = new(@"(?<!log-|log)(?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?");
+    private static readonly Regex multiBktExp = new(@"(?<!log-|log)((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *\(");
+    private static readonly Regex pctExp = new(@"[,.]");
+    private static readonly Regex actExp = new(@"[+\-/*^]");
+    private static readonly Regex othExp = new(@"[^+\-/*^]");
+    private static readonly Regex sqrtExp = new(@"sqrt\((.+)\)");
+    private static readonly Regex cbrtExp = new(@"cbrt\((.+)\)");
+    private static readonly Regex fulltrigonometryExp = new(@"^(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?$");
+    private static readonly Regex trigonometryExp = new(@"(a|arc)?(sin|cos|tan|tg|ctg|cot)\(? *([+-]?\d+([.,]\d+)?) *\)?");
+    private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot))|(log(?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)|ln|lg");
+    private static readonly Regex fullabsExp = new(@"^\| *([+-]?\d+([.,]\d+)?) *\|$");
+    private static readonly Regex absExp = new(@"\| *([+-]?\d+([.,]\d+)?) *\|");
+    private static readonly Regex plusMinusExp = new(@"([+-])([^\d ])");
+    private static readonly Regex fullLogExp = new(@"^log((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)$");
+    private static readonly Regex logExp = new(@"log((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)");
+    private static readonly Regex fullLgExp = new(@"^lg\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)$");
+    private static readonly Regex lgExp = new(@"lg\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)");
+    private static readonly Regex fullLnExp = new(@"^ln\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)$");
+    private static readonly Regex lnExp = new(@"ln\(((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?)\)");
 
-    public static double Calculate(string exp) { return Calculate(exp, Mode.Deg,  10); }
+    public static double Calculate(string exp) { return Calculate(exp, Mode.Deg, 10); }
     public static double Calculate(string exp, Mode mode) { return Calculate(exp, mode, 10); }
     public static double Calculate(string exp, Mode mode, int digits)
     {
@@ -63,6 +69,10 @@ public static class Calculator
         else if (fullabsExp.IsMatch(exp))
         {
             result = AbsCalculate(exp);
+        }
+        else if (fullLogExp.IsMatch(exp) || fullLgExp.IsMatch(exp) || fullLnExp.IsMatch(exp))
+        {
+            result = LogCalculate(exp);
         }
         else
         {
@@ -281,9 +291,36 @@ public static class Calculator
     {
         Match match = absExp.Match(exp);
 
-        double num = Convert.ToInt32(match.Groups[1].Value);
+        double num = Convert.ToDouble(match.Groups[1].Value);
 
         return Math.Abs(num);
+    }
+
+    private static double LogCalculate(string exp)
+    {
+        Match logMatch = fullLogExp.Match(exp);
+        Match lgMatch = fullLgExp.Match(exp);
+        Match lnMatch = fullLnExp.Match(exp);
+
+        double Base = 0, num = 0;
+
+        if (logMatch.Success)
+        {
+            Base = Convert.ToDouble(logMatch.Groups[1].Value);
+            num = Convert.ToDouble(logMatch.Groups[3].Value);
+        }
+        else if (lgMatch.Success)
+        {
+            Base = 10;
+            num = Convert.ToDouble(lgMatch.Groups[1].Value);
+        }
+        else if (lnMatch.Success)
+        {
+            Base = Math.E;
+            num = Convert.ToDouble(lnMatch.Groups[1].Value);
+        }
+
+        return Math.Log(num, Base);
     }
 
     private static double DifficultCalculate(string exp, Mode mode)
@@ -363,6 +400,39 @@ public static class Calculator
                 {
                     string newExp = TrigonometryMatch.Value;
                     string res = TrigonometryCalculate(newExp, mode).ToString();
+                    exp = exp.Replace(newExp, res);
+                    smthIsFind = true;
+                }
+
+            } while (smthIsFind);
+
+            do
+            {
+                smthIsFind = false;
+                Match logMatch = logExp.Match(exp);
+                Match lgMatch = lgExp.Match(exp);
+                Match lnMatch = lnExp.Match(exp);
+
+                if (logExp.IsMatch(exp))
+                {
+                    string newExp = logMatch.Value;
+                    string res = LogCalculate(newExp).ToString();
+                    exp = exp.Replace(newExp, res);
+                    smthIsFind = true;
+                }
+
+                if (lgExp.IsMatch(exp))
+                {
+                    string newExp = lgMatch.Value;
+                    string res = LogCalculate(newExp).ToString();
+                    exp = exp.Replace(newExp, res);
+                    smthIsFind = true;
+                }
+
+                if (lnExp.IsMatch(exp))
+                {
+                    string newExp = lnMatch.Value;
+                    string res = LogCalculate(newExp).ToString();
                     exp = exp.Replace(newExp, res);
                     smthIsFind = true;
                 }

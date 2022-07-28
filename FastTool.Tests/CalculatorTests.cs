@@ -206,4 +206,26 @@ public class CalculatorTests
         // Assert
         answer.Should().Be(-45.5);
     }
+
+    [Fact]
+    public void WhenLogFunc_ThenCorrectAnswer()
+    {
+        // Arrange
+        string sut1 = "log2(4)";
+        string sut2 = "lg(1000)";
+        string sut3 = "ln(1)";
+        string sut4 = "log2(4) + lg(1000) - ln(1)^2";
+
+        // Act
+        var answer1 = Calculator.Calculate(sut1, Calculator.Mode.Deg, 4);
+        var answer2 = Calculator.Calculate(sut2, Calculator.Mode.Deg, 4);
+        var answer3 = Calculator.Calculate(sut3, Calculator.Mode.Deg, 4);
+        var answer4 = Calculator.Calculate(sut4, Calculator.Mode.Deg, 4);
+
+        // Assert
+        answer1.Should().Be(2);
+        answer2.Should().Be(3);
+        answer3.Should().Be(0);
+        answer4.Should().Be(5);
+    }
 }
