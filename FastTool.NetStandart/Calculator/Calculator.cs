@@ -26,6 +26,7 @@ public static class Calculator
     private static readonly Regex bkt_Exp = new(@"[)]");
     private static readonly Regex numExp = new(@"(?<!log-|log)(?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?");
     private static readonly Regex multiBktExp = new(@"(?<!log-|log)((?<!\d|[)]|\d |\) )[+-]?\d+([.,]\d+)?) *\(");
+    private static readonly Regex bktMultiBktExp = new(@"\) *\(");
     private static readonly Regex pctExp = new(@"[,.]");
     private static readonly Regex actExp = new(@"[+\-/*^]");
     private static readonly Regex othExp = new(@"[^+\-/*^]");
@@ -108,6 +109,16 @@ public static class Calculator
                 }
             }
 
+            if (bktMultiBktExp.IsMatch(tempExp))
+            {
+                MatchCollection bktMultiBktMatches = multiBktExp.Matches(tempExp);
+
+                foreach (Match match in bktMultiBktMatches)
+                {
+                    tempExp = tempExp.Replace(match.Value, ") * (");
+                }
+            }
+
             if (sqrtExp.IsMatch(tempExp))
             {
                 MatchCollection multiBktMatches = sqrtExp.Matches(tempExp);
@@ -143,7 +154,20 @@ public static class Calculator
                 {
                     throw new Exception("Invalid expression");
                 }
-                tempExp = bktExp.Replace(tempExp, "");
+                
+                while (_bktExp.IsMatch(tempExp) || bkt_Exp.IsMatch(tempExp))
+                {
+                    int _bkt = tempExp.IndexOf('(');
+                    int bkt_ = tempExp.IndexOf(')');
+
+                    if (bkt_ < _bkt)
+                    {
+                        throw new Exception("Invalid expression");
+                    }
+
+                    tempExp = tempExp.Remove(bkt_, 1);
+                    tempExp = tempExp.Remove(_bkt, 1);
+                }
             }
             if (othExp.IsMatch(tempExp))
             {
