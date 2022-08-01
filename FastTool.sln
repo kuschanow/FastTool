@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastTool.NetStandart", "Fas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastTool.Tests", "FastTool.Tests\FastTool.Tests.csproj", "{5393A6E7-4AAC-429A-A7CE-0E07FA60D6E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTool.Models", "FastTool.Models\FastTool.Models.csproj", "{835A15C8-9410-4AFB-B3CE-9D3C7C27EC08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastTool.Models", "FastTool.Models\FastTool.Models.csproj", "{835A15C8-9410-4AFB-B3CE-9D3C7C27EC08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTool.Migrations", "FastTool.Migrations\FastTool.Migrations.csproj", "{DB19B3AE-A81A-4AD8-A0DA-E211979AC2CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastTool.Migrations", "FastTool.Migrations\FastTool.Migrations.csproj", "{DB19B3AE-A81A-4AD8-A0DA-E211979AC2CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastTool.WPF", "FastTool.Wpf\FastTool.WPF.csproj", "{EC8D44B2-856B-45B4-B25F-5E7ADF9D9F29}"
 EndProject
