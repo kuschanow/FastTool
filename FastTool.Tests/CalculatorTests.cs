@@ -35,4 +35,22 @@ public class CalculatorTests
         answer1.Should().Be(5);
         answer2.Should().Be(9278.7153d);
     }
+
+    [Fact]
+    public void WhenPi_ThenAnswerCorrect()
+    {
+        // Arrange
+        string sut1 = "acot1";
+        string sut2 = "(pi / 2) - atg1";
+        Calculator calc = new(Mode.Rad);
+
+        // Act
+        var exp = new Expression(sut1);
+        var answer1 = calc.Calculate(exp);
+        exp = new Expression(sut2);
+        var answer2 = calc.Calculate(exp);
+
+        // Assert
+        answer1.Should().Be(answer2);
+    }
 }

@@ -26,145 +26,163 @@ public class Expression
     private List<object> Convert(string exp)
     {
         List<object> Exp = new List<object>();
-
-        for (int i = 0; i < exp.Length;)
+        try
         {
-            if (numExp.IsMatch(exp))
+            for (int i = 0; i < exp.Length;)
             {
-                MatchCollection matches = numExp.Matches(exp);
-
-                bool numFind = false;
-
-                foreach (Match match in matches)
+                if (exp[i] == 'p' && exp[i + 1] == 'i')
                 {
-                    if (match.Index == i)
+                    Exp.Add(Math.PI);
+                    i += 2;
+                }
+
+                if (exp[i] == 'e')
+                {
+                    Exp.Add(Math.E);
+                    i++;
+                }
+
+                if (numExp.IsMatch(exp))
+                {
+                    MatchCollection matches = numExp.Matches(exp);
+
+                    bool numFind = false;
+
+                    foreach (Match match in matches)
                     {
-                        Exp.Add(double.Parse(match.Value));
-                        i += match.Value.Length;
-                        numFind = true;
-                        break;
+                        if (match.Index == i)
+                        {
+                            Exp.Add(double.Parse(match.Value));
+                            i += match.Value.Length;
+                            numFind = true;
+                            break;
+                        }
+                        if (match.Index > i)
+                        {
+                            break;
+                        }
                     }
-                    if (match.Index > i)
+                    if (numFind) continue;
+                }
+
+                if (signExp.IsMatch(exp))
+                {
+                    if ("+-*/".Contains(exp[i].ToString()))
                     {
-                        break;
+                        switch (exp[i])
+                        {
+                            case '+':
+                                Exp.Add(Sign.Plus);
+                                break;
+
+                            case '-':
+                                Exp.Add(Sign.Minus);
+                                break;
+
+                            case '*':
+                                Exp.Add(Sign.Мultiply);
+                                break;
+
+                            case '/':
+                                Exp.Add(Sign.Division);
+                                break;
+                        }
+                        i++;
+                        continue;
                     }
                 }
-                if (numFind) continue;
-            }
 
-            if (signExp.IsMatch(exp))
-            {
-                if ("+-*/".Contains(exp[i].ToString()))
+                if (exp[i] == '^')
                 {
-                    switch (exp[i])
-                    {
-                        case '+':
-                            Exp.Add(Sign.Plus);
-                            break;
-
-                        case '-':
-                            Exp.Add(Sign.Minus);
-                            break;
-
-                        case '*':
-                            Exp.Add(Sign.Мultiply);
-                            break;
-
-                        case '/':
-                            Exp.Add(Sign.Division);
-                            break;
-                    }
+                    Exp.Add('^');
                     i++;
                     continue;
                 }
-            }
 
-            if (exp[i] == '^')
-            {
-                Exp.Add('^');
-                i++;
-                continue;
-            }
-
-            if (exp[i] == '(')
-            {
-                Exp.Add(ParseBraket(ref i, exp));
-                i++;
-                continue;
-            }
-
-            if (exp[i] == '|')
-            {
-                MatchCollection matches = absExp.Matches(exp.Substring(i + 1));
-
-                bool absFind = false;
-
-                foreach (Match match in matches)
+                if (exp[i] == '(')
                 {
-                    if (match.Value == "|")
-                    {
-                        Exp.Add(new Abs(new Expression(exp.Substring(i + 1, match.Index))));
-                        i += match.Index + 2;
-                        absFind = true;
-                        break;
-                    }
-                }
-                if (absFind) continue;
-            }
-
-            if (funcExp.IsMatch(exp))
-            {
-                Match match = funcExp.Match(exp.Substring(i));
-
-                if (match.Index == 0)
-                {
-                    Exp.Add(ParseFunction(ref i, exp, match));
+                    Exp.Add(ParseBraket(ref i, exp));
                     i++;
                     continue;
                 }
-            }
 
-            throw new Exception("Invalid expression");
-        }
+                if (exp[i] == '|')
+                {
+                    MatchCollection matches = absExp.Matches(exp.Substring(i + 1));
 
-        for (int i = 1; i < Exp.Count; i++)
-        {
-            if (Exp[0] is Sign.Minus || Exp[0] is Sign.Plus)
-            {
-                double m = Exp[0] is Sign.Minus ? -1 : 1;
-                Exp.RemoveAt(0);
-                Exp.Insert(0, Sign.Мultiply);
-                Exp.Insert(0, m);
-            }
-            if ((Exp[i] is Sign.Minus || Exp[0] is Sign.Plus) && Exp[i - 1] is Sign)
-            {
-                double m = Exp[i] is Sign.Minus ? -1 : 1;
-                Exp.RemoveAt(i);
-                Exp.Insert(i, Sign.Мultiply);
-                Exp.Insert(i, m);
-            }
+                    bool absFind = false;
 
-            if ((Exp[i] is Expression || Exp[i] is IFunction || Exp[i] is double) && (Exp[i - 1] is Expression || Exp[i - 1] is IFunction || Exp[i - 1] is double))
-            {
-                Exp.Insert(i, Sign.Мultiply);
-                continue;
-            }
+                    foreach (Match match in matches)
+                    {
+                        if (match.Value == "|")
+                        {
+                            Exp.Add(new Abs(new Expression(exp.Substring(i + 1, match.Index))));
+                            i += match.Index + 2;
+                            absFind = true;
+                            break;
+                        }
+                    }
+                    if (absFind) continue;
+                }
 
-            if (i == Exp.Count - 1 && Exp[i] is Sign)
-            {
+                if (funcExp.IsMatch(exp))
+                {
+                    Match match = funcExp.Match(exp.Substring(i));
+
+                    if (match.Index == 0)
+                    {
+                        Exp.Add(ParseFunction(ref i, exp, match));
+                        i++;
+                        continue;
+                    }
+                }
+
                 throw new Exception("Invalid expression");
             }
+
+            for (int i = 1; i < Exp.Count; i++)
+            {
+                if (Exp[0] is Sign.Minus || Exp[0] is Sign.Plus)
+                {
+                    double m = Exp[0] is Sign.Minus ? -1 : 1;
+                    Exp.RemoveAt(0);
+                    Exp.Insert(0, Sign.Мultiply);
+                    Exp.Insert(0, m);
+                }
+                if ((Exp[i] is Sign.Minus || Exp[0] is Sign.Plus) && Exp[i - 1] is Sign)
+                {
+                    double m = Exp[i] is Sign.Minus ? -1 : 1;
+                    Exp.RemoveAt(i);
+                    Exp.Insert(i, Sign.Мultiply);
+                    Exp.Insert(i, m);
+                }
+
+                if ((Exp[i] is Expression || Exp[i] is IFunction || Exp[i] is double) && (Exp[i - 1] is Expression || Exp[i - 1] is IFunction || Exp[i - 1] is double))
+                {
+                    Exp.Insert(i, Sign.Мultiply);
+                    continue;
+                }
+
+                if (i == Exp.Count - 1 && Exp[i] is Sign)
+                {
+                    throw new Exception("Invalid expression");
+                }
+            }
+
+            while (Exp.Contains('^'))
+            {
+                int index = Exp.LastIndexOf('^');
+
+                Pow pow = new Pow(Exp[index - 1], Exp[index + 1]);
+                Exp.RemoveAt(index);
+                Exp.Insert(index, pow);
+                Exp.RemoveAt(index - 1);
+                Exp.RemoveAt(index);
+            }
         }
-
-        while (Exp.Contains('^'))
+        catch (Exception)
         {
-            int index = Exp.LastIndexOf('^');
-
-            Pow pow = new Pow(Exp[index - 1], Exp[index + 1]);
-            Exp.RemoveAt(index);
-            Exp.Insert(index, pow);
-            Exp.RemoveAt(index - 1);
-            Exp.RemoveAt(index);
+            throw new Exception("Invalid expression");
         }
 
         return Exp;
