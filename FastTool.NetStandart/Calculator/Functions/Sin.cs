@@ -13,8 +13,13 @@ public class Sin : IFunction
         this.arg = arg;
     }
 
-    public double Calculate()
+    public double Calculate(Mode mode, int digits)
     {
-        throw new NotImplementedException();
+        Calculator calc = new Calculator(mode, digits);
+
+        double num = calc.Transform(arg);
+        num = calc.ConvertToRad(num);
+
+        return Math.Sin(num);
     }
 }

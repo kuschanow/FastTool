@@ -15,8 +15,13 @@ public class Pow : IFunction
         this.secondArg = secondArg;
     }
 
-    public double Calculate()
+    public double Calculate(Mode mode, int digits)
     {
-        throw new NotImplementedException();
+        Calculator calc = new Calculator(mode, digits);
+
+        double num1 = calc.Transform(firstArg);
+        double num2 = calc.Transform(secondArg);
+
+        return Math.Pow(num1, num2);
     }
 }

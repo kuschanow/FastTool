@@ -13,8 +13,13 @@ public class Acsc : IFunction
         this.arg = arg;
     }
 
-    public double Calculate()
+    public double Calculate(Mode mode, int digits)
     {
-        throw new NotImplementedException();
+        Calculator calc = new Calculator(mode, digits);
+
+        double num = calc.Transform(arg);
+        double answer = Math.Asin(1 / num);
+
+        return calc.ConvertFromRad(answer);
     }
 }

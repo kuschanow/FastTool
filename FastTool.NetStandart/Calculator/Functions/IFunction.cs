@@ -1,6 +1,8 @@
-﻿namespace FastTool;
+﻿using System;
+
+namespace FastTool;
 
 public interface IFunction
 {
-    public double Calculate();
+    double Calculate(Mode mode, int digits);
 }

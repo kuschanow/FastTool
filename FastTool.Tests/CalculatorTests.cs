@@ -16,4 +16,23 @@ public class CalculatorTests
         // Assert
         answer.Should().Be(answer);
     }
+
+    [Fact]
+    public void WhenStringIsExpression_ThenAnswerCorrect()
+    {
+        // Arrange
+        string sut1 = "2 + 3";
+        string sut2 = "-log(3.5)(5) + ((4+3)3)^3 + 4 + |-3| + |3(|-4|)|";
+        Calculator calc = new(Mode.Deg, 4);
+
+        // Act
+        var exp = new Expression(sut1);
+        var answer1 = calc.Calculate(exp);
+        exp = new Expression(sut2);
+        var answer2 = calc.Calculate(exp);
+
+        // Assert
+        answer1.Should().Be(5);
+        answer2.Should().Be(9278.7153d);
+    }
 }

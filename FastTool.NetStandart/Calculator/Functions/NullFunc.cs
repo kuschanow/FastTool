@@ -10,4 +10,9 @@ public class NullFunc : IFunction
     {
         throw new NotImplementedException();
     }
+
+    public double Calculate(Mode mode, int digits)
+    {
+        throw new NotImplementedException();
+    }
 }

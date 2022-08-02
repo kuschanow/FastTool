@@ -123,7 +123,7 @@ public class Expression
                     continue;
                 }
             }
-            
+
             throw new Exception("Invalid expression");
         }
 
@@ -166,7 +166,7 @@ public class Expression
             Exp.RemoveAt(index - 1);
             Exp.RemoveAt(index);
         }
-        
+
         return Exp;
     }
 
@@ -235,6 +235,12 @@ public class Expression
 
             case "root":
                 return new Root(firstArg, secondArg);
+
+            case "sqrt":
+                return new Root(2, secondArg);
+
+            case "cbrt":
+                return new Root(3, secondArg);
 
             case "pow":
                 return new Pow(firstArg, secondArg);

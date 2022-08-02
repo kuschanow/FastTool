@@ -13,8 +13,13 @@ public class Acos : IFunction
         this.arg = arg;
     }
 
-    public double Calculate()
+    public double Calculate(Mode mode, int digits)
     {
-        throw new NotImplementedException();
+        Calculator calc = new Calculator(mode, digits);
+
+        double num = calc.Transform(arg);
+        double answer = Math.Acos(num);
+
+        return calc.ConvertFromRad(answer);
     }
 }

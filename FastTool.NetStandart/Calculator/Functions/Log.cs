@@ -6,17 +6,22 @@ namespace FastTool;
 
 public class Log : IFunction
 {
-    private readonly object firstArg;
-    private readonly object secondArg;
+    private readonly object Base;
+    private readonly object Arg;
 
     public Log(object firstArg, object secondArg)
     {
-        this.firstArg = firstArg;
-        this.secondArg = secondArg;
+        Base = firstArg;
+        Arg = secondArg;
     }
 
-    public double Calculate()
+    public double Calculate(Mode mode, int digits)
     {
-        throw new NotImplementedException();
+        Calculator calc = new Calculator(mode, digits);
+
+        double num1 = calc.Transform(Base);
+        double num2 = calc.Transform(Arg);
+
+        return Math.Log(num2, num1);
     }
 }
