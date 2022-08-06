@@ -7,7 +7,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FastTool;
 
-public class Calculator
+public class Calculator : ICalculator
 {
     public Mode Mode { get; set; }
     public int Digits { get; set; }
