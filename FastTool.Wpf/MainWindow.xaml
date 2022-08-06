@@ -1,12 +1,38 @@
-﻿<Window x:Class="FastTool.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FastTool"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+﻿<Window
+    x:Class="FastTool.WPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FastTool.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
+    xmlns:wpf="clr-namespace:FastTool.WPF"
+    x:Name="mainWindow"
+    Title="Fast Tool"
+    Width="800"
+    Height="450"
+    Closing="Form_Closing"
+    Icon="/MianIcon.ico"
+    Loaded="Window_Loaded"
+    mc:Ignorable="d">
     <Grid>
-
+        <tb:TaskbarIcon
+            x:Name="NotifyIcon"
+            IconSource="/TackBarIcon.ico"
+            MenuActivation="LeftOrRightClick"
+            OpacityMask="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
+            TrayMouseDoubleClick="NotifyIcon_DoubleClick"
+            Visibility="{Binding NotifyIconVisibility}">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}">
+                    <MenuItem
+                        x:Name="Close"
+                        Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
+                        Click="Close_Click"
+                        Header="Закрыть" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
     </Grid>
 </Window>

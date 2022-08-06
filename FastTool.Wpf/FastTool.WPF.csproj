@@ -1,14 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FastTool.NetStandart\FastTool.NetStandart.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="icon.ico" />
+		<None Remove="icon.png" />
+		<None Remove="icon1.png" />
+		<None Remove="icon2.png" />
+		<None Remove="icon3.png" />
+		<None Remove="icon4.png" />
+		<None Remove="MianIcon.ico" />
+		<None Remove="TackBarIcon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FastTool.HotKey\FastTool.HotKey.csproj" />
+		<ProjectReference Include="..\FastTool.Models\FastTool.Models.csproj" />
+		<ProjectReference Include="..\FastTool.NetStandart\FastTool.NetStandart.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="MianIcon.ico" />
+		<Resource Include="TackBarIcon.ico" />
+	</ItemGroup>
 
 </Project>
