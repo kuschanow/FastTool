@@ -33,23 +33,23 @@ public class Timer : ITimer
 
     public void Start()
     {
-        timer.Start();
         TimerStart = DateTimeOffset.Now;
-        if (TimerStop != null)
+        if (stopedTime != TimeSpan.Zero)
         {
             stopedTime += DateTimeOffset.Now - TimerStop;
         }
+        timer.Start();
     }
 
     public void Stop()
     {
-        timer.Stop();
         TimerStop = DateTimeOffset.Now;
+        timer.Stop();
     }
 
     public void Update(object source, ElapsedEventArgs e)
     {
-        TimeLeft = DateTimeOffset.Now - TimerStart + stopedTime;
+        TimeLeft = Time - (DateTimeOffset.Now - TimerStart + stopedTime);
         if (TimeLeft.Ticks > 0)
         {
             TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
