@@ -5,14 +5,12 @@ using System.Timers;
 
 namespace FastTool;
 
-public class Timer : ITimer
+public class Stopwatch : ITimer
 {
     private readonly System.Timers.Timer timer;
 
     #region props
-    public TimeSpan Time { get; }
-    public string Message { get; }
-    public TimeSpan TimeLeft { get; private set; }
+    public TimeSpan Time { get; private set; }
 
     private DateTimeOffset TimerStart { get; set; }
     private DateTimeOffset TimerStop { get; set; }
@@ -20,12 +18,8 @@ public class Timer : ITimer
     #endregion
 
     #region constructors
-    public Timer(TimeSpan time) : this(time, "") { }
-    public Timer(TimeSpan time, string message) : this(time, message, 1000) { }
-    public Timer(TimeSpan time, string message, int span)
+    public Stopwatch(int span)
     {
-        Time = time;
-        Message = message;
         timer = new System.Timers.Timer(span);
         timer.Elapsed += Update;
     }
@@ -56,24 +50,15 @@ public class Timer : ITimer
     public void Stop()
     {
         timer.Stop();
-        TimeLeft = TimeSpan.Zero;
+        Time = TimeSpan.Zero;
         StopedTime = TimeSpan.Zero;
     }
 
     public void Update(object source, ElapsedEventArgs e)
     {
-        TimeLeft = Time - (DateTimeOffset.Now - TimerStart + StopedTime);
-        if (TimeLeft.Ticks > 0)
-        {
-            TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
-        }
-        else
-        {
-            TimeLeft = TimeSpan.Zero;
-            TimerEnd?.Invoke(this, new TimerEndEventArgs(Message));
-        }
+        Time = DateTimeOffset.Now - TimerStart + StopedTime;
+        TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
     }
 
     public event TimerUpdateEventHandler TimerUpdate;
-    public event TimerEndEventHandler TimerEnd;
 }

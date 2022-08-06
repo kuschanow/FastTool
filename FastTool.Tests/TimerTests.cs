@@ -28,11 +28,12 @@ namespace FastTool.Tests
 
             // Act
             timer.Start();
-            Thread.Sleep(2000);
-            timer.Stop();
+            Thread.Sleep(2100);
+            timer.Pause();
 
             // Assert
             Math.Round(timer.TimeLeft.TotalSeconds).Should().Be(3);
         }
+
     }
 }
