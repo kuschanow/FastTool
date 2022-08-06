@@ -11,6 +11,5 @@ namespace FastTool
         void Stop();
         void Update(object source, ElapsedEventArgs e);
         event TimerUpdateEventHandler TimerUpdate;
-        event TimerEndEventHandler TimerEnd;
     }
 }

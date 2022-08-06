@@ -50,9 +50,13 @@ public class Timer : ITimer
     public void Update(object source, ElapsedEventArgs e)
     {
         TimeLeft = DateTimeOffset.Now - TimerStart + stopedTime;
-        TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
-        if (TimeLeft.Ticks <= 0)
+        if (TimeLeft.Ticks > 0)
         {
+            TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
+        }
+        else
+        {
+            TimeLeft = TimeSpan.Zero;
             TimerEnd?.Invoke(this, new TimerEndEventArgs(Message));
         }
     }
