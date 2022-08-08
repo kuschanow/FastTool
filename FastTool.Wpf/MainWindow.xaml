@@ -11,6 +11,7 @@
     Title="Fast Tool"
     Width="400"
     Height="500"
+    MinWidth="341"
     Closing="Form_Closing"
     Icon="/MianIcon.ico"
     Loaded="Window_Loaded"
@@ -36,19 +37,81 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
+                    <Grid.InputBindings>
+                        <KeyBinding
+                            Key="C"
+                            Command="{Binding Copy}"
+                            CommandParameter="{Binding ElementName=answer, Path=Text}"
+                            Modifiers="Ctrl" />
+                        <KeyBinding
+                            Key="Return"
+                            Command="{Binding Calculate}"
+                            CommandParameter="{Binding ElementName=expression, Path=Text}" />
+                    </Grid.InputBindings>
+
+
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2.3*" />
+                            <ColumnDefinition Width="2.3*" MinWidth="200" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
+                            <ColumnDefinition MinWidth="120" MaxWidth="200" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid />
+                        <Grid>
+                            <StackPanel>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBox x:Name="expression" Text="{Binding Expression, Mode=TwoWay}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding
+                                                Key="Return"
+                                                Command="{Binding Calculate}"
+                                                CommandParameter="{Binding ElementName=expression, Path=Text}" />
+                                            <KeyBinding
+                                                Key="C"
+                                                Command="{Binding Copy}"
+                                                CommandParameter="{Binding ElementName=answer, Path=Text}"
+                                                Modifiers="Ctrl" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <Button
+                                        Grid.Column="1"
+                                        Margin="2,0,0,0"
+                                        Command="{Binding Calculate}"
+                                        Content="Calculate" />
+                                </Grid>
+                                <Grid Margin="5,0,5,0" />
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock VerticalAlignment="Center" Text="Result = " />
+                                    <TextBox
+                                        x:Name="answer"
+                                        Grid.Column="1"
+                                        IsEnabled="False"
+                                        Text="{Binding Answer, Mode=OneWay}" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Margin="2,0,0,0"
+                                        Command="{Binding Copy}"
+                                        Content="Copy to Clipboard" />
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+
                         <GridSplitter
                             Grid.Column="1"
                             Width="3"
-                            HorizontalAlignment="Center"
-                            IsEnabled="False" />
+                            HorizontalAlignment="Center" />
+
                         <Grid Grid.Column="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -59,7 +122,7 @@
 
 
                             <GroupBox Margin="2,2,2,1" Header="Mode">
-                                <Grid Margin="0,0,0,0">
+                                <Grid Margin="-2,-1,-2,-2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />

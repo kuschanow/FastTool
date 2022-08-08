@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows;
+using System.Windows.Input;
 
 namespace FastTool.WPF
 {
@@ -13,6 +15,8 @@ namespace FastTool.WPF
         private bool degMode = true;
         private bool radMode = false;
         private bool gradMode = false;
+        private string expression = "";
+        private double? answer = null;
 
         public bool DegMode
         {
@@ -43,6 +47,60 @@ namespace FastTool.WPF
                 OnPropertyChanged();
                 if (value) Calculator.Mode = Mode.Grad;
             }
+        }
+
+        public string Expression
+        {
+            get => expression;
+            set
+            {
+                expression = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double? Answer
+        {
+            get => answer;
+            private set
+            {
+                answer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand Calculate => new RelayCommand(CalculateExecute);
+        public ICommand Copy => new RelayCommand(CopyExecute);
+
+        private void CalculateExecute(object obj)
+        {
+            Expression Exp;
+            if (obj != null)
+            {
+                Exp = new Expression(obj as string);
+            }
+            else
+            {
+                Exp = new Expression(Expression);
+            }
+
+            Answer = Calculator.Calculate(Exp);
+        }
+
+        private void CopyExecute(object obj)
+        {
+            string copyData;
+
+            if (obj != null)
+            {
+                copyData = obj as string;
+            }
+            else
+            {
+                copyData = Answer.ToString();
+            }
+
+            Clipboard.SetText(copyData);
         }
 
         #region PropertyChanged

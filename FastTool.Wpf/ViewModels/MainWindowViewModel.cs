@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,7 +12,7 @@ namespace FastTool.WPF
         private Visibility _mainWindowVisibility = Visibility.Visible;
         private Visibility _notifyIconVisibility = Visibility.Hidden;
 
-
+        public MainCalculatorViewModel CalcViewModel { get; set; } = new MainCalculatorViewModel();
         public Visibility MainWindowVisibility 
         { 
             get => _mainWindowVisibility; 
@@ -50,17 +49,5 @@ namespace FastTool.WPF
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
         #endregion
-    }
-
-    public class RelayCommand : ICommand
-    {
-        private readonly Predicate<object>? _canExecute;
-        private readonly Action<object> _execute;
-        public event EventHandler? CanExecuteChanged;
-        public RelayCommand(Action<object> execute) : this(execute, null) { }
-        public RelayCommand(Action<object> execute, Predicate<object>? canExecute) { _execute = execute; _canExecute = canExecute; }
-        public bool CanExecute(object parameter) => (_canExecute == null) ? true : _canExecute(parameter);
-        public void Execute(object parameter) => _execute(parameter);
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

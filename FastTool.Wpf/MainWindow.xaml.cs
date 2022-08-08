@@ -38,7 +38,7 @@ namespace FastTool.WPF
             mainWindowViewModel = new MainWindowViewModel();
             mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
             DataContext = mainWindowViewModel;
-            calcTab.DataContext = new MainCalculatorViewModel();
+            calcTab.DataContext = mainWindowViewModel.CalcViewModel;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
