@@ -8,7 +8,7 @@ namespace FastTool;
 public class Expression
 {
     private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot)|(log|ln|lg|sqrt|cbrt|root|abs|pow))(\(|([+-]?\d+([.,]\d+)?))");
-    private static readonly Regex numExp = new(@"(?<!\d)[+-]?\d+([.,]\d+)?");
+    private static readonly Regex numExp = new(@"(?<!\d|\))[+-]?\d+([.,]\d+)?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
 
@@ -208,7 +208,7 @@ public class Expression
         {
             double arg1 = double.Parse(match.Groups[5].Value);
             object arg2 = null;
-            startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length - 1;
+            startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length;
             if (isLogOrRoot)
             {
                 arg2 = ParseBraket(ref startIndex, exp);
