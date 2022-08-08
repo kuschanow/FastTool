@@ -51,28 +51,45 @@
                             IsEnabled="False" />
                         <Grid Grid.Column="3">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <ToggleButton Content="DEG" IsChecked="{Binding DegMode, Mode=TwoWay}" />
-                                <ToggleButton
-                                    Grid.Column="1"
-                                    Content="RAD"
-                                    IsChecked="{Binding RadMode, Mode=TwoWay}" />
-                                <ToggleButton
-                                    Grid.Column="2"
-                                    Content="GRAD"
-                                    IsChecked="{Binding GradMode, Mode=TwoWay}" />
-                            </Grid>
+                            <GroupBox Margin="2,2,2,1" Header="Mode">
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton
+                                        Grid.Column="0"
+                                        Content="DEG"
+                                        IsChecked="{Binding DegMode, Mode=TwoWay}"
+                                        Style="{DynamicResource ModeButtonStyle}" />
+                                    <RadioButton
+                                        Grid.Column="1"
+                                        Content="RAD"
+                                        IsChecked="{Binding RadMode, Mode=TwoWay}"
+                                        Style="{DynamicResource ModeButtonStyle}" />
+                                    <RadioButton
+                                        Grid.Column="2"
+                                        Content="GRAD"
+                                        IsChecked="{Binding GradMode, Mode=TwoWay}"
+                                        Style="{DynamicResource ModeButtonStyle}" />
+                                </Grid>
+                            </GroupBox>
+
+                            <StackPanel Grid.Row="1" Margin="2,1,2,1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Round digits: " />
+                                    <TextBlock Text="{Binding Calculator.Digits}" />
+                                </StackPanel>
+                                <Slider Value="{Binding Calculator.Digits, Mode=TwoWay}" />
+                            </StackPanel>
                         </Grid>
                     </Grid>
                     <GridSplitter

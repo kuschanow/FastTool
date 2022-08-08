@@ -19,21 +19,9 @@ namespace FastTool.WPF
             get => degMode;
             set
             {
-                if (value)
-                {
-                    degMode = true;
-                    OnPropertyChanged();
-                    Calculator.Mode = Mode.Deg;
-                    RadMode = GradMode = false;
-                }
-                else
-                {
-                    if (RadMode || GradMode)
-                    {
-                        degMode = false;
-                        OnPropertyChanged();
-                    }
-                }
+                degMode = value;
+                OnPropertyChanged();
+                if (value) Calculator.Mode = Mode.Deg;
             }
         }
         public bool RadMode
@@ -41,21 +29,9 @@ namespace FastTool.WPF
             get => radMode;
             set
             {
-                if (value)
-                {
-                    radMode = true;
-                    OnPropertyChanged();
-                    Calculator.Mode = Mode.Rad;
-                    DegMode = GradMode = false;
-                }
-                else
-                {
-                    if (DegMode || GradMode)
-                    {
-                        radMode = false;
-                        OnPropertyChanged();
-                    }
-                }
+                radMode = value;
+                OnPropertyChanged();
+                if (value) Calculator.Mode = Mode.Rad;
             }
         }
         public bool GradMode
@@ -63,21 +39,9 @@ namespace FastTool.WPF
             get => gradMode;
             set
             {
-                if (value)
-                {
-                    gradMode = true;
-                    OnPropertyChanged();
-                    Calculator.Mode = Mode.Grad;
-                    DegMode = RadMode = false;
-                }
-                else
-                {
-                    if (DegMode || RadMode)
-                    {
-                        gradMode = false;
-                        OnPropertyChanged();
-                    }
-                }
+                gradMode = value;
+                OnPropertyChanged();
+                if (value) Calculator.Mode = Mode.Grad;
             }
         }
 
