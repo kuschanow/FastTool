@@ -9,15 +9,90 @@
     xmlns:wpf="clr-namespace:FastTool.WPF"
     x:Name="mainWindow"
     Title="Fast Tool"
-    Width="800"
-    Height="450"
+    Width="400"
+    Height="500"
     Closing="Form_Closing"
     Icon="/MianIcon.ico"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl>
+            <TabItem x:Name="calcTab">
+                <TabItem.Header>
+                    <TextBlock>
+                        Calculator
+                    </TextBlock>
+                </TabItem.Header>
+                <Grid Margin="-2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.5*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.3*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid />
+                        <GridSplitter
+                            Grid.Column="1"
+                            Width="3"
+                            HorizontalAlignment="Center"
+                            IsEnabled="False" />
+                        <Grid Grid.Column="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton Content="DEG" IsChecked="{Binding DegMode, Mode=TwoWay}" />
+                                <ToggleButton
+                                    Grid.Column="1"
+                                    Content="RAD"
+                                    IsChecked="{Binding RadMode, Mode=TwoWay}" />
+                                <ToggleButton
+                                    Grid.Column="2"
+                                    Content="GRAD"
+                                    IsChecked="{Binding GradMode, Mode=TwoWay}" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <GridSplitter
+                        Grid.Row="1"
+                        Height="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsEnabled="False" />
+                    <Grid Grid.Row="1" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+
+
+
+
         <tb:TaskbarIcon
             x:Name="NotifyIcon"
+            Grid.Row="3"
             IconSource="/TackBarIcon.ico"
             MenuActivation="LeftOrRightClick"
             OpacityMask="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
