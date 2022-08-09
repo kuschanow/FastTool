@@ -53,19 +53,4 @@ public class CalculatorTests
         // Assert
         answer1.Should().Be(answer2);
     }
-
-    [Fact]
-    public void WhenExpressionIsCorrect_ThenCalculationListCorrect()
-    {
-        // Arrange
-        string sut = "-log(3.5)(5) + -cos4 + ((4+3)3)^3 + -4 * Sin(4 + (4-2cos3)) + |-3| + |3(|-4|)|";
-        Calculator calc = new(Mode.Rad);
-
-        // Act
-        var exp = new Expression(sut);
-        calc.Calculate(exp);
-
-        // Assert
-        calc.CalculationList.Should().NotBeEmpty();
-    }
 }
