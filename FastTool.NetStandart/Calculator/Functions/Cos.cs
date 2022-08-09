@@ -22,4 +22,17 @@ public class Cos : IFunction
 
         return Math.Cos(num);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        num = calc.ConvertToRad(num);
+
+        return Math.Cos(num);
+    }
+
+    public override string ToString()
+    {
+        return $"cos({arg})";
+    }
+
 }

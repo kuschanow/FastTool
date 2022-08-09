@@ -22,4 +22,17 @@ public class Tan : IFunction
 
         return Math.Tan(num);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        num = calc.ConvertToRad(num);
+
+        return Math.Tan(num);
+    }
+
+    public override string ToString()
+    {
+        return $"tan({arg})";
+    }
+
 }

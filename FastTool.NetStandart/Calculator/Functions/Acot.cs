@@ -22,4 +22,17 @@ public class Acot : IFunction
 
         return calc.ConvertFromRad(answer);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        double answer = (Math.PI / 2) - Math.Atan(num);
+
+        return calc.ConvertFromRad(answer);
+    }
+
+    public override string ToString()
+    {
+        return $"acot({arg})";
+    }
+
 }

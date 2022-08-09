@@ -24,4 +24,17 @@ public class Log : IFunction
 
         return Math.Log(num2, num1);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num1 = calc.Transform(Base);
+        double num2 = calc.Transform(Arg);
+
+        return Math.Log(num2, num1);
+    }
+
+    public override string ToString()
+    {
+        return $"log({Base})({Arg})";
+    }
+
 }

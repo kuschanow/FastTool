@@ -22,4 +22,17 @@ public class Asin : IFunction
 
         return calc.ConvertFromRad(answer);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        double answer = Math.Asin(num);
+
+        return calc.ConvertFromRad(answer);
+    }
+
+    public override string ToString()
+    {
+        return $"asin({arg})";
+    }
+
 }

@@ -22,4 +22,17 @@ public class Atan : IFunction
 
         return calc.ConvertFromRad(answer);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        double answer = Math.Atan(num);
+
+        return calc.ConvertFromRad(answer);
+    }
+
+    public override string ToString()
+    {
+        return $"atan({arg})";
+    }
+
 }

@@ -8,7 +8,7 @@ namespace FastTool;
 public class Expression
 {
     private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot)|(log|ln|lg|sqrt|cbrt|root|abs|pow))(\(|([+-]?\d+([.,]\d+)?))");
-    private static readonly Regex numExp = new(@"(?<!\d|\))[+-]?\d+([.,]\d+)?");
+    private static readonly Regex numExp = new(@"(?:(?<!\d|\))[+-]?|(?<=\)))\d+([.,]\d+)?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
 
@@ -208,9 +208,10 @@ public class Expression
         {
             double arg1 = double.Parse(match.Groups[5].Value);
             object arg2 = null;
-            startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length;
+            startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length - 1;
             if (isLogOrRoot)
             {
+                startIndex++;
                 arg2 = ParseBraket(ref startIndex, exp);
             }
             return GetFunction(match.Groups[1].Value, arg1, arg2);
@@ -322,5 +323,63 @@ public class Expression
             default:
                 return new NullFunc();
         }
+    }
+
+    public override string ToString()
+    {
+        string str = "";
+
+        foreach (var item in Exp)
+        {
+            if (item as Sign? != null)
+            {
+                Sign? sign = item as Sign?;
+
+                switch (sign)
+                {
+                    case Sign.Plus:
+                        str += "+";
+                        break;
+
+                    case Sign.Minus:
+                        str += "-";
+                        break;
+
+                    case Sign.Мultiply:
+                        str += "*";
+                        break;
+
+                    case Sign.Division:
+                        str += "/";
+                        break;
+                }
+                continue;
+            }
+
+            if (item as double? != null)
+            {
+                str += item.ToString();
+                continue;
+            }
+
+            if (item as IFunction != null)
+            {
+                str += (item as IFunction).ToString();
+            }
+
+            if (item as Expression != null)
+            {
+                str += $"({(item as Expression).ToString()})";
+                continue;
+            }
+        }
+
+        str = str.Replace("-1*", "-");
+        str = str.Replace("--", "+");
+        str = str.Replace("-+", "-");
+        str = str.Replace("+-", "-");
+        str = str.Replace("++", "+");
+
+        return str;
     }
 }

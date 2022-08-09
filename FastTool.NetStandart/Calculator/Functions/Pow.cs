@@ -24,4 +24,17 @@ public class Pow : IFunction
 
         return Math.Pow(num1, num2);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num1 = calc.Transform(firstArg);
+        double num2 = calc.Transform(secondArg);
+
+        return Math.Pow(num1, num2);
+    }
+
+    public override string ToString()
+    {
+        return $"pow({firstArg})({secondArg})";
+    }
+
 }

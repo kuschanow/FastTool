@@ -12,7 +12,8 @@ public class Calculator : ICalculator
     public Mode Mode { get; set; }
     public int Digits { get; set; }
 
-    public Calculator() : this(FastTool.Mode.Deg) { }
+    public List<Expression> CalculationList { get; private set; }
+    public Calculator() : this(Mode.Deg) { }
     public Calculator(Mode mode) : this(mode, 10) { }
     public Calculator(Mode mode, int digits)
     {
@@ -22,7 +23,7 @@ public class Calculator : ICalculator
 
     public double Calculate(Expression exp)
     {
-        double answer = 0;
+        double answer;
 
         while (exp.Exp.Contains(Sign.Мultiply) || exp.Exp.Contains(Sign.Division))
         {
@@ -37,6 +38,7 @@ public class Calculator : ICalculator
 
             exp.Exp.RemoveRange(index - 1, 3);
             exp.Exp.Insert(index - 1, result);
+
         }
 
         while (exp.Exp.Contains(Sign.Plus) || exp.Exp.Contains(Sign.Minus))
@@ -52,6 +54,7 @@ public class Calculator : ICalculator
 
             exp.Exp.RemoveRange(index - 1, 3);
             exp.Exp.Insert(index - 1, result);
+
         }
 
         answer = Transform(exp.Exp[0]);
@@ -61,7 +64,7 @@ public class Calculator : ICalculator
 
     public double Transform(object obj)
     {
-        double answer = 0;
+        double answer;
 
         if ((obj as Expression) != null)
         {
@@ -69,7 +72,7 @@ public class Calculator : ICalculator
         }
         else if ((obj as IFunction) != null)
         {
-            answer = (obj as IFunction).Calculate(Mode, Digits);
+            answer = (obj as IFunction).Calculate(this);
         }
         else
         {
@@ -81,36 +84,22 @@ public class Calculator : ICalculator
 
     public double ConvertToRad(double num)
     {
-        switch (Mode)
+        return Mode switch
         {
-            case Mode.Deg:
-                return num *= (Math.PI / 180);
-
-            case Mode.Rad:
-                return num;
-
-            case Mode.Grad:
-                return num *= (Math.PI / 200);
-
-            default:
-                return num;
-        }
+            Mode.Deg => num *= (Math.PI / 180),
+            Mode.Rad => num,
+            Mode.Grad => num *= (Math.PI / 200),
+            _ => num,
+        };
     }
     public double ConvertFromRad(double num)
     {
-        switch (Mode)
+        return Mode switch
         {
-            case Mode.Deg:
-                return num /= (Math.PI / 180);
-
-            case Mode.Rad:
-                return num;
-
-            case Mode.Grad:
-                return num /= (Math.PI / 200);
-
-            default:
-                return num;
-        }
+            Mode.Deg => num /= (Math.PI / 180),
+            Mode.Rad => num,
+            Mode.Grad => num /= (Math.PI / 200),
+            _ => num,
+        };
     }
 }

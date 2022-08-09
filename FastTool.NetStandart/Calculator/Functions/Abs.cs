@@ -21,4 +21,16 @@ public class Abs : IFunction
 
         return Math.Abs(num);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        double answer = Math.Abs(num);
+
+        return answer;
+    }
+
+    public override string ToString()
+    {
+        return $"abs({arg})";
+    }
 }

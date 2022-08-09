@@ -22,4 +22,16 @@ public class Acos : IFunction
 
         return calc.ConvertFromRad(answer);
     }
+    public double Calculate(Calculator calc)
+    {
+        double num = calc.Transform(arg);
+        double answer = Math.Acos(num);
+
+        return calc.ConvertFromRad(answer);
+    }
+
+    public override string ToString()
+    {
+        return $"acos({arg})";
+    }
 }

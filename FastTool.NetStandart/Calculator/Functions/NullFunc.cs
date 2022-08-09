@@ -6,7 +6,7 @@ namespace FastTool;
 
 public class NullFunc : IFunction
 {
-    public double Calculate()
+    public double Calculate(Calculator calc)
     {
         throw new NotImplementedException();
     }
