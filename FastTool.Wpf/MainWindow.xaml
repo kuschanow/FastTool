@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:FastTool.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tb="http://www.hardcodet.net/taskbar"
@@ -10,7 +11,7 @@
     x:Name="mainWindow"
     Title="Fast Tool"
     Width="400"
-    Height="500"
+    Height="400"
     MinWidth="341"
     Closing="Form_Closing"
     Icon="/MianIcon.ico"
@@ -32,21 +33,40 @@
                 </TabItem.Header>
                 <Grid Margin="-2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.5*" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="1*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="120" />
                     </Grid.RowDefinitions>
 
                     <Grid.InputBindings>
+                        <KeyBinding
+                            Key="Return"
+                            Command="{Binding Calculate}"
+                            CommandParameter="{Binding ElementName=expression, Path=Text}" />
                         <KeyBinding
                             Key="C"
                             Command="{Binding Copy}"
                             CommandParameter="{Binding ElementName=answer, Path=Text}"
                             Modifiers="Ctrl" />
                         <KeyBinding
-                            Key="Return"
-                            Command="{Binding Calculate}"
-                            CommandParameter="{Binding ElementName=expression, Path=Text}" />
+                            Key="Backspace"
+                            Command="{Binding Clear}"
+                            Modifiers="Ctrl" />
+                        <KeyBinding
+                            Key="D"
+                            Command="{Binding ChangeMode}"
+                            CommandParameter="deg"
+                            Modifiers="Ctrl" />
+                        <KeyBinding
+                            Key="R"
+                            Command="{Binding ChangeMode}"
+                            CommandParameter="rad"
+                            Modifiers="Ctrl" />
+                        <KeyBinding
+                            Key="G"
+                            Command="{Binding ChangeMode}"
+                            CommandParameter="grad"
+                            Modifiers="Ctrl" />
                     </Grid.InputBindings>
 
 
@@ -63,6 +83,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <TextBox x:Name="expression" Text="{Binding Expression, Mode=TwoWay}">
@@ -76,13 +97,42 @@
                                                 Command="{Binding Copy}"
                                                 CommandParameter="{Binding ElementName=answer, Path=Text}"
                                                 Modifiers="Ctrl" />
+                                            <KeyBinding
+                                                Key="Backspace"
+                                                Command="{Binding Clear}"
+                                                Modifiers="Ctrl" />
+                                            <KeyBinding
+                                                Key="D"
+                                                Command="{Binding ChangeMode}"
+                                                CommandParameter="deg"
+                                                Modifiers="Ctrl" />
+                                            <KeyBinding
+                                                Key="R"
+                                                Command="{Binding ChangeMode}"
+                                                CommandParameter="rad"
+                                                Modifiers="Ctrl" />
+                                            <KeyBinding
+                                                Key="G"
+                                                Command="{Binding ChangeMode}"
+                                                CommandParameter="grad"
+                                                Modifiers="Ctrl" />
                                         </TextBox.InputBindings>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding GetExpField}" CommandParameter="{Binding ElementName=expression}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </TextBox>
                                     <Button
                                         Grid.Column="1"
                                         Margin="2,0,0,0"
                                         Command="{Binding Calculate}"
-                                        Content="Calculate" />
+                                        Content="=" />
+                                    <Button
+                                        Grid.Column="2"
+                                        Margin="2,0,0,0"
+                                        Command="{Binding Clear}"
+                                        Content="C" />
                                 </Grid>
                                 <Grid Margin="5,0,5,0" />
                                 <Grid Margin="5">
@@ -102,7 +152,7 @@
                                         Grid.Column="2"
                                         Margin="2,0,0,0"
                                         Command="{Binding Copy}"
-                                        Content="Copy to Clipboard" />
+                                        Content="Copy" />
                                 </Grid>
                             </StackPanel>
                         </Grid>
@@ -151,7 +201,7 @@
                                     <TextBlock Text="Round digits: " />
                                     <TextBlock Text="{Binding Calculator.Digits}" />
                                 </StackPanel>
-                                <Slider Value="{Binding Calculator.Digits, Mode=TwoWay}" />
+                                <Slider Maximum="15" Value="{Binding Calculator.Digits, Mode=TwoWay}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -161,14 +211,224 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         IsEnabled="False" />
-                    <Grid Grid.Row="1" />
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid DataContext="{Binding MainKeyboard}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <!--#region Column1-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)"
+                                Content="(...)" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)/()"
+                                Content="()/()" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)^2"
+                                Content="()^2" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="sqrt(#)"
+                                Content="sqrt" />
+                            <!--#endregion-->
+
+                            <!--#region Column2-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(|#|)"
+                                Content="|...|" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)*()"
+                                Content="()*()" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="π#"
+                                Content="π" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="e#"
+                                Content="e" />
+                            <!--#endregion-->
+
+                            <!--#region Column3-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="1#"
+                                Content="1" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="4#"
+                                Content="4" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="7#"
+                                Content="7" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Width="30"
+                                Content="" />
+                            <!--#endregion-->
+
+                            <!--#region Column4-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="2#"
+                                Content="2" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="5#"
+                                Content="5" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="8#"
+                                Content="8" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="0#"
+                                Content="0" />
+                            <!--#endregion-->
+
+                            <!--#region Column5-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="3#"
+                                Content="3" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="6#"
+                                Content="6" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="9#"
+                                Content="9" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter=",#"
+                                Content="," />
+                            <!--#endregion-->
+
+                            <!--#region Column6-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="+#"
+                                Content="+" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="-#"
+                                Content="-" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="*#"
+                                Content="*" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="/#"
+                                Content="/" />
+                            <!--#endregion-->
+
+                        </Grid>
+                        <GridSplitter
+                            Grid.Column="1"
+                            Width="3"
+                            HorizontalAlignment="Center"
+                            IsEnabled="False" />
+
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
-
-
-
-
 
         <tb:TaskbarIcon
             x:Name="NotifyIcon"

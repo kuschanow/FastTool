@@ -7,7 +7,7 @@ namespace FastTool;
 
 public class Expression
 {
-    private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot)|(log|ln|lg|sqrt|cbrt|root|abs|pow))(\(|([+-]?\d+([.,]\d+)?))");
+    private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot)|(log|ln|lg|sqrt|cbrt|root|abs|pow))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
     private static readonly Regex numExp = new(@"(?:(?<!\d|\))[+-]?|(?<=\)))\d+([.,]\d+)?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
@@ -30,16 +30,18 @@ public class Expression
         {
             for (int i = 0; i < exp.Length;)
             {
-                if (exp[i] == 'p' && exp[i + 1] == 'i')
+                if ((exp[i] == 'p' && exp[i + 1] == 'i') || exp[i] == 'π')
                 {
                     Exp.Add(Math.PI);
-                    i += 2;
+                    i += exp[i] == 'π' ? 1 : 2;
+                    continue;
                 }
 
                 if (exp[i] == 'e')
                 {
                     Exp.Add(Math.E);
                     i++;
+                    continue;
                 }
 
                 if (numExp.IsMatch(exp))
@@ -169,6 +171,13 @@ public class Expression
                 }
             }
 
+            int signCount = Exp.FindAll(o => o as Sign? != null).Count;
+            int expCount = Exp.FindAll(o => o as Sign? == null).Count;
+            if (signCount + 1 != expCount)
+            {
+                throw new Exception("Invalid expression");
+            } 
+
             while (Exp.Contains('^'))
             {
                 int index = Exp.LastIndexOf('^');
@@ -206,7 +215,7 @@ public class Expression
         }
         else
         {
-            double arg1 = double.Parse(match.Groups[5].Value);
+            object arg1 = new Expression(match.Groups[5].Value);
             object arg2 = null;
             startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length - 1;
             if (isLogOrRoot)
@@ -256,10 +265,10 @@ public class Expression
                 return new Root(firstArg, secondArg);
 
             case "sqrt":
-                return new Root(2, secondArg);
+                return new Root(2, firstArg);
 
             case "cbrt":
-                return new Root(3, secondArg);
+                return new Root(3, firstArg);
 
             case "pow":
                 return new Pow(firstArg, secondArg);

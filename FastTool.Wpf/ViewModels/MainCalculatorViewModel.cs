@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FastTool.WPF
@@ -16,8 +17,25 @@ namespace FastTool.WPF
         private bool radMode = false;
         private bool gradMode = false;
         private string expression = "";
-        private double? answer = null;
+        private TextBox expField;
+        private string answer = "";
 
+        public MainCalculatorViewModel()
+        {
+            MainKeyboard = new MainCalculatorKeyboardViewModel();
+            MainKeyboard.KeyPressed += MainKeyboard_KeyPressed;
+        }
+
+        private void MainKeyboard_KeyPressed(object sender, CalcKeyboardEventArgs e)
+        {
+            int i = ExpCaretIngex;
+            Expression = Expression.Insert(i, e.Str);
+            ExpField.Focus();
+            ExpCaretIngex = i + e.CaretIndex;
+        }
+
+        #region props
+        public MainCalculatorKeyboardViewModel MainKeyboard { get; }
         public bool DegMode
         {
             get => degMode;
@@ -48,7 +66,6 @@ namespace FastTool.WPF
                 if (value) Calculator.Mode = Mode.Grad;
             }
         }
-
         public string Expression
         {
             get => expression;
@@ -58,8 +75,19 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
-
-        public double? Answer
+        private TextBox ExpField
+        {
+            get => expField;
+        }
+        public int ExpCaretIngex
+        {
+            get => ExpField.CaretIndex;
+            set
+            {
+                ExpField.CaretIndex = value;
+            }
+        }
+        public string Answer
         {
             get => answer;
             private set
@@ -68,23 +96,46 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
+        #endregion
+
 
         public ICommand Calculate => new RelayCommand(CalculateExecute);
         public ICommand Copy => new RelayCommand(CopyExecute);
+        public ICommand Clear => new RelayCommand(ClearExecute);
+        public ICommand GetExpField => new RelayCommand(GetExpFieldExecute);
+        public ICommand ChangeMode => new RelayCommand(ChangeModeExecute);
 
         private void CalculateExecute(object obj)
         {
-            Expression Exp;
-            if (obj != null)
+            try
             {
-                Exp = new Expression(obj as string);
-            }
-            else
-            {
-                Exp = new Expression(Expression);
-            }
+                Expression Exp;
+                if (obj != null)
+                {
+                    if (string.IsNullOrWhiteSpace(obj as string))
+                    {
+                        Answer = "";
+                        return;
+                    }
+                    Exp = new Expression(obj as string);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(Expression))
+                    {
+                        Answer = "";
+                        return;
+                    }
+                    Exp = new Expression(Expression);
+                }
 
-            Answer = Calculator.Calculate(Exp);
+                Answer = Calculator.Calculate(Exp).ToString();
+            }
+            catch
+            {
+                Answer = "Invalid expression";
+            }
+            expField.Focus();
         }
 
         private void CopyExecute(object obj)
@@ -101,10 +152,42 @@ namespace FastTool.WPF
             }
 
             Clipboard.SetText(copyData);
+            expField.Focus();
+        }
+
+        private void ClearExecute(object obj)
+        {
+            Expression = "";
+            Answer = "";
+            expField.Focus();
+        }
+
+        private void ChangeModeExecute(object obj)
+        {
+            string mode = (string)obj;
+            switch (mode)
+            {
+                case "deg":
+                    DegMode = true;
+                    break;
+                case "rad":
+                    RadMode = true;
+                    break;
+                case "grad":
+                    GradMode = true;
+                    break;
+            }
+            expField.Focus();
+        }
+
+        private void GetExpFieldExecute(object obj)
+        {
+            expField = (TextBox)obj;
+            expField.Focus();
         }
 
         #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

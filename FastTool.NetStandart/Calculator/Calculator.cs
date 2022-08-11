@@ -14,7 +14,7 @@ public class Calculator : ICalculator
 
     public List<Expression> CalculationList { get; private set; }
     public Calculator() : this(Mode.Deg) { }
-    public Calculator(Mode mode) : this(mode, 10) { }
+    public Calculator(Mode mode) : this(mode, 4) { }
     public Calculator(Mode mode, int digits)
     {
         Mode = mode;
@@ -34,7 +34,7 @@ public class Calculator : ICalculator
             double num1 = Transform(exp.Exp[index - 1]);
             double num2 = Transform(exp.Exp[index + 1]);
 
-            double result = index == indexM ? num1 * num2 : num1 / num2 ;
+            double result = index == indexM ? num1 * num2 : num1 / num2;
 
             exp.Exp.RemoveRange(index - 1, 3);
             exp.Exp.Insert(index - 1, result);
@@ -57,9 +57,14 @@ public class Calculator : ICalculator
 
         }
 
-        answer = Transform(exp.Exp[0]);
+        answer = Math.Round(Transform(exp.Exp[0]), Digits);
 
-        return Math.Round(answer, Digits);
+        if (answer == 0)
+        {
+            return 0;
+        }
+
+        return answer;
     }
 
     public double Transform(object obj)
@@ -76,7 +81,14 @@ public class Calculator : ICalculator
         }
         else
         {
-            answer = (double)(obj as double?);
+            try
+            {
+                answer = (double)obj;
+            }
+            catch
+            {
+                answer = (int)obj;
+            }
         }
 
         return answer;
