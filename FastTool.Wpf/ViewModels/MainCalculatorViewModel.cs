@@ -96,6 +96,7 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
+        
         #endregion
 
 

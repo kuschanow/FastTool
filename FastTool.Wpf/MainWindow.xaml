@@ -124,6 +124,7 @@
                                         </i:Interaction.Triggers>
                                     </TextBox>
                                     <Button
+                                        x:Name="Calculate"
                                         Grid.Column="1"
                                         Margin="2,0,0,0"
                                         Command="{Binding Calculate}"
@@ -255,14 +256,26 @@
                                 Width="30"
                                 Command="{Binding Write}"
                                 CommandParameter="(#)^2"
-                                Content="()^2" />
+                                Content="()^2">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding ShowOpt}" CommandParameter="pow" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                             <Button
                                 Grid.Row="3"
                                 Grid.Column="0"
                                 Width="30"
                                 Command="{Binding Write}"
                                 CommandParameter="sqrt(#)"
-                                Content="sqrt" />
+                                Content="sqrt">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseRightButtonDown">
+                                        <i:InvokeCommandAction Command="{Binding ShowOpt}" CommandParameter="root" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                             <!--#endregion-->
 
                             <!--#region Column2-->
@@ -294,6 +307,24 @@
                                 Command="{Binding Write}"
                                 CommandParameter="e#"
                                 Content="e" />
+
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)^3"
+                                Content="()^3"
+                                Visibility="{Binding PowOpt}" />
+
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="cbrt(#)"
+                                Content="cbrt"
+                                Visibility="{Binding RootOpt}" />
                             <!--#endregion-->
 
                             <!--#region Column3-->
@@ -322,7 +353,25 @@
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="30"
-                                Content="" />
+                                Command="{Binding ElementName=Calculate, Path=Command}"
+                                Content="=" />
+
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="(#)^()"
+                                Content="()^()"
+                                Visibility="{Binding PowOpt}" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="root#()"
+                                Content="root"
+                                Visibility="{Binding RootOpt}" />
                             <!--#endregion-->
 
                             <!--#region Column4-->
