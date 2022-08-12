@@ -44,6 +44,10 @@ namespace FastTool.WPF
                 degMode = value;
                 OnPropertyChanged();
                 if (value) Calculator.Mode = Mode.Deg;
+                if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
+                {
+                    Calculate.Execute(null);
+                }
             }
         }
         public bool RadMode
@@ -54,6 +58,10 @@ namespace FastTool.WPF
                 radMode = value;
                 OnPropertyChanged();
                 if (value) Calculator.Mode = Mode.Rad;
+                if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
+                {
+                    Calculate.Execute(null);
+                }
             }
         }
         public bool GradMode
@@ -64,6 +72,23 @@ namespace FastTool.WPF
                 gradMode = value;
                 OnPropertyChanged();
                 if (value) Calculator.Mode = Mode.Grad;
+                if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
+                {
+                    Calculate.Execute(null);
+                }
+            }
+        }
+        public int Digits
+        {
+            get => Calculator.Digits;
+            set
+            {
+                Calculator.Digits = value;
+                OnPropertyChanged();
+                if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
+                {
+                    Calculate.Execute(null);
+                }
             }
         }
         public string Expression
@@ -96,7 +121,7 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
-        
+
         #endregion
 
 
@@ -105,6 +130,7 @@ namespace FastTool.WPF
         public ICommand Clear => new RelayCommand(ClearExecute);
         public ICommand GetExpField => new RelayCommand(GetExpFieldExecute);
         public ICommand ChangeMode => new RelayCommand(ChangeModeExecute);
+        public ICommand ExpChanged => new RelayCommand(ExpChangedExecute);
 
         private void CalculateExecute(object obj)
         {
@@ -185,6 +211,11 @@ namespace FastTool.WPF
         {
             expField = (TextBox)obj;
             expField.Focus();
+        }
+
+        private void ExpChangedExecute(object obj)
+        {
+            Answer = "";
         }
 
         #region PropertyChanged

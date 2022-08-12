@@ -10,9 +10,9 @@
     xmlns:wpf="clr-namespace:FastTool.WPF"
     x:Name="mainWindow"
     Title="Fast Tool"
-    Width="400"
+    Width="420"
     Height="400"
-    MinWidth="341"
+    MinWidth="420"
     Closing="Form_Closing"
     Icon="/MianIcon.ico"
     Loaded="Window_Loaded"
@@ -39,10 +39,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid.InputBindings>
-                        <KeyBinding
-                            Key="Return"
-                            Command="{Binding Calculate}"
-                            CommandParameter="{Binding ElementName=expression, Path=Text}" />
+                        <KeyBinding Key="Return" Command="{Binding Calculate}" />
                         <KeyBinding
                             Key="C"
                             Command="{Binding Copy}"
@@ -121,6 +118,9 @@
                                             <i:EventTrigger EventName="Loaded">
                                                 <i:InvokeCommandAction Command="{Binding GetExpField}" CommandParameter="{Binding ElementName=expression}" />
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding ExpChanged}" CommandParameter="{Binding ElementName=expression, Path=Text}" />
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
                                     <Button
@@ -182,27 +182,24 @@
                                     <RadioButton
                                         Grid.Column="0"
                                         Content="DEG"
-                                        IsChecked="{Binding DegMode, Mode=TwoWay}"
-                                        Style="{DynamicResource ModeButtonStyle}" />
+                                        IsChecked="{Binding DegMode, Mode=TwoWay}" />
                                     <RadioButton
                                         Grid.Column="1"
                                         Content="RAD"
-                                        IsChecked="{Binding RadMode, Mode=TwoWay}"
-                                        Style="{DynamicResource ModeButtonStyle}" />
+                                        IsChecked="{Binding RadMode, Mode=TwoWay}" />
                                     <RadioButton
                                         Grid.Column="2"
                                         Content="GRAD"
-                                        IsChecked="{Binding GradMode, Mode=TwoWay}"
-                                        Style="{DynamicResource ModeButtonStyle}" />
+                                        IsChecked="{Binding GradMode, Mode=TwoWay}" />
                                 </Grid>
                             </GroupBox>
 
                             <StackPanel Grid.Row="1" Margin="2,1,2,1">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Round digits: " />
-                                    <TextBlock Text="{Binding Calculator.Digits}" />
+                                    <TextBlock Text="{Binding Digits}" />
                                 </StackPanel>
-                                <Slider Maximum="15" Value="{Binding Calculator.Digits, Mode=TwoWay}" />
+                                <Slider Maximum="15" Value="{Binding Digits, Mode=TwoWay}" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -212,14 +209,14 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         IsEnabled="False" />
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="2" DataContext="{Binding Path=MainKeyboard}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="180" />
-                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
+                            <ColumnDefinition Width="180" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid DataContext="{Binding MainKeyboard}">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -468,12 +465,329 @@
                             <!--#endregion-->
 
                         </Grid>
-                        <GridSplitter
-                            Grid.Column="1"
-                            Width="3"
-                            HorizontalAlignment="Center"
-                            IsEnabled="False" />
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
+                            <RadioButton
+                                Grid.Row="0"
+                                Height="50"
+                                Margin="4,0,4,0"
+                                IsChecked="{Binding TrigonometryKeyboard}">
+                                <StackPanel>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="sin" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="cos" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="tan" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Grid.Row="1"
+                                Height="50"
+                                Margin="4,0,4,0"
+                                IsChecked="{Binding FuncKeyboard}">
+                                <StackPanel>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="log" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="exp" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="10"
+                                        Text="sign" />
+                                </StackPanel>
+                            </RadioButton>
+                        </Grid>
+                        <Grid Grid.Column="3" Visibility="{Binding Trigonometry}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <!--#region Column1-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="sin(#)"
+                                Content="sin" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="asin(#)"
+                                Content="asin" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="sinh(#)"
+                                Content="sinh" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="asinh(#)"
+                                Content="asinh"
+                                FontSize="10.5" />
+                            <!--#endregion-->
+
+                            <!--#region Column2-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="cos(#)"
+                                Content="cos" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acos(#)"
+                                Content="acos" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="cosh(#)"
+                                Content="cosh" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acosh(#)"
+                                Content="acosh"
+                                FontSize="9.6" />
+                            <!--#endregion-->
+
+                            <!--#region Column3-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="tan(#)"
+                                Content="tan" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="atan(#)"
+                                Content="atan" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="tanh(#)"
+                                Content="tanh" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="atanh(#)"
+                                Content="atanh"
+                                FontSize="9.8" />
+                            <!--#endregion-->
+
+                            <!--#region Column4-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="cot(#)"
+                                Content="cot" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acot(#)"
+                                Content="acot" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="coth(#)"
+                                Content="coth" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acoth(#)"
+                                Content="acoth"
+                                FontSize="9.8" />
+                            <!--#endregion-->
+
+                            <!--#region Column5-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="sec(#)"
+                                Content="sec" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="asec(#)"
+                                Content="asec" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="sech(#)"
+                                Content="sech" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="4"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="asech(#)"
+                                Content="asech"
+                                FontSize="9.7" />
+                            <!--#endregion-->
+
+                            <!--#region Column6-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="csc(#)"
+                                Content="csc" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acsc(#)"
+                                Content="acsc" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="csch(#)"
+                                Content="csch" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="5"
+                                Width="30"
+                                Command="{Binding Write}"
+                                CommandParameter="acsch(#)"
+                                Content="acsch"
+                                FontSize="9.7" />
+                            <!--#endregion-->
+
+                        </Grid>
+                        <Grid Grid.Column="3" Visibility="{Binding Func}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <!--#region Column1-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Command="{Binding Write}"
+                                CommandParameter="log#()"
+                                Content="log...()" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Command="{Binding Write}"
+                                CommandParameter="log2(#)"
+                                Content="log2" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Command="{Binding Write}"
+                                CommandParameter="lg(#)"
+                                Content="lg" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Command="{Binding Write}"
+                                CommandParameter="ln(#)"
+                                Content="ln" />
+                            <!--#endregion-->
+
+                            <!--#region Column2-->
+                            <Button
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Command="{Binding Write}"
+                                CommandParameter="abs(#)"
+                                Content="abs" />
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Command="{Binding Write}"
+                                CommandParameter="pow(#)"
+                                Content="pow" />
+                            <Button
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Command="{Binding Write}"
+                                CommandParameter="exp(#)"
+                                Content="exp" />
+                            <Button
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Command="{Binding Write}"
+                                CommandParameter="sign(#)"
+                                Content="sign" />
+                            <!--#endregion-->
+
+                        </Grid>
                     </Grid>
                 </Grid>
             </TabItem>

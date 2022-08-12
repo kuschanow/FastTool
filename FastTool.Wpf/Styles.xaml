@@ -106,7 +106,7 @@
 
 
 
-    <Style x:Key="ModeButtonStyle" TargetType="{x:Type RadioButton}">
+    <Style TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
         <Setter Property="Background" Value="{StaticResource Static.Background}" />
         <Setter Property="BorderBrush" Value="{StaticResource Static.Border}" />

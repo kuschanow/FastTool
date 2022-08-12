@@ -12,6 +12,8 @@ namespace FastTool.WPF
     {
         private Visibility powOpt = Visibility.Collapsed;
         private Visibility rootOpt = Visibility.Collapsed;
+        private Visibility trigonometry = Visibility.Collapsed;
+        private Visibility func = Visibility.Visible;
 
         #region prors
         public Visibility PowOpt
@@ -32,11 +34,79 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
+        public Visibility Trigonometry
+        {
+            get => trigonometry;
+            set
+            {
+                trigonometry = value;
+                OnPropertyChanged();
+            }
+        }
+        public Visibility Func
+        {
+            get => func;
+            set
+            {
+                func = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool TrigonometryKeyboard
+        {
+            get
+            {
+                if (Trigonometry == Visibility.Visible)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set
+            {
+                if (value)
+                {
+                    Trigonometry = Visibility.Visible;
+                }
+                else
+                {
+                    Trigonometry = Visibility.Collapsed;
+                }
+            }
+        }
+        public bool FuncKeyboard
+        {
+            get
+            {
+                if (Func == Visibility.Visible)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set
+            {
+                if (value)
+                {
+                    Func = Visibility.Visible;
+                }
+                else
+                {
+                    Func = Visibility.Collapsed;
+                }
+            }
+        }
         #endregion
 
 
         public ICommand Write => new RelayCommand(WriteExecute);
-        public ICommand ShowOpt => new RelayCommand(ShoeOptExecute);
+        public ICommand ShowOpt => new RelayCommand(ShowOptExecute);
 
         private void WriteExecute(object obj)
         {
@@ -44,7 +114,7 @@ namespace FastTool.WPF
             PowOpt = Visibility.Collapsed;
             RootOpt = Visibility.Collapsed;
         }
-        private void ShoeOptExecute(object obj)
+        private void ShowOptExecute(object obj)
         {
             if ((string)obj == "pow")
             {
