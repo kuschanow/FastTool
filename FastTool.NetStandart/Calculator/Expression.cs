@@ -7,7 +7,7 @@ namespace FastTool;
 
 public class Expression
 {
-    private static readonly Regex funcExp = new(@"((?:a|arc)?(?:sin|cos|tan|tg|ctg|cot)(?:h)?|(?:log|ln|lg|sqrt|cbrt|root|abs|pow|exp|sign|sgn))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
+    private static readonly Regex funcExp = new(@"((?:a|arc)?(?:sin|cos|tan|tg|ctg|cot|sec|cosec|csc)(?:h)?|(?:log|ln|lg|sqrt|cbrt|root|abs|pow|exp|sign|sgn))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
     private static readonly Regex numExp = new(@"(?:(?<!\d|\))[+-]?|(?<=\)))\d+([.,]\d+)?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
@@ -30,20 +30,6 @@ public class Expression
         {
             for (int i = 0; i < exp.Length;)
             {
-                if ((exp[i] == 'p' && exp[i + 1] == 'i') || exp[i] == 'π')
-                {
-                    Exp.Add(Math.PI);
-                    i += exp[i] == 'π' ? 1 : 2;
-                    continue;
-                }
-
-                if (exp[i] == 'e')
-                {
-                    Exp.Add(Math.E);
-                    i++;
-                    continue;
-                }
-
                 if (numExp.IsMatch(exp))
                 {
                     MatchCollection matches = numExp.Matches(exp);
@@ -137,6 +123,20 @@ public class Expression
                         i++;
                         continue;
                     }
+                }
+
+                if ((exp[i] == 'p' && exp[i + 1] == 'i') || exp[i] == 'π')
+                {
+                    Exp.Add(Math.PI);
+                    i += exp[i] == 'π' ? 1 : 2;
+                    continue;
+                }
+
+                if (exp[i] == 'e')
+                {
+                    Exp.Add(Math.E);
+                    i++;
+                    continue;
                 }
 
                 throw new Exception("Invalid expression");
