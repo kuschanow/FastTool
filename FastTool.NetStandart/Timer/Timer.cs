@@ -62,7 +62,7 @@ public class Timer : ITimer
 
     public void Update(object source, ElapsedEventArgs e)
     {
-        TimeLeft = Time - (DateTimeOffset.Now - TimerStart + StopedTime);
+        TimeLeft = Time - (DateTimeOffset.Now - TimerStart - StopedTime);
         if (TimeLeft.Ticks > 0)
         {
             TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));

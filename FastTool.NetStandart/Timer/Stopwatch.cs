@@ -56,7 +56,7 @@ public class Stopwatch : ITimer
 
     public void Update(object source, ElapsedEventArgs e)
     {
-        Time = DateTimeOffset.Now - TimerStart + StopedTime;
+        Time = DateTimeOffset.Now - TimerStart - StopedTime;
         TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
     }
 
