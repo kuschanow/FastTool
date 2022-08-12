@@ -7,7 +7,7 @@ namespace FastTool;
 
 public class Expression
 {
-    private static readonly Regex funcExp = new(@"((a|arc)?(sin|cos|tan|tg|ctg|cot)|(log|ln|lg|sqrt|cbrt|root|abs|pow))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
+    private static readonly Regex funcExp = new(@"((?:a|arc)?(?:sin|cos|tan|tg|ctg|cot)(?:h)?|(?:log|ln|lg|sqrt|cbrt|root|abs|pow|exp|sign|sgn))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
     private static readonly Regex numExp = new(@"(?:(?<!\d|\))[+-]?|(?<=\)))\d+([.,]\d+)?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
@@ -171,13 +171,6 @@ public class Expression
                 }
             }
 
-            int signCount = Exp.FindAll(o => o as Sign? != null).Count;
-            int expCount = Exp.FindAll(o => o as Sign? == null).Count;
-            if (signCount + 1 != expCount)
-            {
-                throw new Exception("Invalid expression");
-            } 
-
             while (Exp.Contains('^'))
             {
                 int index = Exp.LastIndexOf('^');
@@ -188,6 +181,13 @@ public class Expression
                 Exp.RemoveAt(index - 1);
                 Exp.RemoveAt(index);
             }
+
+            int signCount = Exp.FindAll(o => o as Sign? != null).Count;
+            int expCount = Exp.FindAll(o => o as Sign? == null).Count;
+            if (signCount + 1 != expCount)
+            {
+                throw new Exception("Invalid expression");
+            } 
         }
         catch (Exception)
         {
@@ -201,9 +201,9 @@ public class Expression
     {
         bool isLogOrRoot = "log root pow".Contains(match.Groups[1].Value);
 
-        if (match.Groups[5].Value == "(")
+        if (match.Groups[2].Value == "(")
         {
-            startIndex += match.Groups[5].Index;
+            startIndex += match.Groups[2].Index;
             object arg1 = ParseBraket(ref startIndex, exp);
             object arg2 = null;
             if (isLogOrRoot)
@@ -215,9 +215,9 @@ public class Expression
         }
         else
         {
-            object arg1 = new Expression(match.Groups[5].Value);
+            object arg1 = new Expression(match.Groups[2].Value);
             object arg2 = null;
-            startIndex += match.Groups[1].Value.Length + match.Groups[5].Value.Length - 1;
+            startIndex += match.Groups[1].Value.Length + match.Groups[2].Value.Length - 1;
             if (isLogOrRoot)
             {
                 startIndex++;
@@ -260,6 +260,13 @@ public class Expression
         {
             case "abs":
                 return new Abs(firstArg);
+
+            case "exp":
+                return new Exp(firstArg);
+
+            case "sign":
+            case "sgn":
+                return new Sgn(firstArg);
 
             case "root":
                 return new Root(firstArg, secondArg);
@@ -328,6 +335,57 @@ public class Expression
             case "arccsc":
             case "arccosec":
                 return new Acsc(firstArg);
+
+            case "sinh":
+                return new Sinh(firstArg);
+
+            case "cosh":
+                return new Cosh(firstArg);
+
+            case "tanh":
+            case "tgh":
+                return new Tanh(firstArg);
+
+            case "coth":
+            case "ctgh":
+                return new Coth(firstArg);
+
+            case "sech":
+                return new Sech(firstArg);
+
+            case "csch":
+            case "cosech":
+                return new Csch(firstArg);
+
+            case "asinh":
+            case "arcsinh":
+                return new Asinh(firstArg);
+
+            case "acosh":
+            case "arccosh":
+                return new Acosh(firstArg);
+
+            case "atanh":
+            case "atgh":
+            case "arctanh":
+            case "arctgh":
+                return new Atanh(firstArg);
+
+            case "acoth":
+            case "actgh":
+            case "arccoth":
+            case "arcctgh":
+                return new Acoth(firstArg);
+
+            case "asech":
+            case "arcsech":
+                return new Asech(firstArg);
+
+            case "acsch":
+            case "acosech":
+            case "arccsch":
+            case "arccosech":
+                return new Acsch(firstArg);
 
             default:
                 return new NullFunc();
