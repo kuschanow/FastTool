@@ -48,7 +48,7 @@ namespace FastTool.WPF
             RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
             try
             {
-                reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
+                reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "\\FastTool.exe");
             }
             catch
             {
