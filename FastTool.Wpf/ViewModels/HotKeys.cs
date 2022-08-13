@@ -59,6 +59,7 @@ namespace FastTool.WPF
             if (main.Visibility == Visibility.Visible)
             {
                 main.Activate();
+                main.Focus();
                 main.Topmost = true;
                 main.Topmost = false;
             }
@@ -69,6 +70,7 @@ namespace FastTool.WPF
             TinyCalc.Show();
             TinyCalc.Topmost = true;
             TinyCalc.Activate();
+            TinyCalc.Focus();
             TinyCalc.expression.Focus();
         }
         #endregion
