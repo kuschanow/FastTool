@@ -42,10 +42,18 @@ namespace FastTool.WPF
             DataContext = mainWindowViewModel;
             calcTab.DataContext = mainWindowViewModel.CalcViewModel;
 
-            mainWindowViewModel.ChangeWindowVisibility.Execute(mainWindow);
+            Hide();
+            mainWindowViewModel.ChangeWindowVisibility.Execute(null);
 
             RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
-            reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
+            try
+            {
+                reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
+            }
+            catch
+            {
+
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -74,13 +82,19 @@ namespace FastTool.WPF
         private void NotifyIcon_DoubleClick(object sender, RoutedEventArgs e)
         {
             mainWindowViewModel.ChangeWindowVisibility.Execute(null);
-            WindowState = WindowState.Normal;
+            Activate();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             TrayClose = true;
-            this.Close();
+            Close();
+        }
+
+        private void mainWindow_Closed(object sender, EventArgs e)
+        {
+            foreach (Window w in App.Current.Windows)
+                w.Close();
         }
     }
 }

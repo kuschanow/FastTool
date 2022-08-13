@@ -31,14 +31,14 @@ namespace FastTool.WPF
             {
                 await Task.Run(() =>
                 {
-                    main.Dispatcher.Invoke(() => 
+                    main.Dispatcher.Invoke(() =>
                     {
                         OpenTiniCalc();
                     });
                 });
             });
 
-            hookManager.RegisterHotkey(ModifierKeys.LCtrl | ModifierKeys.LAlt, 0x51, async () => 
+            hookManager.RegisterHotkey(ModifierKeys.LCtrl | ModifierKeys.LAlt, 0x51, async () =>
             {
                 await Task.Run(() =>
                 {
@@ -56,13 +56,17 @@ namespace FastTool.WPF
         private void OpenMainWindow(MainWindow main)
         {
             main.mainWindowViewModel.ChangeWindowVisibility.Execute(null);
-            main.WindowState = WindowState.Normal;
+            if (main.Visibility == Visibility.Visible)
+            {
+                main.Activate();
+            }
         }
 
         private void OpenTiniCalc()
         {
             TinyCalc.Show();
-            TinyCalc.Focus();
+            TinyCalc.Topmost = true;
+            TinyCalc.Activate();
             TinyCalc.expression.Focus();
         }
         #endregion

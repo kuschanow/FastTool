@@ -6,11 +6,11 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
-		<ApplicationIcon>TackBarIcon.ico</ApplicationIcon>
+		<AssemblyName>FastTool</AssemblyName>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="icon.ico" />
 		<None Remove="icon.png" />
 		<None Remove="icon1.png" />
 		<None Remove="icon2.png" />
@@ -18,10 +18,7 @@
 		<None Remove="icon4.png" />
 		<None Remove="MianIcon.ico" />
 		<None Remove="TackBarIcon.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="TackBarIcon.ico" />
+		<None Remove="TaskBarIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -37,7 +34,15 @@
 
 	<ItemGroup>
 		<Resource Include="MianIcon.ico" />
-		<Resource Include="TackBarIcon.ico" />
+		<Resource Include="TaskBarIcon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_DeploymentManifestIconFile Remove="TaskBarIcon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Icon.ico" />
 	</ItemGroup>
 
 </Project>

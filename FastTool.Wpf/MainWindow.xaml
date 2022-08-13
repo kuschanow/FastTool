@@ -13,6 +13,7 @@
     Width="420"
     Height="400"
     MinWidth="420"
+    Closed="mainWindow_Closed"
     Closing="Form_Closing"
     Icon="/MianIcon.ico"
     Loaded="Window_Loaded"
@@ -796,7 +797,7 @@
         <tb:TaskbarIcon
             x:Name="NotifyIcon"
             Grid.Row="3"
-            IconSource="/TackBarIcon.ico"
+            IconSource="\TaskBarIcon.ico"
             MenuActivation="LeftOrRightClick"
             OpacityMask="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
             TrayMouseDoubleClick="NotifyIcon_DoubleClick"
