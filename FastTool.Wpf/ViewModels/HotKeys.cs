@@ -59,8 +59,8 @@ namespace FastTool.WPF
             if (main.Visibility == Visibility.Visible)
             {
                 main.Activate();
-                TinyCalc.Topmost = true;
-                TinyCalc.Topmost = false;
+                main.Topmost = true;
+                main.Topmost = false;
             }
         }
 
