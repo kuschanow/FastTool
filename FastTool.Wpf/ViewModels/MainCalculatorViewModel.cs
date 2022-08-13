@@ -144,6 +144,7 @@ namespace FastTool.WPF
                         Answer = "";
                         return;
                     }
+                    Expression = (string)obj;
                     Exp = new Expression(obj as string);
                 }
                 else
@@ -167,11 +168,16 @@ namespace FastTool.WPF
 
         private void CopyExecute(object obj)
         {
+            if (ExpField.SelectionLength > 0)
+            {
+                return;
+            }
+
             string copyData;
 
             if (obj != null)
             {
-                copyData = obj as string;
+                copyData = (string)obj;
             }
             else
             {

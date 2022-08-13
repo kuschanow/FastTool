@@ -20,6 +20,8 @@ using FastTool.Models;
 using Microsoft.EntityFrameworkCore;
 using FastTool.HotKey;
 using System.ComponentModel;
+using Microsoft.Win32;
+using System.IO;
 
 namespace FastTool.WPF
 {
@@ -35,10 +37,15 @@ namespace FastTool.WPF
         {
             InitializeComponent();
 
-            mainWindowViewModel = new MainWindowViewModel();
+            mainWindowViewModel = new MainWindowViewModel(this);
             mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
             DataContext = mainWindowViewModel;
             calcTab.DataContext = mainWindowViewModel.CalcViewModel;
+
+            Hide();
+
+            RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+            reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
