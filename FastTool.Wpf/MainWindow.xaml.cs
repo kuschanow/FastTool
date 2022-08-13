@@ -66,7 +66,13 @@ namespace FastTool.WPF
         {
             if (e.PropertyName == "MainWindowVisibility")
             {
-                Visibility = mainWindowViewModel.MainWindowVisibility;
+                try
+                {
+                    Visibility = mainWindowViewModel.MainWindowVisibility;
+                }
+                catch
+                {
+                }
             }
         }
 
