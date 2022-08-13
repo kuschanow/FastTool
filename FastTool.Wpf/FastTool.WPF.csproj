@@ -6,6 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>TackBarIcon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,6 +18,10 @@
 		<None Remove="icon4.png" />
 		<None Remove="MianIcon.ico" />
 		<None Remove="TackBarIcon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="TackBarIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

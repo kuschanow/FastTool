@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace FastTool.WPF
@@ -54,12 +55,14 @@ namespace FastTool.WPF
         #region functions
         private void OpenMainWindow(MainWindow main)
         {
-            main.Show();
+            main.mainWindowViewModel.ChangeWindowVisibility.Execute(null);
+            main.WindowState = WindowState.Normal;
         }
 
         private void OpenTiniCalc()
         {
             TinyCalc.Show();
+            TinyCalc.Focus();
             TinyCalc.expression.Focus();
         }
         #endregion

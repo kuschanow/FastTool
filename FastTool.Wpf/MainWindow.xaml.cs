@@ -31,7 +31,7 @@ namespace FastTool.WPF
     public partial class MainWindow : Window
     {
         bool TrayClose = false;
-        MainWindowViewModel mainWindowViewModel;
+        public MainWindowViewModel mainWindowViewModel;
 
         public MainWindow()
         {
@@ -42,10 +42,10 @@ namespace FastTool.WPF
             DataContext = mainWindowViewModel;
             calcTab.DataContext = mainWindowViewModel.CalcViewModel;
 
-            Hide();
+            mainWindowViewModel.ChangeWindowVisibility.Execute(mainWindow);
 
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
-            reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
+            /*RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+            reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");*/
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
