@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FastTool.HotKey;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ namespace FastTool.Models;
 public class DBContext : DbContext
 {
     public DbSet<CalculatorResultsHistory> calcHistory { get; set; }
+    public DbSet<Settings> settings { get; set; }
 
     public string DbPath { get; }
 
@@ -29,5 +31,13 @@ public class CalculatorResultsHistory
     public int id { get; set; }
     public string expression { get; set; }
     public float result { get; set; }
+}
+
+public class Settings
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public bool inUse { get; set; }
+    public string settingsString { get; set; }
 }
 

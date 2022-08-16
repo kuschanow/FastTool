@@ -7,7 +7,7 @@
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>False</UseWindowsForms>
 		<AssemblyName>FastTool</AssemblyName>
-		<ApplicationIcon>Icon.ico</ApplicationIcon>
+		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,8 +33,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="MianIcon.ico" />
-		<Resource Include="TaskBarIcon.ico" />
+		<Resource Include="Resources\MianIcon.ico" />
+		<Resource Include="Resources\TaskBarIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -42,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Icon.ico" />
+	  <Content Include="Resources\Icon.ico" />
 	</ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@
     MinWidth="420"
     Closed="mainWindow_Closed"
     Closing="Form_Closing"
-    Icon="/MianIcon.ico"
+    Icon="/Resources/MianIcon.ico"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
@@ -26,12 +26,7 @@
         </Grid.RowDefinitions>
 
         <TabControl>
-            <TabItem x:Name="calcTab">
-                <TabItem.Header>
-                    <TextBlock>
-                        Calculator
-                    </TextBlock>
-                </TabItem.Header>
+            <TabItem x:Name="calcTab" Header="Calculator">
                 <Grid Margin="-2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
@@ -473,7 +468,7 @@
                             </Grid.RowDefinitions>
 
                             <RadioButton
-                                Grid.Row="0"
+                                Grid.Row="1"
                                 Height="50"
                                 Margin="4,0,4,0"
                                 IsChecked="{Binding TrigonometryKeyboard}">
@@ -493,7 +488,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Height="50"
                                 Margin="4,0,4,0"
                                 IsChecked="{Binding FuncKeyboard}">
@@ -792,12 +787,15 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem x:Name="settingsTab" Header="Settings">
+                <Grid />
+            </TabItem>
         </TabControl>
 
         <tb:TaskbarIcon
             x:Name="NotifyIcon"
             Grid.Row="3"
-            IconSource="\TaskBarIcon.ico"
+            IconSource="\Resources\TaskBarIcon.ico"
             MenuActivation="LeftOrRightClick"
             OpacityMask="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
             TrayMouseDoubleClick="NotifyIcon_DoubleClick"

@@ -10,11 +10,17 @@
     <Compile Remove="Migrations\20220722100318_init.Designer.cs" />
     <Compile Remove="Migrations\20220722100930_init.cs" />
     <Compile Remove="Migrations\20220722100930_init.Designer.cs" />
+    <Compile Remove="Migrations\20220816084117_CreateSettings.cs" />
+    <Compile Remove="Migrations\20220816084117_CreateSettings.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FastTool.HotKey\FastTool.HotKey.csproj" />
   </ItemGroup>
 
 </Project>

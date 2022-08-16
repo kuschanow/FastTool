@@ -35,31 +35,23 @@ namespace FastTool.WPF
 
         public MainWindow()
         {
-            InitializeComponent();
-
-            mainWindowViewModel = new MainWindowViewModel(this);
-            mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
-            DataContext = mainWindowViewModel;
-            calcTab.DataContext = mainWindowViewModel.CalcViewModel;
-
-            Hide();
-            mainWindowViewModel.ChangeWindowVisibility.Execute(null);
-
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
-            try
-            {
-                reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "\\FastTool.exe");
-            }
-            catch
-            {
-
-            }
+            InitializeComponent();            
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using var db = new DBContext();
             db.Database.Migrate();
+
+            mainWindowViewModel = new MainWindowViewModel(this);
+            mainWindowViewModel.PropertyChanged += MainWindowViewModel_PropertyChanged;
+
+            DataContext = mainWindowViewModel;
+            calcTab.DataContext = mainWindowViewModel.CalcViewModel;
+            settingsTab.DataContext = mainWindowViewModel.SettingsViewModel;
+
+            Hide();
+            mainWindowViewModel.ChangeWindowVisibility.Execute(null);
         }
 
         private void MainWindowViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
