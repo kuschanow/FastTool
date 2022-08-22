@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FastTool.HotKey
 {
@@ -8,6 +9,7 @@ namespace FastTool.HotKey
     /// When the keybind struct is compared to another keybind struct, the equality is based on the
     /// modifiers and the virtual key code.
     /// </summary>
+    [Serializable]
     public class KeybindStruct : IEquatable<KeybindStruct>
     {
         public readonly int VirtualKeyCode;
@@ -91,6 +93,11 @@ namespace FastTool.HotKey
             hash = (hash * 7) + modifiersHashSum;
 
             return hash;
+        }
+
+        public override string ToString()
+        {
+            return (prewkeybind == null ? "" : $"{prewkeybind}, ") + string.Join("+", Modifiers.Select(m => ModifierKeysUtilities.GetStringFromEnum(m)).ToList()) + $"+{VirtualKeyCode}"; 
         }
     }
 }

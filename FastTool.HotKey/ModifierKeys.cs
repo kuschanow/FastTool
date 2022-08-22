@@ -15,7 +15,7 @@ namespace FastTool.HotKey
         LShift = 128,
         RShift = 256,
         LWin = 512,
-        RWin = 1024,
+        RWin = 1024
     }
 
     public static class ModifierKeysUtilities
@@ -49,6 +49,41 @@ namespace FastTool.HotKey
                     return ModifierKeys.LWin;
                 case 0x5C:
                     return ModifierKeys.RWin;
+
+                default:
+                    return null;
+            }
+        }
+
+        public static string GetStringFromEnum(ModifierKeys key)
+        {
+            switch (key)
+            {
+                case ModifierKeys.Shift:
+                    return "Shift";
+                case ModifierKeys.LShift:
+                    return "LShift";
+                case ModifierKeys.RShift:
+                    return "RShift";
+
+                case ModifierKeys.Ctrl:
+                    return "Ctrl";
+                case ModifierKeys.LCtrl:
+                    return "LCtrl";
+                case ModifierKeys.RCtrl:
+                    return "RCtrl";
+
+                case ModifierKeys.Alt:
+                    return "Alt";
+                case ModifierKeys.LAlt:
+                    return "LAlt";
+                case ModifierKeys.RAlt:
+                    return "RAlt";
+
+                case ModifierKeys.LWin:
+                    return "LWin";
+                case ModifierKeys.RWin:
+                    return "RWin";
 
                 default:
                     return null;

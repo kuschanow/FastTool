@@ -788,7 +788,101 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="settingsTab" Header="Settings">
-                <Grid />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <StackPanel>
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding AutoRun, Mode=TwoWay}" />
+                                <TextBlock Margin="5,0,0,0" Text="Run at system startup" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid
+                        x:Name="keyBinding"
+                        Grid.Row="1"
+                        Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Margin="10" Text="Global Hotkeys:" />
+                            <TextBox
+                                Name="textbox"
+                                Width="0"
+                                Height="0"
+                                IsReadOnly="True" />
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Open/Close Main Window:" />
+                                <TextBox
+                                    MinWidth="50"
+                                    Margin="0,0,5,0"
+                                    Visibility="Collapsed" />
+                                <TextBox
+                                    MinWidth="50"
+                                    IsReadOnly="True"
+                                    Text="{Binding OpenMainWindowMainKeyBind, Mode=OneWay}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Key="Esc"
+                                            Command="{Binding ChangeKeybindAbort}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                        <KeyBinding
+                                            Key="Return"
+                                            Command="{Binding ChangeKeybindEnd}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                    </TextBox.InputBindings>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybind}" CommandParameter="openMainWindowMainKeyBind" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybindEnd}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </StackPanel>
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <TextBlock Margin="0,0,5,0" Text="Open/Close Calculator Window:" />
+                                <TextBox
+                                    MinWidth="50"
+                                    Margin="0,0,5,0"
+                                    Visibility="Collapsed" />
+                                <TextBox
+                                    MinWidth="50"
+                                    IsReadOnly="True"
+                                    Text="{Binding OpenCalcWindowMainKeyBind, Mode=OneWay}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Key="Esc"
+                                            Command="{Binding ChangeKeybindAbort}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                        <KeyBinding
+                                            Key="Return"
+                                            Command="{Binding ChangeKeybindEnd}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                    </TextBox.InputBindings>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybind}" CommandParameter="openCalcWindowMainKeyBind" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybindEnd}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
             </TabItem>
         </TabControl>
 

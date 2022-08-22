@@ -183,6 +183,19 @@ namespace FastTool.HotKey
             return keybindIdentity;
         }
 
+        public Guid RegisterHotkey(KeybindStruct keybind, Action action)
+        {
+            var keybindIdentity = Guid.NewGuid();
+            keybind = new KeybindStruct(keybind.prewkeybind, keybind.Modifiers, keybind.VirtualKeyCode, keybindIdentity);
+            if (this._registeredCallbacks.ContainsKey(keybind))
+            {
+                throw new HotkeyAlreadyRegisteredException();
+            }
+
+            this._registeredCallbacks[keybind] = action;
+            return keybindIdentity;
+        }
+
         /// <summary>
         /// Unregisters all hotkeys (the low-level keyboard hook continues running)
         /// </summary>
@@ -242,9 +255,19 @@ namespace FastTool.HotKey
                 throw new HotkeyNotRegisteredException();
             }
         }
+
+        public delegate void KeyPressedEventHandler(KeybindStruct keybind, bool IsKeyUp);
+
+        public event KeyPressedEventHandler KeyPressed;
+        
         #endregion
 
         #region Private methods
+        private void OnKeyPressed(bool IsKeyUp)
+        {
+            KeyPressed?.Invoke(new KeybindStruct(null, _downModifierKeys, _downKeys.Count == 0 ? 0 : _downKeys.First()), IsKeyUp);
+        }
+
         private void HandleKeyPress()
         {
             var currentKey = new KeybindStruct(this.prewkeybind != null ? new KeybindStruct(null, this.prewkeybind.Modifiers, this.prewkeybind.VirtualKeyCode) : null, this._downModifierKeys, this._downKeys.Count > 0 ? this._downKeys.Last() : 0);
@@ -345,6 +368,8 @@ namespace FastTool.HotKey
                 {
                     this.HandleKeyPress();
                 }
+
+                OnKeyPressed(false);
             }
 
 
@@ -363,7 +388,10 @@ namespace FastTool.HotKey
                 {
                     this._downKeys.Remove(vkCode);
                 }
+
+                OnKeyPressed(true);
             }
+
         }
 
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);

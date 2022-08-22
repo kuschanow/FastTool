@@ -12,8 +12,9 @@ namespace FastTool.WPF
         private Visibility _mainWindowVisibility = Visibility.Visible;
         private Visibility _notifyIconVisibility = Visibility.Hidden;
 
+        #region props
         public MainCalculatorViewModel CalcViewModel { get; set; } = new MainCalculatorViewModel();
-        public HotKeys HotKeys { get; set; }
+        public SettingsViewModel SettingsViewModel { get; set; } = new SettingsViewModel();
         public Visibility MainWindowVisibility 
         { 
             get => _mainWindowVisibility; 
@@ -33,10 +34,13 @@ namespace FastTool.WPF
                 OnPropertyChanged(); 
             } 
         }
+        #endregion
 
         public MainWindowViewModel(MainWindow main)
         {
-            HotKeys = new HotKeys(main);
+            HotKeys.Main = main;
+            HotKeys.Register();
+            HotKeys.Start();
         }
 
         public ICommand ChangeWindowVisibility => new RelayCommand(ChangeWindowVisibilityExecute);
