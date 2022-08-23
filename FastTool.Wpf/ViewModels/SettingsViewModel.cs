@@ -70,7 +70,7 @@ namespace FastTool.WPF
                 {
                     if (value)
                     {
-                        reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "FastTool.exe");
+                        reg.SetValue("FastTool", Directory.GetCurrentDirectory() + "\\FastTool.exe");
                     }
                     else
                     {
