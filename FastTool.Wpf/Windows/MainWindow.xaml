@@ -800,6 +800,10 @@
                                 <CheckBox IsChecked="{Binding AutoRun, Mode=TwoWay}" />
                                 <TextBlock Margin="5,0,0,0" Text="Run at system startup" />
                             </StackPanel>
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding Minimize, Mode=TwoWay}" />
+                                <TextBlock Margin="5,0,0,0" Text="Minimize on startup" />
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
@@ -814,6 +818,10 @@
 
                         <StackPanel>
                             <TextBlock Margin="10" Text="Global Hotkeys:" />
+                            <StackPanel Margin="5" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding PrewActive, Mode=TwoWay}" />
+                                <TextBlock Margin="5,0,0,0" Text="Double Combinations" />
+                            </StackPanel>
                             <TextBox
                                 Name="textbox"
                                 Width="0"
@@ -824,7 +832,28 @@
                                 <TextBox
                                     MinWidth="50"
                                     Margin="0,0,5,0"
-                                    Visibility="Collapsed" />
+                                    IsReadOnly="True"
+                                    Text="{Binding OpenMainWindowPrewKeyBind, Mode=OneWay}"
+                                    Visibility="{Binding OpenMainWindowPrewKeyBindVisibility, Mode=OneWay}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Key="Esc"
+                                            Command="{Binding ChangeKeybindAbort}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                        <KeyBinding
+                                            Key="Return"
+                                            Command="{Binding ChangeKeybindEnd}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                    </TextBox.InputBindings>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybind}" CommandParameter="openMainWindowPrewKeyBind" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybindEnd}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                                 <TextBox
                                     MinWidth="50"
                                     IsReadOnly="True"
@@ -854,7 +883,28 @@
                                 <TextBox
                                     MinWidth="50"
                                     Margin="0,0,5,0"
-                                    Visibility="Collapsed" />
+                                    IsReadOnly="True"
+                                    Text="{Binding OpenCalcWindowPrewKeyBind, Mode=OneWay}"
+                                    Visibility="{Binding OpenCalcWindowPrewKeyBindVisibility, Mode=OneWay}">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding
+                                            Key="Esc"
+                                            Command="{Binding ChangeKeybindAbort}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                        <KeyBinding
+                                            Key="Return"
+                                            Command="{Binding ChangeKeybindEnd}"
+                                            CommandParameter="{Binding ElementName=textbox}" />
+                                    </TextBox.InputBindings>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybind}" CommandParameter="openCalcWindowPrewKeyBind" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ChangeKeybindEnd}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
                                 <TextBox
                                     MinWidth="50"
                                     IsReadOnly="True"

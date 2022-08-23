@@ -47,7 +47,7 @@
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border
                         x:Name="border"
-                        Padding="3,0,0,0"
+                        Padding="3,0,3,0"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"

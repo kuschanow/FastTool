@@ -35,9 +35,9 @@ namespace FastTool.WPF
 
             var settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(db.settings.Where(s => s.inUse).First().settingsString);
 
-            hookManager.RegisterHotkey(JsonConvert.DeserializeObject<KeybindStruct>(settings["openMainWindow"].ToString()), async () => await OpenMainWindow(Main));
+            try { hookManager.RegisterHotkey(JsonConvert.DeserializeObject<KeybindStruct>(settings["openMainWindow"].ToString()), async () => await OpenMainWindow(Main)); } catch { }
 
-            hookManager.RegisterHotkey(JsonConvert.DeserializeObject<KeybindStruct>(settings["openCalcWindow"].ToString()), async () => await OpenTiniCalc(Main));
+            try { hookManager.RegisterHotkey(JsonConvert.DeserializeObject<KeybindStruct>(settings["openCalcWindow"].ToString()), async () => await OpenTiniCalc(Main)); } catch { }
         }
 
         #region functions

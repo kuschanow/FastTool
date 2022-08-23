@@ -15,6 +15,7 @@ using ModifierKeys = FastTool.HotKey.ModifierKeys;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using TextBox = System.Windows.Controls.TextBox;
+using System.Windows;
 
 namespace FastTool.WPF
 {
@@ -30,14 +31,38 @@ namespace FastTool.WPF
 
 
         #region props
+        public bool PrewActive
+        {
+            get => (bool)settings["prewActive"];
+            set
+            {
+                if (!value)
+                {
+                    settings["openMainWindow"] = new KeybindStruct(null, ((KeybindStruct)settings["openMainWindow"]).Modifiers, ((KeybindStruct)settings["openMainWindow"]).VirtualKeyCode);
+                    settings["openCalcWindow"] = new KeybindStruct(null, ((KeybindStruct)settings["openCalcWindow"]).Modifiers, ((KeybindStruct)settings["openCalcWindow"]).VirtualKeyCode);
+                }
+
+                settings["prewActive"] = value;
+                OnPropertyChanged();
+                WriteToDB();
+                HotKeys.hookManager.UnregisterAll();
+                HotKeys.Register();
+
+                OpenMainWindowPrewKeyBindVisibility = Visibility.Visible;
+                OpenCalcWindowPrewKeyBindVisibility = Visibility.Visible;
+                OpenMainWindowPrewKeyBind = "";
+                OpenCalcWindowPrewKeyBind = "";
+            }
+        }
+
         public bool AutoRun
         {
             get => (bool)settings["autoRun"];
             set
             {
                 settings["autoRun"] = value;
-                WriteToDB();
                 OnPropertyChanged();
+                WriteToDB();
 
                 RegistryKey reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
 
@@ -57,25 +82,133 @@ namespace FastTool.WPF
                 }
             }
         }
+        public bool Minimize
+        {
+            get => (bool)settings["minimize"];
+            set
+            {
+                settings["minimize"] = value;
+                OnPropertyChanged();
+                WriteToDB();
+            }
+        }
+
         public string OpenMainWindowMainKeyBind
         {
             get
             {
-                string str = ((KeybindStruct)settings["openMainWindow"]).ToString();
+                string str = "";
+                OpenMainWindowPrewKeyBindVisibility = Visibility.Visible;
 
-                return string.Join(", ", str.Split(", ").Select(s => KeyConverter(s)));
+                try
+                {
+                    str = ((KeybindStruct)settings["openMainWindow"]).ToString();
+                }
+                catch
+                {
+                    return "No";
+                }
+
+
+                return KeyConverter(string.Join(", ", str.Split(", ").Last()));
             }
         }
+        public string OpenMainWindowPrewKeyBind
+        {
+            get
+            {
+                string str = "";
+                try
+                {
+                    str = ((KeybindStruct)settings["openMainWindow"]).prewkeybind.ToString();
+                }
+                catch
+                {
+                    return "No";
+                }
+
+                return KeyConverter(string.Join(", ", str.Split(", ").Last()));
+            }
+            set
+            {
+                OnPropertyChanged();
+            }
+        }
+        public Visibility OpenMainWindowPrewKeyBindVisibility
+        {
+            get
+            {
+                if ((KeybindStruct)settings["openMainWindow"] != null && PrewActive)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            set
+            {
+                OnPropertyChanged();
+            }
+        }
+
 
         public string OpenCalcWindowMainKeyBind
         {
             get
             {
-                string str = ((KeybindStruct)settings["openCalcWindow"]).ToString();
+                string str = "";
+                OpenCalcWindowPrewKeyBindVisibility = Visibility.Visible;
+
+                try
+                {
+                    str = ((KeybindStruct)settings["openCalcWindow"]).ToString();
+                }
+                catch
+                {
+                    return "No";
+                }
 
                 return string.Join(", ", str.Split(", ").Select(s => KeyConverter(s)));
             }
         }
+        public string OpenCalcWindowPrewKeyBind
+        {
+            get
+            {
+                string str = "";
+                try
+                {
+                    str = ((KeybindStruct)settings["openCalcWindow"]).prewkeybind.ToString();
+                }
+                catch
+                {
+                    return "No";
+                }
+
+                return KeyConverter(string.Join(", ", str.Split(", ").Last()));
+            }
+            set
+            {
+                OnPropertyChanged();
+            }
+        }
+        public Visibility OpenCalcWindowPrewKeyBindVisibility
+        {
+            get
+            {
+                if ((KeybindStruct)settings["openCalcWindow"] != null && PrewActive)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            set
+            {
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
 
@@ -94,6 +227,8 @@ namespace FastTool.WPF
                         settingsString = JsonConvert.SerializeObject(new Dictionary<string, object>()
                             {
                                 { "autoRun", false },
+                                { "minimize", false },
+                                { "prewActive", false },
                                 { "openMainWindow", new KeybindStruct(null, new ModifierKeys[] { ModifierKeys.LAlt }, 0x51) },
                                 { "openCalcWindow", new KeybindStruct(null, new ModifierKeys[] { ModifierKeys.LAlt , ModifierKeys.LCtrl}, 0x43) }
                             })
@@ -138,8 +273,8 @@ namespace FastTool.WPF
 
             settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(db_settings.settingsString);
 
-            settings["openMainWindow"] = JsonConvert.DeserializeObject<KeybindStruct>(settings["openMainWindow"].ToString());
-            settings["openCalcWindow"] = JsonConvert.DeserializeObject<KeybindStruct>(settings["openCalcWindow"].ToString());
+            try { settings["openMainWindow"] = JsonConvert.DeserializeObject<KeybindStruct>(settings["openMainWindow"].ToString()); } catch { settings["openMainWindow"] = null; }
+            try { settings["openCalcWindow"] = JsonConvert.DeserializeObject<KeybindStruct>(settings["openCalcWindow"].ToString()); } catch { settings["openCalcWindow"] = null; }
 
             db.SaveChanges();
         }
@@ -159,11 +294,23 @@ namespace FastTool.WPF
 
             if (changing)
             {
+                if (keybind.Modifiers.Count == 0 && keybind.VirtualKeyCode == 8)
+                {
+                    keybind = null;
+                }
                 currKeybind = keybind;
-                settings[currKeybindChanging.Replace("MainKeyBind", "").Replace("PrewKeyBind", "")] = currKeybind;
+                if (currKeybindChanging.Contains("Prew"))
+                {
+                    var mainKeybind = (KeybindStruct)settings[currKeybindChanging.Replace("MainKeyBind", "").Replace("PrewKeyBind", "")];
+                    settings[currKeybindChanging.Replace("MainKeyBind", "").Replace("PrewKeyBind", "")] = new KeybindStruct(currKeybind, mainKeybind.Modifiers, mainKeybind.VirtualKeyCode);
+                }
+                else
+                {
+                    settings[currKeybindChanging.Replace("MainKeyBind", "").Replace("PrewKeyBind", "")] = currKeybind;
+                }
                 OnPropertyChanged((currKeybindChanging.First().ToString().ToUpper() + currKeybindChanging.Substring(1)));
 
-                if (currKeybind.VirtualKeyCode != 0 && !IsKeyUp)
+                if (keybind == null || currKeybind.VirtualKeyCode != 0 && !IsKeyUp)
                 {
                     changing = false;
                     writeToDb = true;

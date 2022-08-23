@@ -22,6 +22,8 @@ using FastTool.HotKey;
 using System.ComponentModel;
 using Microsoft.Win32;
 using System.IO;
+using Newtonsoft.Json;
+using SQLitePCL;
 
 namespace FastTool.WPF
 {
@@ -35,7 +37,7 @@ namespace FastTool.WPF
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -50,8 +52,15 @@ namespace FastTool.WPF
             calcTab.DataContext = mainWindowViewModel.CalcViewModel;
             settingsTab.DataContext = mainWindowViewModel.SettingsViewModel;
 
-            Hide();
-            mainWindowViewModel.ChangeWindowVisibility.Execute(null);
+            var db_settings = db.settings.Where(s => s.inUse).First();
+
+            var settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(db_settings.settingsString);
+
+            if ((bool)settings["minimize"])
+            {
+                Hide();
+                mainWindowViewModel.ChangeWindowVisibility.Execute(null);
+            }
         }
 
         private void MainWindowViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
