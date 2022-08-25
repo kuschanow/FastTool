@@ -52,6 +52,8 @@ namespace FastTool.WPF
             calcTab.DataContext = mainWindowViewModel.CalcViewModel;
             settingsTab.DataContext = mainWindowViewModel.SettingsViewModel;
 
+            mainWindowViewModel.CalcViewModel.GetExpField.Execute(expression);
+
             var db_settings = db.settings.Where(s => s.inUse).First();
 
             var settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(db_settings.settingsString);

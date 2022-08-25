@@ -22,14 +22,14 @@ public class Pow : IFunction
         double num1 = calc.Transform(firstArg);
         double num2 = calc.Transform(secondArg);
 
-        return Math.Pow(num1, num2);
+        return Math.Pow(num2, num1);
     }
     public double Calculate(Calculator calc)
     {
         double num1 = calc.Transform(firstArg);
         double num2 = calc.Transform(secondArg);
 
-        return Math.Pow(num1, num2);
+        return Math.Pow(num2, num1);
     }
 
     public override string ToString()

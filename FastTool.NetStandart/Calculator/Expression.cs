@@ -281,9 +281,13 @@ public class Expression
                 return new Pow(firstArg, secondArg);
 
             case "log":
-            case "lg":
-            case "ln":
                 return new Log(firstArg, secondArg);
+
+            case "lg":
+                return new Log(10, firstArg);
+
+            case "ln":
+                return new Log(Math.E, firstArg);
 
             case "sin":
                 return new Sin(firstArg);

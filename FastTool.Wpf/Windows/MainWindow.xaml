@@ -25,7 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TabControl>
+        <TabControl x:Name="tabControl">
             <TabItem x:Name="calcTab" Header="Calculator">
                 <Grid Margin="-2">
                     <Grid.RowDefinitions>
@@ -767,7 +767,7 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Command="{Binding Write}"
-                                CommandParameter="pow(#)"
+                                CommandParameter="pow(#)()"
                                 Content="pow" />
                             <Button
                                 Grid.Row="2"
@@ -817,7 +817,7 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel>
-                            <TextBlock Margin="10" Text="Global Hotkeys:" />
+                            <TextBlock Margin="5,10,10,10" Text="Global Hotkeys:" />
                             <StackPanel Margin="5" Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding PrewActive, Mode=TwoWay}" />
                                 <TextBlock Margin="5,0,0,0" Text="Double Combinations" />
