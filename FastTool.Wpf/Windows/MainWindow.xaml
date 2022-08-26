@@ -359,8 +359,9 @@
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="30"
-                                Command="{Binding ElementName=Calculate, Path=Command}"
-                                Content="=" />
+                                Command="{Binding Write}"
+                                CommandParameter="ans#"
+                                Content="ans" />
 
                             <Button
                                 Grid.Row="2"
