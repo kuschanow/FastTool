@@ -131,12 +131,12 @@ namespace FastTool.WPF
         {
             get
             {
-                if (ans == null)
+                if (prewAns == null)
                 {
                     return "Empty";
                 }
 
-                return ans.ToString();
+                return prewAns.ToString();
             }
         }
 
