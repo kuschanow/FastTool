@@ -8,7 +8,7 @@ namespace FastTool;
 public class Expression
 {
     private static readonly Regex funcExp = new(@"((?:a|arc)?(?:sin|cos|tan|tg|ctg|cot|sec|cosec|csc)(?:h)?|(?:log|ln|lg|sqrt|cbrt|root|abs|pow|exp|sign|sgn))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
-    private static readonly Regex numExp = new(@"(?:(?<!\d|\))[+-]?|(?<=\)))\d+([.,]\d+)?");
+    private static readonly Regex numExp = new(@"(?:(?<!\d|\)|\w)[+-]?|(?<=\)))\d+([.,]\d+)?(?:(?:[Ee])([+-]?\d+))?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
 
@@ -139,7 +139,15 @@ public class Expression
                     continue;
                 }
 
+                if (exp[i] == 'a' && exp[i + 1] == 'n' && exp[i + 2] == 's')
+                {
+                    Exp.Add("ans");
+                    i += 3;
+                    continue;
+                }
+
                 throw new Exception("Invalid expression");
+
             }
 
             for (int i = 1; i < Exp.Count; i++)
@@ -187,7 +195,7 @@ public class Expression
             if (signCount + 1 != expCount)
             {
                 throw new Exception("Invalid expression");
-            } 
+            }
         }
         catch (Exception)
         {
@@ -442,6 +450,11 @@ public class Expression
             {
                 str += $"({(item as Expression).ToString()})";
                 continue;
+            }
+
+            if (item as string != null)
+            {
+                str += $"{item}";
             }
         }
 

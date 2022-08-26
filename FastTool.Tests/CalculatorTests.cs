@@ -23,6 +23,7 @@ public class CalculatorTests
         // Arrange
         string sut1 = "2 + 3";
         string sut2 = "-log(3.5)(5) + ((4+3)3)^3 + 4 + |-3| + |3(|-4|)|";
+        string sut3 = "3,353E-2 + 3";
         Calculator calc = new(Mode.Deg, 4);
 
         // Act
@@ -30,10 +31,13 @@ public class CalculatorTests
         var answer1 = calc.Calculate(exp);
         exp = new Expression(sut2);
         var answer2 = calc.Calculate(exp);
+        exp = new Expression(sut3);
+        var answer3 = calc.Calculate(exp);
 
         // Assert
         answer1.Should().Be(5);
         answer2.Should().Be(9278.7153d);
+        answer3.Should().Be(3.35E-2 + 3);
     }
 
     [Fact]
@@ -52,5 +56,20 @@ public class CalculatorTests
 
         // Assert
         answer1.Should().Be(answer2);
+    }
+
+    [Fact]
+    public void WhenAns_ThenAnswerCorrect()
+    {
+        // Arrange
+        var sut = new Calculator();
+        var exp1 = new Expression("2 + 2");
+        var exp2 = new Expression("ans + 2");
+
+        // Act
+        var answer = sut.Calculate(exp2, sut.Calculate(exp1));
+
+        // Assert
+        answer.Should().Be(6);
     }
 }

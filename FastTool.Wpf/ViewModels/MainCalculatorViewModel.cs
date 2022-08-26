@@ -19,6 +19,8 @@ namespace FastTool.WPF
         private string expression = "";
         private TextBox expField;
         private string answer = "";
+        private double? ans = null;
+        private double? prewAns = null;
 
         public MainCalculatorViewModel()
         {
@@ -46,6 +48,7 @@ namespace FastTool.WPF
                 if (value) Calculator.Mode = Mode.Deg;
                 if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
                 {
+                    ans = prewAns;
                     Calculate.Execute(null);
                 }
             }
@@ -60,6 +63,7 @@ namespace FastTool.WPF
                 if (value) Calculator.Mode = Mode.Rad;
                 if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
                 {
+                    ans = prewAns;
                     Calculate.Execute(null);
                 }
             }
@@ -74,6 +78,7 @@ namespace FastTool.WPF
                 if (value) Calculator.Mode = Mode.Grad;
                 if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
                 {
+                    ans = prewAns;
                     Calculate.Execute(null);
                 }
             }
@@ -87,6 +92,7 @@ namespace FastTool.WPF
                 OnPropertyChanged();
                 if (!string.IsNullOrWhiteSpace(Answer) && Answer != "Invalid expression")
                 {
+                    ans = prewAns;
                     Calculate.Execute(null);
                 }
             }
@@ -121,6 +127,18 @@ namespace FastTool.WPF
                 OnPropertyChanged();
             }
         }
+        public string Ans
+        {
+            get
+            {
+                if (ans == null)
+                {
+                    return "Empty";
+                }
+
+                return ans.ToString();
+            }
+        }
 
         #endregion
 
@@ -136,6 +154,8 @@ namespace FastTool.WPF
         {
             try
             {
+                prewAns = ans;
+
                 Expression Exp;
                 if (obj != null)
                 {
@@ -157,11 +177,30 @@ namespace FastTool.WPF
                     Exp = new Expression(Expression);
                 }
 
-                Answer = Calculator.Calculate(Exp).ToString();
+                if (Expression.ToLower().Contains("ans"))
+                {
+                    if (ans != null)
+                    {
+                        Answer = Calculator.Calculate(Exp, ans).ToString();
+                    }
+                    else
+                    {
+                        throw new Exception("Ans is Empty");
+                    }
+                }
+                else
+                {
+                    Answer = Calculator.Calculate(Exp).ToString();
+                }
+
+                ans = Convert.ToDouble(Answer);
+                OnPropertyChanged("Ans");
             }
-            catch
+            catch (Exception e)
             {
-                Answer = "Invalid expression";
+                Answer = e.Message;
+                ans = null;
+                OnPropertyChanged("Ans");
             }
             expField.Focus();
         }

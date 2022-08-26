@@ -11,6 +11,7 @@ public class Calculator : ICalculator
 {
     public Mode Mode { get; set; }
     public int Digits { get; set; }
+    private object Ans { get; set; }
 
     public List<Expression> CalculationList { get; private set; }
     public Calculator() : this(Mode.Deg) { }
@@ -67,6 +68,13 @@ public class Calculator : ICalculator
         return answer;
     }
 
+    public double Calculate(Expression exp, object ans)
+    {
+        Ans = ans;
+
+        return Calculate(exp);
+    }
+
     public double Transform(object obj)
     {
         double answer;
@@ -78,6 +86,10 @@ public class Calculator : ICalculator
         else if ((obj as IFunction) != null)
         {
             answer = (obj as IFunction).Calculate(this);
+        }
+        else if ((obj as string) != null && (obj as string) == "ans")
+        {
+            answer = Transform(Ans);
         }
         else
         {

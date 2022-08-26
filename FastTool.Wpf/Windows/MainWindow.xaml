@@ -163,7 +163,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
@@ -196,6 +196,19 @@
                                     <TextBlock Text="{Binding Digits}" />
                                 </StackPanel>
                                 <Slider Maximum="15" Value="{Binding Digits, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Margin="2,1,2,1"
+                                Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="Ans = " />
+                                <TextBox
+                                    MinWidth="30"
+                                    Focusable="False"
+                                    IsReadOnly="True"
+                                    IsReadOnlyCaretVisible="False"
+                                    Text="{Binding Ans, Mode=OneWay}" />
                             </StackPanel>
                         </Grid>
                     </Grid>

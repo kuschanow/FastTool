@@ -29,7 +29,7 @@ namespace FastTool.Tests
 
             // Act
             stopwatch.Start();
-            Thread.Sleep(3500);
+            Thread.Sleep(3550);
 
             // Assert
             Math.Round(stopwatch.Time.TotalSeconds, 1).Should().Be(3.5);
