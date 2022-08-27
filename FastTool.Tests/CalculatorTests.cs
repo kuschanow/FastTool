@@ -57,19 +57,4 @@ public class CalculatorTests
         // Assert
         answer1.Should().Be(answer2);
     }
-
-    [Fact]
-    public void WhenAns_ThenAnswerCorrect()
-    {
-        // Arrange
-        var sut = new Calculator();
-        var exp1 = new Expression("2 + 2");
-        var exp2 = new Expression("ans + 2");
-
-        // Act
-        var answer = sut.Calculate(exp2, sut.Calculate(exp1));
-
-        // Assert
-        answer.Should().Be(6);
-    }
 }
