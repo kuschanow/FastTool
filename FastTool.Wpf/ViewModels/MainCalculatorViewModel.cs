@@ -178,7 +178,7 @@ namespace FastTool.WPF
                 {
                     if (ans != null)
                     {
-                        Expression.Replace("ans", ans.ToString());
+                        Expression = Expression.ToLower().Replace("ans", ans.ToString());
                     }
                     else
                     {
