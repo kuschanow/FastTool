@@ -174,11 +174,13 @@ namespace FastTool.WPF
                     }
                 }
 
+                string? expStr = null;
+
                 if (Expression.ToLower().Contains("ans"))
                 {
                     if (ans != null)
                     {
-                        Expression = Expression.ToLower().Replace("ans", ans.ToString());
+                        expStr = Expression.ToLower().Replace("ans", ans.ToString());
                     }
                     else
                     {
@@ -186,7 +188,7 @@ namespace FastTool.WPF
                     }
                 }
 
-                Expression Exp = new Expression(Expression);
+                Expression Exp = new Expression(expStr == null ? Expression : expStr);
                 Answer = Calculator.Calculate(Exp).ToString();
 
                 ans = Convert.ToDouble(Answer);
