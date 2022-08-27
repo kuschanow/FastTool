@@ -78,10 +78,6 @@ public class Calculator : ICalculator
         {
             answer = (obj as IFunction).Calculate(this);
         }
-        else if ((obj as string) != null && (obj as string) == "ans")
-        {
-            answer = Transform(Ans);
-        }
         else
         {
             try
