@@ -156,7 +156,6 @@ namespace FastTool.WPF
             {
                 prewAns = ans;
 
-                Expression Exp;
                 if (obj != null)
                 {
                     if (string.IsNullOrWhiteSpace(obj as string))
@@ -165,7 +164,6 @@ namespace FastTool.WPF
                         return;
                     }
                     Expression = (string)obj;
-                    Exp = new Expression(obj as string);
                 }
                 else
                 {
@@ -174,24 +172,22 @@ namespace FastTool.WPF
                         Answer = "";
                         return;
                     }
-                    Exp = new Expression(Expression);
                 }
 
                 if (Expression.ToLower().Contains("ans"))
                 {
                     if (ans != null)
                     {
-                        Answer = Calculator.Calculate(Exp, ans).ToString();
+                        Expression.Replace("ans", ans.ToString());
                     }
                     else
                     {
                         throw new Exception("Ans is Empty");
                     }
                 }
-                else
-                {
-                    Answer = Calculator.Calculate(Exp).ToString();
-                }
+
+                Expression Exp = new Expression(Expression);
+                Answer = Calculator.Calculate(Exp).ToString();
 
                 ans = Convert.ToDouble(Answer);
                 OnPropertyChanged("Ans");

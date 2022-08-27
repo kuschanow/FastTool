@@ -8,7 +8,7 @@ namespace FastTool;
 public class Expression
 {
     private static readonly Regex funcExp = new(@"((?:a|arc)?(?:sin|cos|tan|tg|ctg|cot|sec|cosec|csc)(?:h)?|(?:log|ln|lg|sqrt|cbrt|root|abs|pow|exp|sign|sgn))(\(|[+-]?\d+(?:[.,]\d+)?|π|pi)");
-    private static readonly Regex numExp = new(@"(?:(?<!\d|\)|\w)[+-]?|(?<=\)))\d+([.,]\d+)?(?:(?:[Ee])([+-]?\d+))?");
+    private static readonly Regex numExp = new(@"(?:(?<!\d|\)|\w|\>)[+-]?|(?<=\)))\d+([.,]\d+)?(?:(?:[Ee])([+-]?\d+))?");
     private static readonly Regex signExp = new(@"[+/*-]");
     private static readonly Regex absExp = new(@"\(\||\|\)|\|");
 
@@ -21,6 +21,16 @@ public class Expression
         exp = exp.Replace('.', ',');
         exp = exp.ToLower();
         Exp = Convert(exp);
+    }
+
+    public Expression(Expression exp)
+    {
+        Exp = exp.Exp;
+    }
+
+    public Expression(List<object> exp)
+    {
+        Exp = exp;
     }
 
     private List<object> Convert(string exp)
@@ -139,10 +149,10 @@ public class Expression
                     continue;
                 }
 
-                if (exp[i] == 'a' && exp[i + 1] == 'n' && exp[i + 2] == 's')
+                if (exp[i] == '<' && exp[i + 1] == '>')
                 {
-                    Exp.Add("ans");
-                    i += 3;
+                    Exp.Add("<>");
+                    i += 2;
                     continue;
                 }
 
