@@ -6,25 +6,25 @@ namespace FastTool;
 
 public class Cos : IFunction
 {
-    private readonly object arg;
+    public List<object> Args { get; }
 
     public Cos(object arg)
     {
-        this.arg = arg;
+        Args = new List<object>() { arg };
     }
 
     public double Calculate(Mode mode, int digits)
     {
         Calculator calc = new Calculator(mode, digits);
 
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         num = calc.ConvertToRad(num);
 
         return Math.Cos(num);
     }
     public double Calculate(Calculator calc)
     {
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         num = calc.ConvertToRad(num);
 
         return Math.Cos(num);
@@ -32,7 +32,7 @@ public class Cos : IFunction
 
     public override string ToString()
     {
-        return $"cos({arg})";
+        return $"cos({Args[0]})";
     }
 
 }

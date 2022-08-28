@@ -4,11 +4,11 @@ using System.Text;
 
 namespace FastTool;
 
-public class Acosh : IFunction
+public class Sqrt : IFunction
 {
     public List<object> Args { get; }
 
-    public Acosh (object arg)
+    public Sqrt(object arg)
     {
         Args = new List<object>() { arg };
     }
@@ -18,20 +18,19 @@ public class Acosh : IFunction
         Calculator calc = new Calculator(mode, digits);
 
         double num = calc.Transform(Args[0]);
-        double answer = Math.Log(num + Math.Pow((num * num - 1), 0.5), Math.E);
 
-        return calc.ConvertFromRad(answer);
+        return Math.Pow(num, 1 / 2);
     }
     public double Calculate(Calculator calc)
     {
         double num = calc.Transform(Args[0]);
-        double answer = Math.Log(num + Math.Pow((num * num - 1), 0.5), Math.E);
 
-        return calc.ConvertFromRad(answer);
+        return Math.Pow(num, 1 / 2);
     }
 
     public override string ToString()
     {
-        return $"acosh({Args[0]})";
+        return $"sqrt({Args[0]})";
     }
+
 }

@@ -6,25 +6,25 @@ namespace FastTool;
 
 public class Acos : IFunction
 {
-    private readonly object arg;
+    public List<object> Args { get; }
 
     public Acos (object arg)
     {
-        this.arg = arg;
+        Args = new List<object>() { arg };
     }
 
     public double Calculate(Mode mode, int digits)
     {
         Calculator calc = new Calculator(mode, digits);
 
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         double answer = Math.Acos(num);
 
         return calc.ConvertFromRad(answer);
     }
     public double Calculate(Calculator calc)
     {
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         double answer = Math.Acos(num);
 
         return calc.ConvertFromRad(answer);
@@ -32,6 +32,6 @@ public class Acos : IFunction
 
     public override string ToString()
     {
-        return $"acos({arg})";
+        return $"acos({Args[0]})";
     }
 }

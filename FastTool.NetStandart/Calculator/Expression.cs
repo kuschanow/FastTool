@@ -162,19 +162,48 @@ public class Expression
 
             for (int i = 1; i < Exp.Count; i++)
             {
-                if (Exp[0] is Sign.Minus || Exp[0] is Sign.Plus)
+                if (Exp[0] is Sign.Minus)
                 {
                     double m = Exp[0] is Sign.Minus ? -1 : 1;
                     Exp.RemoveAt(0);
                     Exp.Insert(0, Sign.Мultiply);
-                    Exp.Insert(0, m);
+                    Exp.Insert(0, -1);
                 }
-                if ((Exp[i] is Sign.Minus || Exp[0] is Sign.Plus) && Exp[i - 1] is Sign)
+                if (Exp[0] is Sign.Plus)
+                {
+                    Exp.RemoveAt(0);
+                }
+
+                if (Exp[i] is Sign.Minus && Exp[i - 1] is Sign)
                 {
                     double m = Exp[i] is Sign.Minus ? -1 : 1;
                     Exp.RemoveAt(i);
                     Exp.Insert(i, Sign.Мultiply);
                     Exp.Insert(i, m);
+                }
+                if (Exp[i] is Sign.Plus && Exp[i - 1] is Sign)
+                {
+                    Exp.RemoveAt(i);
+                }
+                if (Exp[i] is Sign && Exp[i + 1] is double)
+                {
+                    if ((double)Exp[i + 1] < 0)
+                    {
+                        double num = (double)Exp[i + 1];
+                        Exp.RemoveAt(i + 1);
+                        Exp.Insert(i + 1, num * -1);
+                        var sign = Exp[i];
+                        Exp.RemoveAt(i);
+
+                        if (sign is Sign.Plus)
+                        {
+                            Exp.Insert(i, Sign.Minus);
+                        }
+                        if (sign is Sign.Minus)
+                        {
+                            Exp.Insert(i, Sign.Plus);
+                        }
+                    }
                 }
 
                 if ((Exp[i] is Expression || Exp[i] is IFunction || Exp[i] is double) && (Exp[i - 1] is Expression || Exp[i - 1] is IFunction || Exp[i - 1] is double))
@@ -290,10 +319,10 @@ public class Expression
                 return new Root(firstArg, secondArg);
 
             case "sqrt":
-                return new Root(2, firstArg);
+                return new Sqrt(firstArg);
 
             case "cbrt":
-                return new Root(3, firstArg);
+                return new Cbrt(firstArg);
 
             case "pow":
                 return new Pow(firstArg, secondArg);
@@ -302,10 +331,10 @@ public class Expression
                 return new Log(firstArg, secondArg);
 
             case "lg":
-                return new Log(10, firstArg);
+                return new Lg(firstArg);
 
             case "ln":
-                return new Log(Math.E, firstArg);
+                return new Ln(firstArg);
 
             case "sin":
                 return new Sin(firstArg);

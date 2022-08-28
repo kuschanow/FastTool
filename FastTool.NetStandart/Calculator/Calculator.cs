@@ -56,7 +56,7 @@ public class Calculator : ICalculator
         double result = exp.Exp[index] switch
         {
             Sign.Мultiply => num1 * num2,
-            Sign.Division => num1 / num1,
+            Sign.Division => num1 / num2,
             Sign.Plus => num1 + num2,
             Sign.Minus => num1 - num2,
             _ => throw new Exception("Not a Sign")

@@ -6,25 +6,25 @@ namespace FastTool;
 
 public class Cot : IFunction
 {
-    private readonly object arg;
+    public List<object> Args { get; }
 
     public Cot(object arg)
     {
-        this.arg = arg;
+        Args = new List<object>() { arg };
     }
 
     public double Calculate(Mode mode, int digits)
     {
         Calculator calc = new Calculator(mode, digits);
 
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         num = calc.ConvertToRad(num);
 
         return 1 / Math.Tan(num);
     }
     public double Calculate(Calculator calc)
     {
-        double num = calc.Transform(arg);
+        double num = calc.Transform(Args[0]);
         num = calc.ConvertToRad(num);
 
         return 1 / Math.Tan(num);
@@ -32,7 +32,7 @@ public class Cot : IFunction
 
     public override string ToString()
     {
-        return $"cot({arg})";
+        return $"cot({Args[0]})";
     }
 
 }
