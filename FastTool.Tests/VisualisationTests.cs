@@ -92,7 +92,7 @@ namespace FastTool.Tests
             Visualisation sut = new Visualisation(exp);
 
             //Assert
-            sut.Vis.Count.Should().Be(6);
+            sut.Vis.Count.Should().Be(3);
         }
 
     }
