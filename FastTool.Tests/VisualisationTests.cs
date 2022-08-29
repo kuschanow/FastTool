@@ -95,5 +95,19 @@ namespace FastTool.Tests
             sut.Vis.Count.Should().Be(3);
         }
 
+        [Fact]
+        public void WhenExpressionContainsOppositeTerms_ThenVisualisationCorrect()
+        {
+            //Arrange
+            string expStr = "5+6-5";
+            Expression exp = new Expression(expStr);
+
+            //Act
+            Visualisation sut = new Visualisation(exp);
+
+            //Assert
+            sut.Vis.Count.Should().Be(1);
+        }
+
     }
 }

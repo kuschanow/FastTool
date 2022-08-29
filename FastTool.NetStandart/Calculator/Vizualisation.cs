@@ -37,6 +37,12 @@ namespace FastTool
                     continue;
                 }
 
+                if (OppositeTermsRule(exp, vis))
+                {
+                    exp = new Expression(exp.ToString());
+                    continue;
+                }
+
                 if (LikeTermsRule(exp, vis))
                 {
                     exp = new Expression(exp.ToString());
@@ -416,6 +422,148 @@ namespace FastTool
 
             string description = "";
             vis.Add(new VisualisationFrameTransform(paramerets, _exp, solution, description));
+
+            return true;
+        }
+    
+        private bool OppositeTermsRule(Expression exp, List<IVisualisationFrame> vis)
+        {
+            var _exp = new Expression(exp.ToString());
+
+            var indexes = exp.Exp.Select((e, c) =>
+            {
+                if (e is Sign)
+                {
+                    return new List<int>();
+                }
+
+                Sign? s = null;
+
+                if (c == 0)
+                {
+                    if (exp.Exp[c] is double)
+                    {
+                        s = (double)exp.Exp[c] > 0 ? Sign.Plus : Sign.Minus;
+                    }
+                    else
+                    {
+                        s = Sign.Plus;
+                    }
+                }
+                else
+                {
+                    if (exp.Exp[c] is double)
+                    {
+                        s = exp.Exp[c - 1] as Sign?;
+                    }
+                }
+
+                List<int> i = new() { c };
+
+                c = 0;
+                exp.Exp.ForEach(
+                    _e =>
+                    {
+                        if (!(e is Sign))
+                        {
+                            Sign? _s = null;
+
+                            if (c == 0)
+                            {
+                                if (exp.Exp[c] is double)
+                                {
+                                    _s = (double)exp.Exp[c] > 0 ? Sign.Minus : Sign.Plus;
+                                }
+                                else
+                                {
+                                    _s = Sign.Minus;
+                                }
+                            }
+                            else
+                            {
+                                if (exp.Exp[c] is double)
+                                {
+                                    _s = exp.Exp[c - 1] as Sign?;
+                                    if (_s == Sign.Plus)
+                                    {
+                                        _s = Sign.Minus;
+                                    }
+                                    else
+                                    {
+                                        _s = Sign.Plus;
+                                    }
+                                }
+                            }
+
+                            if (e.Equals(_e) && s.Equals(_s))
+                            {
+                                i.Add(c);
+                                return;
+                            }
+                                
+                            c++;
+                        }
+                    });
+
+                return i;
+            }).FirstOrDefault();
+
+            if (indexes == null)
+            {
+                return false;
+            }
+
+            Expression mainExp = new Expression(_exp.ToString());
+
+            indexes.ForEach(i =>
+            {
+                mainExp.Exp.RemoveAt(i);
+                mainExp.Exp.Insert(i, "<>");
+                if (i > 0)
+                {
+                    mainExp.Exp.RemoveAt(i - 1);
+                }
+            });
+
+            indexes.Reverse();
+
+            indexes.ForEach(i =>
+            {
+                exp.Exp.RemoveAt(i);
+                if (i > 0)
+                {
+                    exp.Exp.RemoveAt(i - 1);
+                }
+            });
+            indexes.Reverse();
+
+            var solution = new VisualisationSolutionTransform(new List<Expression>(), new Expression(exp.ToString()));
+
+            List<Expression> paramerets = new List<Expression>();
+
+            indexes.ForEach(i =>
+            {
+                object obj = _exp.Exp[i];
+                string sign = "";
+
+                if (i > 0)
+                {
+                    if ((_exp.Exp[i - 1] as Sign?) == Sign.Plus)
+                    {
+                        sign = "+";
+                    }
+                    else
+                    {
+                        sign = "-";
+                    }
+                }
+
+                paramerets.Add(new Expression($"{sign}{obj}"));
+            });
+
+            string description = "";
+            vis.Add(new VisualisationFrameTransform(paramerets, mainExp, solution, description));
+
 
             return true;
         }
