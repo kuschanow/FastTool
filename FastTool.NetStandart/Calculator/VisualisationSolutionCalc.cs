@@ -1,12 +1,12 @@
 ﻿namespace FastTool
 {
-    public record VisualisationSolution
+    public record VisualisationSolutionCalc : IVisualisationSolution
     {
         public double Answer { get; }
         public Expression MainExp { get; }
         public Visualisation Detail { get; }
 
-        public VisualisationSolution(double answer, Expression mainExp)
+        public VisualisationSolutionCalc(double answer, Expression mainExp)
         {
             if (answer < 0 && mainExp.Exp.IndexOf("<>") > 0 && mainExp.Exp[mainExp.Exp.IndexOf("<>") - 1] is Sign)
             {
@@ -27,7 +27,7 @@
             }
         }
 
-        public VisualisationSolution(double answer, Expression mainExp, Visualisation detail) : this(answer, mainExp)
+        public VisualisationSolutionCalc(double answer, Expression mainExp, Visualisation detail) : this(answer, mainExp)
         {
             Detail = detail;
         }

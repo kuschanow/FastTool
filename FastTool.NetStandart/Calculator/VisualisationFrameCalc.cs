@@ -1,13 +1,14 @@
 ﻿namespace FastTool
 {
-    public record VisualisationFrame
+    public record VisualisationFrameCalc : IVisualisationFrame
     {
         public Expression CurrAction { get; }
         public Expression MainExp { get; }
-        public VisualisationSolution Solution { get; }
-        public bool Main { get; }
+        public IVisualisationSolution Solution { get; }
+        public bool MainAction { get; }
+        public string Description { get; }
 
-        public VisualisationFrame(Expression currAction, Expression mainExp, VisualisationSolution solution, bool main = true)
+        public VisualisationFrameCalc(Expression currAction, Expression mainExp, VisualisationSolutionCalc solution, string description, bool main = true)
         {
             if (currAction.Exp[0] as IFunction == null && (double)currAction.Exp[0] < 0 && mainExp.Exp.IndexOf("<>") > 0 && mainExp.Exp[mainExp.Exp.IndexOf("<>") - 1] is Sign)
             {
@@ -27,7 +28,8 @@
                 MainExp = mainExp;
             }
             Solution = solution;
-            Main = main;
+            MainAction = main;
+            Description = description;
         }
 
         public override string ToString()
@@ -36,7 +38,7 @@
 
             str = MainExp.ToString();
 
-            if (Main)
+            if (MainAction)
             {
                 str = str.Replace("<>", CurrAction.ToString());
             }

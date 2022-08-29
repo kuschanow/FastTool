@@ -160,6 +160,11 @@ public class Expression
 
             }
 
+            if (Exp.Contains("<>"))
+            {
+                return Exp;
+            }
+
             for (int i = 1; i < Exp.Count; i++)
             {
                 if (Exp[0] is Sign.Minus)

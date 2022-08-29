@@ -67,5 +67,33 @@ namespace FastTool.Tests
 
         }
 
+        [Fact]
+        public void WhenExpressionContainsLikeTerms_ThenVisualisationCorrect()
+        {
+            //Arrange
+            string expStr = "1+2-3+5+1-3-3";
+            Expression exp = new Expression(expStr);
+
+            //Act
+            Visualisation sut = new Visualisation(exp);
+
+            //Assert
+            sut.Vis.Count.Should().Be(6);
+        }
+
+        [Fact]
+        public void WhenExpressionContainsZero_ThenVisualisationCorrect()
+        {
+            //Arrange
+            string expStr = "0-10-4+0-3";
+            Expression exp = new Expression(expStr);
+
+            //Act
+            Visualisation sut = new Visualisation(exp);
+
+            //Assert
+            sut.Vis.Count.Should().Be(6);
+        }
+
     }
 }
