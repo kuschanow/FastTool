@@ -207,6 +207,7 @@ namespace FastTool.WPF
         {
             if (ExpField.SelectionLength > 0)
             {
+                Clipboard.SetText(ExpField.SelectedText);
                 return;
             }
 
