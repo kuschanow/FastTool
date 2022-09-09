@@ -25,7 +25,7 @@ public class Cbrt : IFunction
     {
         double num = calc.Transform(Args[0]);
 
-        return Math.Pow(num, 1 / 3);
+        return Math.Pow(num, 1d / 3);
     }
 
     public override string ToString()

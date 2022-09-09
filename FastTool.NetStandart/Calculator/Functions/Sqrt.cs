@@ -25,7 +25,7 @@ public class Sqrt : IFunction
     {
         double num = calc.Transform(Args[0]);
 
-        return Math.Pow(num, 1 / 2);
+        return Math.Pow(num, 1d / 2);
     }
 
     public override string ToString()
