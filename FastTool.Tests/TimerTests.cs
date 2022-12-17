@@ -1,39 +1,38 @@
-﻿using FluentAssertions;
-using System.Threading;
+﻿using FastTool.TimerTool;
+using Timer = FastTool.TimerTool.Timer;
 
-namespace FastTool.Tests
+namespace FastTool.Tests;
+
+public class TimerTests
 {
-    public class TimerTests
+    [Fact]
+    public void WhenTimerCreate_ThenTimeEqualsTimeOnCreate()
     {
-        [Fact]
-        public void WhenTimerCreate_ThenTimeEqualsTimeOnCreate()
-        {
-            // Arrange
-            TimeSpan time = TimeSpan.FromMinutes(5);
-            var timer = new Timer(time);
+        // Arrange
+        TimeSpan time = TimeSpan.FromMinutes(5);
+        var timer = new Timer(time);
 
-            // Act
-            var result = timer.Time == time;
+        // Act
+        var result = timer.Time == time;
 
-            // Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public void WhenTimerStart_ThenTimeChanged()
-        {
-            // Arrange
-            TimeSpan time = TimeSpan.FromSeconds(5);
-            var timer = new Timer(time);
-
-            // Act
-            timer.Start();
-            Thread.Sleep(2100);
-            timer.Pause();
-
-            // Assert
-            Math.Round(timer.TimeLeft.TotalSeconds).Should().Be(3);
-        }
-
+        // Assert
+        result.Should().BeTrue();
     }
+
+    [Fact]
+    public void WhenTimerStart_ThenTimeChanged()
+    {
+        // Arrange
+        TimeSpan time = TimeSpan.FromSeconds(5);
+        var timer = new Timer(time);
+
+        // Act
+        timer.Start();
+        Thread.Sleep(2100);
+        timer.Pause();
+
+        // Assert
+        Math.Round(timer.TimeLeft.TotalSeconds).Should().Be(3);
+    }
+
 }

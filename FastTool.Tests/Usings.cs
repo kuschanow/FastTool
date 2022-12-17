@@ -1,3 +1,4 @@
-global using Xunit;
+global using FastTool.CalculationTool;
 global using FastTool.Models;
-global using FastTool;
+global using FluentAssertions;
+global using Xunit;

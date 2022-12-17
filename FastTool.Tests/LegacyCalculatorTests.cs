@@ -1,5 +1,3 @@
-using FluentAssertions;
-
 namespace FastTool.Tests;
 
 public class LegacyCalculatorTests
@@ -18,14 +16,14 @@ public class LegacyCalculatorTests
         string sut8 = "-2";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1);
-        var answer2 = Legacy.Calculator.Calculate(sut2);
-        var answer3 = Legacy.Calculator.Calculate(sut3);
-        var answer4 = Legacy.Calculator.Calculate(sut4);
-        var answer5 = Legacy.Calculator.Calculate(sut5);
-        var answer6 = Legacy.Calculator.Calculate(sut6);
-        var answer7 = Legacy.Calculator.Calculate(sut7);
-        var answer8 = Legacy.Calculator.Calculate(sut8);
+        var answer1 = Calculator.Calculate(sut1);
+        var answer2 = Calculator.Calculate(sut2);
+        var answer3 = Calculator.Calculate(sut3);
+        var answer4 = Calculator.Calculate(sut4);
+        var answer5 = Calculator.Calculate(sut5);
+        var answer6 = Calculator.Calculate(sut6);
+        var answer7 = Calculator.Calculate(sut7);
+        var answer8 = Calculator.Calculate(sut8);
 
         // Assert
         answer1.Should().Be(4);
@@ -51,13 +49,13 @@ public class LegacyCalculatorTests
         string sut7 = "3*5+3/(5*(2+1))*5";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1);
-        var answer2 = Legacy.Calculator.Calculate(sut2);
-        var answer3 = Legacy.Calculator.Calculate(sut3);
-        var answer4 = Legacy.Calculator.Calculate(sut4);
-        var answer5 = Legacy.Calculator.Calculate(sut5);
-        var answer6 = Legacy.Calculator.Calculate(sut6);
-        var answer7 = Legacy.Calculator.Calculate(sut7);
+        var answer1 = Calculator.Calculate(sut1);
+        var answer2 = Calculator.Calculate(sut2);
+        var answer3 = Calculator.Calculate(sut3);
+        var answer4 = Calculator.Calculate(sut4);
+        var answer5 = Calculator.Calculate(sut5);
+        var answer6 = Calculator.Calculate(sut6);
+        var answer7 = Calculator.Calculate(sut7);
 
         // Assert
         answer1.Should().Be(10);
@@ -89,20 +87,20 @@ public class LegacyCalculatorTests
         string sut14 = "-2 * 2";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1);
-        var answer2 = Legacy.Calculator.Calculate(sut2);
-        var answer3 = Legacy.Calculator.Calculate(sut3);
-        var answer4 = Legacy.Calculator.Calculate(sut4);
-        var answer5 = Legacy.Calculator.Calculate(sut5);
-        var answer6 = Legacy.Calculator.Calculate(sut6);
-        var answer7 = Legacy.Calculator.Calculate(sut7);
-        var answer8 = Legacy.Calculator.Calculate(sut8);
-        var answer9 = Legacy.Calculator.Calculate(sut9);
-        var answer10 = Legacy.Calculator.Calculate(sut10);
-        var answer11 = Legacy.Calculator.Calculate(sut11);
-        var answer12 = Legacy.Calculator.Calculate(sut12);
-        var answer13 = Legacy.Calculator.Calculate(sut13);
-        var answer14 = Legacy.Calculator.Calculate(sut14);
+        var answer1 = Calculator.Calculate(sut1);
+        var answer2 = Calculator.Calculate(sut2);
+        var answer3 = Calculator.Calculate(sut3);
+        var answer4 = Calculator.Calculate(sut4);
+        var answer5 = Calculator.Calculate(sut5);
+        var answer6 = Calculator.Calculate(sut6);
+        var answer7 = Calculator.Calculate(sut7);
+        var answer8 = Calculator.Calculate(sut8);
+        var answer9 = Calculator.Calculate(sut9);
+        var answer10 = Calculator.Calculate(sut10);
+        var answer11 = Calculator.Calculate(sut11);
+        var answer12 = Calculator.Calculate(sut12);
+        var answer13 = Calculator.Calculate(sut13);
+        var answer14 = Calculator.Calculate(sut14);
 
         // Assert
         answer1.Should().Be(10);
@@ -128,7 +126,7 @@ public class LegacyCalculatorTests
         string sut = "3 - 3(4-1+4(3-4)) + 5 + 3(3 - 2) + 4";
 
         // Act
-        var answer = Legacy.Calculator.Calculate(sut);
+        var answer = Calculator.Calculate(sut);
 
         // Assert
         answer.Should().Be(18);
@@ -143,9 +141,9 @@ public class LegacyCalculatorTests
         string sut3 = "4 - cbrt(3 + 4) + 3";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1, Mode.Deg, 3);
-        var answer2 = Legacy.Calculator.Calculate(sut2, Mode.Deg, 3);
-        var answer3 = Legacy.Calculator.Calculate(sut3, Mode.Deg, 3);
+        var answer1 = Calculator.Calculate(sut1, Mode.Deg, 3);
+        var answer2 = Calculator.Calculate(sut2, Mode.Deg, 3);
+        var answer3 = Calculator.Calculate(sut3, Mode.Deg, 3);
 
         // Assert
         answer1.Should().Be(5.268);
@@ -169,16 +167,16 @@ public class LegacyCalculatorTests
         string sut10 = "(4 * cos(90) - 8) + 4";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1, Mode.Deg, 4);
-        var answer2 = Legacy.Calculator.Calculate(sut2, Mode.Deg, 4);
-        var answer3 = Legacy.Calculator.Calculate(sut3, Mode.Rad, 4);
-        var answer4 = Legacy.Calculator.Calculate(sut4, Mode.Rad, 4);
-        var answer5 = Legacy.Calculator.Calculate(sut5, Mode.Rad, 4);
-        var answer6 = Legacy.Calculator.Calculate(sut6, Mode.Deg, 4);
-        var answer7 = Legacy.Calculator.Calculate(sut7, Mode.Deg, 4);
-        var answer8 = Legacy.Calculator.Calculate(sut8, Mode.Deg, 4);
-        var answer9 = Legacy.Calculator.Calculate(sut9, Mode.Deg, 4);
-        var answer10 = Legacy.Calculator.Calculate(sut10, Mode.Deg, 4);
+        var answer1 = Calculator.Calculate(sut1, Mode.Deg, 4);
+        var answer2 = Calculator.Calculate(sut2, Mode.Deg, 4);
+        var answer3 = Calculator.Calculate(sut3, Mode.Rad, 4);
+        var answer4 = Calculator.Calculate(sut4, Mode.Rad, 4);
+        var answer5 = Calculator.Calculate(sut5, Mode.Rad, 4);
+        var answer6 = Calculator.Calculate(sut6, Mode.Deg, 4);
+        var answer7 = Calculator.Calculate(sut7, Mode.Deg, 4);
+        var answer8 = Calculator.Calculate(sut8, Mode.Deg, 4);
+        var answer9 = Calculator.Calculate(sut9, Mode.Deg, 4);
+        var answer10 = Calculator.Calculate(sut10, Mode.Deg, 4);
 
         // Assert
         answer1.Should().Be(1);
@@ -200,7 +198,7 @@ public class LegacyCalculatorTests
         string sut = "-(50 + -cos(60)) + 4(-|3| + 4)";
 
         // Act
-        var answer = Legacy.Calculator.Calculate(sut, Mode.Deg, 4);
+        var answer = Calculator.Calculate(sut, Mode.Deg, 4);
 
         // Assert
         answer.Should().Be(-45.5);
@@ -216,10 +214,10 @@ public class LegacyCalculatorTests
         string sut4 = "log2(4) + lg(1000) - ln(1)^2";
 
         // Act
-        var answer1 = Legacy.Calculator.Calculate(sut1, Mode.Deg, 4);
-        var answer2 = Legacy.Calculator.Calculate(sut2, Mode.Deg, 4);
-        var answer3 = Legacy.Calculator.Calculate(sut3, Mode.Deg, 4);
-        var answer4 = Legacy.Calculator.Calculate(sut4, Mode.Deg, 4);
+        var answer1 = Calculator.Calculate(sut1, Mode.Deg, 4);
+        var answer2 = Calculator.Calculate(sut2, Mode.Deg, 4);
+        var answer3 = Calculator.Calculate(sut3, Mode.Deg, 4);
+        var answer4 = Calculator.Calculate(sut4, Mode.Deg, 4);
 
         // Assert
         answer1.Should().Be(3);

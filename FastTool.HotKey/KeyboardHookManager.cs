@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -147,7 +145,7 @@ namespace FastTool.HotKey
 
             return RegisterHotkey(prewselectedModifiers, prewvirtualKeyCode, modifiers, virtualKeyCodes, action);
         }
-        
+
         public Guid RegisterHotkey(ModifierKeys prewmodifiers, int prewvirtualKeyCode, ModifierKeys modifiers, int virtualKeyCode, Action action)
         {
             var allModifiers = Enum.GetValues(typeof(ModifierKeys)).Cast<ModifierKeys>().ToArray();
@@ -168,7 +166,7 @@ namespace FastTool.HotKey
 
             return RegisterHotkey(prewmodifiers, prewvirtualKeyCodes, selectedModifiers, virtualKeyCode, action);
         }
-        
+
         public Guid RegisterHotkey(ModifierKeys[] prewmodifiers, int prewvirtualKeyCode, ModifierKeys[] modifiers, int virtualKeyCode, Action action)
         {
             var keybindIdentity = Guid.NewGuid();
@@ -259,7 +257,7 @@ namespace FastTool.HotKey
         public delegate void KeyPressedEventHandler(KeybindStruct keybind, bool IsKeyUp);
 
         public event KeyPressedEventHandler KeyPressed;
-        
+
         #endregion
 
         #region Private methods

@@ -97,7 +97,7 @@ namespace FastTool.HotKey
 
         public override string ToString()
         {
-            return (prewkeybind == null ? "" : $"{prewkeybind}, ") + string.Join("+", Modifiers.Select(m => ModifierKeysUtilities.GetStringFromEnum(m)).ToList()) + $"+{VirtualKeyCode}"; 
+            return (prewkeybind == null ? "" : $"{prewkeybind}, ") + string.Join("+", Modifiers.Select(m => ModifierKeysUtilities.GetStringFromEnum(m)).ToList()) + $"+{VirtualKeyCode}";
         }
     }
 }
