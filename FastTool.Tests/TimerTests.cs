@@ -1,5 +1,4 @@
-﻿using FastTool.TimerTool;
-using Timer = FastTool.TimerTool.Timer;
+﻿using Timer = FastTool.TimerTool.Timer;
 
 namespace FastTool.Tests;
 
