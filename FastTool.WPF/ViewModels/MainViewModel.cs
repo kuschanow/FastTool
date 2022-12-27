@@ -1,7 +1,6 @@
 ﻿using FastTool.WPF.Windows.MainWindow.Calculator;
 using FastTool.WPF.Windows.MainWindow.Settings;
 using FastTool.WPF.Windows.MainWindow.Time;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -13,8 +12,8 @@ namespace FastTool.WPF.ViewModels
     class MainViewModel : INotifyPropertyChanged
     {
         private readonly Dictionary<string, Page> pages = new()
-        { 
-            { "calcPage", new CalculatorPage() }, 
+        {
+            { "calcPage", new CalculatorPage() },
             { "timePage", new TimePage() },
             { "settingsPage", new SettingsPage() }
         };

@@ -1,5 +1,4 @@
 ﻿using FastTool.CalculationTool.Interfaces;
-using System;
 using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
