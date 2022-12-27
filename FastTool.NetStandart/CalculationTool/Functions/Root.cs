@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -13,12 +14,12 @@ public class Root : IFunction
 
     public Root(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num1 = Args[0].Calculate(mode);
-        double num2 = Args[1].Calculate(mode);
+        Complex num1 = Args[0].Calculate(mode);
+        Complex num2 = Args[1].Calculate(mode);
 
-        return Math.Pow(num2, 1 / num1);
+        return Complex.Pow(num2, 1 / num1);
     }
 
     public override string ToString() => $"root({Args[0]}, {Args[1]})";

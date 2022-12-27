@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,11 +12,11 @@ public class Exp : IFunction
 
     public Exp(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
+        Complex num = Args[0].Calculate(mode);
 
-        return Math.Pow(Math.E, num);
+        return Complex.Exp(num);
     }
 
     public override string ToString() => $"exp({Args[0]})";

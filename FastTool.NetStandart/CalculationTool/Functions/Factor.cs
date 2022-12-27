@@ -1,4 +1,5 @@
 ﻿using FastTool.CalculationTool.Interfaces;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -10,11 +11,11 @@ public class Factor : IFunction
 
     public Factor(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        uint num = (uint)Args[0].Calculate(mode);
+        uint num = (uint)Args[0].Calculate(mode).Real;
 
-        return Factorial(num);
+        return new Complex(Factorial(num), 0);
     }
 
     public double Factorial(uint num)

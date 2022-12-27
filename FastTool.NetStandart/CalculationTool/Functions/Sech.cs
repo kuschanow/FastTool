@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,12 +12,12 @@ public class Sech : IFunction
 
     public Sech(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
+        Complex num = Args[0].Calculate(mode);
         num = ModeTransformator.ToRad(num, mode);
 
-        return 1 / Math.Cosh(num);
+        return 1 / Complex.Cosh(num);
     }
 
     public override string ToString() => $"sech({Args[0]})";

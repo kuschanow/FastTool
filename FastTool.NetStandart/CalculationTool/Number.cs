@@ -1,14 +1,16 @@
 ﻿using FastTool.CalculationTool.Interfaces;
+using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool;
 
 public class Number : ICalculateble
 {
-    public double Num { get; }
+    public Complex Num { get; }
 
-    public Number(double num) => Num = num;
+    public Number(Complex num) => Num = num;
 
-    public double Calculate(Mode mode) => Num;
+    public Complex Calculate(Mode mode) => Num;
 
-    public override string ToString() => $"{Num}";
+    public override string ToString() => $"({Num.Real}, {Num.Imaginary}i)";
 }

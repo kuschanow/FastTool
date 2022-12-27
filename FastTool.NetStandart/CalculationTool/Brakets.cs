@@ -1,4 +1,5 @@
 ﻿using FastTool.CalculationTool.Interfaces;
+using System.Numerics;
 
 namespace FastTool.CalculationTool;
 
@@ -8,7 +9,7 @@ public class Brakets : ICalculateble
 
     public Brakets(ICalculateble exp) => Exp = exp;
 
-    public double Calculate(Mode mode) => Exp.Calculate(mode);
+    public Complex Calculate(Mode mode) => Exp.Calculate(mode);
 
     public override string ToString() => $"({Exp})";
 }

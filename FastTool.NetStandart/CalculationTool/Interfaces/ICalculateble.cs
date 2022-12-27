@@ -1,6 +1,8 @@
-﻿namespace FastTool.CalculationTool.Interfaces;
+﻿using System.Numerics;
+
+namespace FastTool.CalculationTool.Interfaces;
 
 public interface ICalculateble
 {
-    double Calculate(Mode mode);
+    Complex Calculate(Mode mode);
 }

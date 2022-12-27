@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,10 +12,10 @@ public class Acsch : IFunction
 
     public Acsch(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
-        double answer = Math.Log(1 + Math.Sign(num) * Math.Pow(1 + num * num, 0.5) / num, Math.E);
+        Complex num = Args[0].Calculate(mode);
+        Complex answer = Complex.Log(1 + Math.Sign(num.Real) * Complex.Pow(1 + num * num, 0.5) / num, Math.E);
 
         return ModeTransformator.FromRad(answer, mode);
     }

@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,11 +12,11 @@ public class Cbrt : IFunction
 
     public Cbrt(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
+        Complex num = Args[0].Calculate(mode);
 
-        return Math.Pow(num, 1 / 3);
+        return Complex.Pow(num, 1 / 3);
     }
 
     public override string ToString() => $"cbrt({Args[0]})";

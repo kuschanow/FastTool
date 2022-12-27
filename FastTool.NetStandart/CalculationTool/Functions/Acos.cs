@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,10 +12,10 @@ public class Acos : IFunction
 
     public Acos(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
-        double answer = Math.Acos(num);
+        Complex num = Args[0].Calculate(mode);
+        Complex answer = Complex.Acos(num);
 
         return ModeTransformator.FromRad(answer, mode);
     }

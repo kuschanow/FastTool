@@ -1,4 +1,6 @@
-﻿namespace FastTool.Tests;
+﻿using System.Numerics;
+
+namespace FastTool.Tests;
 
 public class ExpressionParserTests
 {
@@ -13,6 +15,6 @@ public class ExpressionParserTests
         var answer = sut.Parse(exp).Calculate(Mode.Deg);
 
         // Assert
-        answer.Should().Be(49.44029933728401);
+        answer.Should().Be((Complex)49.44029933728401);
     }
 }

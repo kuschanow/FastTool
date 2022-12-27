@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,10 +12,10 @@ public class Acot : IFunction
 
     public Acot(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
-        double answer = (Math.PI / 2) - Math.Atan(num);
+        Complex num = Args[0].Calculate(mode);
+        Complex answer = (Math.PI / 2) - Complex.Atan(num);
 
         return ModeTransformator.FromRad(answer, mode);
     }

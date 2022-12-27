@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -9,5 +10,5 @@ public class NullFunc : IFunction
 
     public ICalculateble[] Args => throw new NotImplementedException();
 
-    public double Calculate(Mode mode) => throw new NotImplementedException();
+    public Complex Calculate(Mode mode) => throw new NotImplementedException();
 }

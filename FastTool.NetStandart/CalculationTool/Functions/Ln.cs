@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -11,11 +12,11 @@ public class Ln : IFunction
 
     public Ln(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num = Args[0].Calculate(mode);
+        Complex num = Args[0].Calculate(mode);
 
-        return Math.Log(num, Math.E);
+        return Complex.Log(num);
     }
 
     public override string ToString() => $"ln({Args[0]})";

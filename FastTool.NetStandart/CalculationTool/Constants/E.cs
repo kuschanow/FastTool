@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Constants;
 
@@ -9,7 +10,7 @@ public class E : IConst
 
     public double Value => Math.E;
 
-    public double Calculate(Mode mode) => Value;
+    public Complex Calculate(Mode mode) => Value;
 
     public override string ToString() => $"{Names[0]}";
 }

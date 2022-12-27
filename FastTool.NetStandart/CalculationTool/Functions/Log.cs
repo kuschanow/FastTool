@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Functions;
 
@@ -13,12 +14,12 @@ public class Log : IFunction
 
     public Log(ICalculateble[] args) => Args = args;
 
-    public double Calculate(Mode mode)
+    public Complex Calculate(Mode mode)
     {
-        double num1 = Args[0].Calculate(mode);
-        double num2 = Args[1].Calculate(mode);
+        Complex num1 = Args[0].Calculate(mode);
+        Complex num2 = Args[1].Calculate(mode);
 
-        return Math.Log(num2, num1);
+        return Complex.Log(num2, num1.Real);
     }
 
     public override string ToString() => $"log({Args[0]}, {Args[1]})";

@@ -1,5 +1,6 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool.Operators;
 
@@ -9,7 +10,7 @@ public class Operator : IOperator
 
     public Operator(ICalculateble[] operands) => Operands = operands;
 
-    public virtual double Calculate(Mode mode)
+    public virtual Complex Calculate(Mode mode)
     {
         throw new NotImplementedException();
     }

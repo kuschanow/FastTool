@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Numerics;
 
 namespace FastTool.CalculationTool;
 
 public static class ModeTransformator
 {
-    public static double ToRad(double num, Mode mode)
+    public static Complex ToRad(Complex num, Mode mode)
     {
         return mode switch
         {
@@ -14,7 +15,7 @@ public static class ModeTransformator
             _ => num,
         };
     }
-    public static double FromRad(double num, Mode mode)
+    public static Complex FromRad(Complex num, Mode mode)
     {
         return mode switch
         {
