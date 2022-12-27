@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Windows\Pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Include="App.xaml" />
   </ItemGroup>
 

@@ -3,11 +3,11 @@
 namespace FastTool.WPF.Windows.MainWindow.Calculator
 {
     /// <summary>
-    /// Логика взаимодействия для Base.xaml
+    /// Логика взаимодействия для Calculator.xaml
     /// </summary>
-    public partial class CalculatorBasePage : Page
+    public partial class CalcPage : Page
     {
-        public CalculatorBasePage()
+        public CalcPage()
         {
             InitializeComponent();
         }

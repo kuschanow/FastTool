@@ -13,7 +13,7 @@ namespace FastTool.WPF.ViewModels
     {
         private readonly Dictionary<string, Page> pages = new()
         {
-            { "calcPage", new CalculatorPage() },
+            { "calcPage", new CalcPage() },
             { "timePage", new TimePage() },
             { "settingsPage", new SettingsPage() }
         };
