@@ -12,7 +12,9 @@ namespace FastTool.WPF.ViewModels.Calculator
         private readonly Dictionary<string, Page> pages = new()
         {
             { "basePage", new CalcBasePage() },
+            { "programPage", new CalcProgrammingPage() },
             { "transPage", new CalcTransformPage() },
+            { "matrixPage", new CalcMatrixPage() },
             { "graphPage", new CalcGraphPage() },
             { "formulsPage", new CalcFormulsPage() },
             { "boardPage", new CalcBoardPage() },

@@ -35,6 +35,16 @@
                 Content="Base"
                 IsChecked="True" />
             <RadioButton
+                Margin="10,5,5,5"
+                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                CommandParameter="programPage"
+                Content="Programming" />
+            <RadioButton
+                Margin="5"
+                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                CommandParameter="matrixPage"
+                Content="Matrix" />
+            <RadioButton
                 Margin="5"
                 Command="{Binding ChangePage, Source={StaticResource vm}}"
                 CommandParameter="transPage"

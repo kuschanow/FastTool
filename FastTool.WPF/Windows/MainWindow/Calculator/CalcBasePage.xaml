@@ -33,7 +33,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
+            <ListBox BorderThickness="0,0,0,2" />
+
             <TextBox
                 x:Name="expField"
                 Grid.Row="1"
@@ -41,7 +45,7 @@
                 BorderThickness="0,2,0,0"
                 FontSize="20" />
 
-            <ListBox BorderThickness="0,0,0,2" />
+
         </Grid>
 
         <ListBox Grid.Column="2" BorderThickness="0,0,0,0" />
