@@ -6,7 +6,7 @@ namespace FastTool.CalculationTool.Constants;
 
 public class Pi : IConst
 {
-    public string[] Names => new string[] { "π", "pi" };
+    public string[] Names => new string[] { "𝜋", "π", "pi" };
 
     public double Value => Math.PI;
 

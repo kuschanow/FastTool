@@ -13,7 +13,7 @@ public class ExpressionParser
     private static readonly Regex constExp = CreateConstRegex();
     private static readonly Regex funcExp = CreateFuncRegex();
     private static readonly Regex numExp = new(@"(?<!#)\d+(\.\d+)?(?:(?:[Ee])([+-]?\d+))?");
-    private static readonly Regex оperatorExp = new(@"(?<=[-+/*^]|^)([-+])(?:(?=[-+])[-+]+|)|(?<![-+/*^])(?:(?=!)!+|)(!)|(?<![-+/*^]|^)(\^)|(?<![-+/*^]|^)([/*])(?![/*^]|^)|([-+])(?![/*^!])");
+    private static readonly Regex оperatorExp = new(@"(?<=[-+/*^%]|^)([-+])(?:(?=[-+])[-+]+|)(?!!|^)|(?<![-+/*^%])(?:(?=!)!+|)(!)|(?<![-+/*^%]|^)(\^)|(?<![-+/*^%]|^)([/*%])(?![/*^!%]|^)|([-+])(?![/*^!%])");
     private static readonly Regex operandExp = new(@"\\([^#]+)#(\d+)");
     private static readonly Regex absExp = new(@"(\\left\|)|(\\right\|)");
 
@@ -293,6 +293,7 @@ public class ExpressionParser
             {
                 "*" => new Multiply(Parse(exp.Substring(0, match.Index)), Parse(exp.Substring(match.Index + 1))),
                 "/" => new Division(Parse(exp.Substring(0, match.Index)), Parse(exp.Substring(match.Index + 1))),
+                "%" => new Mod(Parse(exp.Substring(0, match.Index)), Parse(exp.Substring(match.Index + 1))),
                 _ => throw new NotImplementedException(),
             },
             5 => match.Groups[5].Value switch

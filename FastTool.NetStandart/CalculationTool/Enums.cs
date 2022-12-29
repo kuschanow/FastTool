@@ -11,6 +11,7 @@ public enum OperatorEnum
 {
     Plus = 11,
     Minus = 5,
+    Mod = 14,
     Мultiply = 9,
     Division = 4,
     Exponent = 3,

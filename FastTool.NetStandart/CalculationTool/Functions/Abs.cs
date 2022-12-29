@@ -19,5 +19,5 @@ public class Abs : IFunction
         return answer;
     }
 
-    public override string ToString() => $"\\left|{Args[0]}\\right|";
+    public override string ToString() => $"abs({Args[0]})";
 }
