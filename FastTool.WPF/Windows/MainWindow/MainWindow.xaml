@@ -8,10 +8,10 @@
     xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:vms="clr-namespace:FastTool.WPF.ViewModels"
     Title="MainWindow"
-    Width="400"
-    Height="523"
-    MinWidth="400"
-    MinHeight="523"
+    Width="420"
+    Height="525"
+    MinWidth="420"
+    MinHeight="525"
     mc:Ignorable="d">
 
     <Window.Resources>

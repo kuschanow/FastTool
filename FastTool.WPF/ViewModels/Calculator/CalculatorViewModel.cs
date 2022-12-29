@@ -1,6 +1,4 @@
 ﻿using FastTool.WPF.Windows.MainWindow.Calculator;
-using FastTool.WPF.Windows.MainWindow.Settings;
-using FastTool.WPF.Windows.MainWindow.Time;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
