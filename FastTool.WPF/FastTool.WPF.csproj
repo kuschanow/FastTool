@@ -24,4 +24,8 @@
     <Page Include="App.xaml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FastTool.NetStandart\FastTool.NetStandart.csproj" />
+  </ItemGroup>
+
 </Project>

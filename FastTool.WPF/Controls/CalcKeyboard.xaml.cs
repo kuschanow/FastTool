@@ -83,7 +83,7 @@ namespace FastTool.WPF.Controls
         #endregion
 
         #region Hendlers
-        private void SecondButtonClick(object sender, RoutedEventArgs e)
+        private void SecondButton_Click(object sender, RoutedEventArgs e)
         {
             TrigonometryKeyboard = false;
             if ((sender as ToggleButton).IsChecked.Value)
@@ -92,7 +92,7 @@ namespace FastTool.WPF.Controls
                 StandartKeyboard = true;
         }
 
-        private void TrigonometryBuutonClick(object sender, RoutedEventArgs e)
+        private void TrigonometryBuuton_Click(object sender, RoutedEventArgs e)
         {
             SecondKeyboard = false;
             if ((sender as ToggleButton).IsChecked.Value)
@@ -101,65 +101,26 @@ namespace FastTool.WPF.Controls
                 StandartKeyboard = true;
         }
 
-        private void ClearClick(object sender, RoutedEventArgs e)
+        private void Clear_Click(object sender, RoutedEventArgs e)
         {
             ClearPressCommand?.Execute(null);
         }
 
-        private void BackClick(object sender, RoutedEventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
             BackPressCommand?.Execute(null);
         }
 
-        private void EqualsClick(object sender, RoutedEventArgs e)
+        private void Equals_Click(object sender, RoutedEventArgs e)
         {
             EqualsPressCommand?.Execute(null);
         }
 
-        private void ButtonClick(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             ButtonPressCommand?.Execute(((Button)sender).CommandParameter);
         }
         #endregion
-    }
-
-    public class BoolToVisibility : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val)
-                    return Visibility.Visible;
-                return Visibility.Collapsed;
-            }
-
-            throw new Exception();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
-    }
-    public class InverseBoolToVisibility : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val)
-                    return Visibility.Collapsed;
-                return Visibility.Visible;
-            }
-
-            throw new Exception();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
     }
 
 }

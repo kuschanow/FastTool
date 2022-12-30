@@ -18,7 +18,7 @@
         <vms:MainViewModel x:Key="vm" />
     </Window.Resources>
 
-    <Grid>
+    <Grid DataContext="{Binding Source={StaticResource vm}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="Auto" />
@@ -33,18 +33,18 @@
             <RadioButton
                 x:Name="calc"
                 Margin="10,5,5,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="calcPage"
                 Content="Calculator"
                 IsChecked="True" />
             <RadioButton
                 Margin="5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="timePage"
                 Content="Time" />
             <RadioButton
                 Margin="5,5,10,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="settingsPage"
                 Content="Settings" />
         </StackPanel>
@@ -54,7 +54,7 @@
         <Frame
             x:Name="toolFrame"
             Grid.Row="2"
-            Content="{Binding CurrPage, Source={StaticResource vm}}"
+            Content="{Binding CurrPage}"
             NavigationUIVisibility="Hidden" />
 
     </Grid>
