@@ -2,9 +2,9 @@
 
 public enum Mode
 {
-    Deg,
-    Rad,
-    Grad
+    Deg = 0,
+    Rad = 1,
+    Grad = 2
 }
 
 public enum OperatorEnum

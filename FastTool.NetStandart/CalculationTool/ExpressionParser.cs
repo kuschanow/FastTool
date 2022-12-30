@@ -53,7 +53,6 @@ public class ExpressionParser
             }
         }
 
-        str = str.Replace('.', ',');
         str = str.ToLower();
         return str;
     }
@@ -192,7 +191,8 @@ public class ExpressionParser
             int start = 0, length = 0;
             numbers.Add(GetNumber(exp, ref start, ref length));
 
-            exp = numExp.Replace(exp, $"\\num#{numbers.Count - 1}");
+            exp = exp.Remove(start, length);
+            exp = exp.Insert(start, $"\\num#{numbers.Count - 1}");
         }
     }
 
@@ -203,7 +203,7 @@ public class ExpressionParser
         start = match.Index;
         length += match.Length;
 
-        return new Number(Convert.ToDouble(match.Value));
+        return new Number(Convert.ToDouble(match.Value.Replace(".", ",")));
     }
 
     private void GetConsts(ref string exp)
