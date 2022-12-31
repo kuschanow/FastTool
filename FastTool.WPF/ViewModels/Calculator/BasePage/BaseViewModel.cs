@@ -1,14 +1,11 @@
 ﻿#nullable disable
 using FastTool.CalculationTool;
-using System.Collections.Generic;
+using FastTool.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
-using FastTool.Utils;
-using System.Numerics;
-using FastTool.CalculationTool.Interfaces;
 
 namespace FastTool.WPF.ViewModels.Calculator
 {
@@ -20,7 +17,7 @@ namespace FastTool.WPF.ViewModels.Calculator
         private int expThreshold = 4;
         private TextBox textBox;
         private ScrollViewer scroll;
-        private ObservableCollection<Result> results = new();
+        private ObservableCollection<ResultViewModel> results = new();
 
         public string Expression
         {
@@ -62,7 +59,7 @@ namespace FastTool.WPF.ViewModels.Calculator
             }
         }
 
-        public ObservableCollection<Result> Results => results;
+        public ObservableCollection<ResultViewModel> Results => results;
 
         public ICommand EqualsPress => new RelayCommand(EqualsPressExecute);
 
@@ -72,7 +69,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
             var Exp = parser.Parse(Expression);
 
-            var result = new Result(Exp.Calculate(Mode).Round(RoundTo), Exp, Mode, RoundTo);
+            var result = new ResultViewModel(Exp.Calculate(Mode).Round(RoundTo), Exp, Mode, RoundTo, ExpThreshold);
 
             results.Add(result);
             OnPropertyChanged(nameof(Results));
@@ -161,6 +158,12 @@ namespace FastTool.WPF.ViewModels.Calculator
         private void GetTextBoxExecute(object obj)
         {
             textBox = obj as TextBox;
+            textBox.TextChanged += TextBox_TextChanged;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Expression = textBox.Text;
         }
 
         public ICommand GetScroll => new RelayCommand(GetScrollExecute);
@@ -178,21 +181,4 @@ namespace FastTool.WPF.ViewModels.Calculator
         }
         #endregion
     }
-
-    public struct Result
-    {
-        public string Answer { get; }
-        public string Exp { get; }
-        public Mode Mode { get; }
-        public int Round { get; }
-
-        public Result(Complex answer, ICalculateble exp, Mode mode, int round)
-        {
-            Answer = answer.ToStringSmart();
-            Exp = exp.ToString();
-            Mode = mode;
-            Round = round;
-        }
-    }
-
 }

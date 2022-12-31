@@ -19,6 +19,10 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.InputBindings>
+            <KeyBinding Key="Return" Command="{Binding EqualsPress, Source={StaticResource vm}}" />
+        </Grid.InputBindings>
+
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="200" />
             <RowDefinition Height="Auto" />
@@ -46,18 +50,22 @@
                 <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding Results, Source={StaticResource vm}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid DataContext="{Binding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
 
-                                <TextBlock FontSize="16" Text="{Binding Exp}" />
-                                <TextBox
-                                    Grid.Column="1"
-                                    FontSize="16"
-                                    IsReadOnly="True"
-                                    Text="{Binding Answer, Mode=OneWay}" />
+                                <Separator />
+
+                                <calc:ResultItem
+                                    Grid.Row="1"
+                                    Answer="{Binding Answer}"
+                                    CalculateCommand="{Binding Calculate}"
+                                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
+                                    Expression="{Binding Exp}"
+                                    Mode="{Binding Mode, Mode=TwoWay}"
+                                    RoundTo="{Binding Digit, Mode=TwoWay}" />
 
                             </Grid>
                         </DataTemplate>
@@ -78,7 +86,6 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBox>
-
 
             <calc:CalcControlPanel
                 Grid.Row="3"

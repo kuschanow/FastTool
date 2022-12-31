@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#nullable disable
+using FastTool.Utils;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
+using System.Numerics;
 using System.Windows;
-using FastTool.CalculationTool;
+using System.Windows.Data;
 
 namespace FastTool.WPF.Converters
 {
@@ -29,7 +27,7 @@ namespace FastTool.WPF.Converters
             return DependencyProperty.UnsetValue;
         }
     }
-    
+
     public class InverseBoolToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -50,11 +48,11 @@ namespace FastTool.WPF.Converters
         }
     }
 
-    public class EnumToString : IValueConverter
+    public class SliderValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((Mode)value).ToString();
+            return (double)value < 16 ? (double)value : double.PositiveInfinity;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -62,12 +60,25 @@ namespace FastTool.WPF.Converters
             return DependencyProperty.UnsetValue;
         }
     }
-    
-    public class SliderValueConverter : IValueConverter
+
+    public class ToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value < 16 ? (double)value : double.PositiveInfinity;
+            return value == null ? null : value.ToString() ;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class ComplexToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((Complex)value).ToStringSmart();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

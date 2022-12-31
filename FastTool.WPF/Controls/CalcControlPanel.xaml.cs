@@ -1,21 +1,8 @@
 ﻿#nullable disable
 using FastTool.CalculationTool;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FastTool.WPF.Controls
 {
@@ -27,7 +14,7 @@ namespace FastTool.WPF.Controls
         public CalcControlPanel()
         {
             InitializeComponent();
-            DataContext = this;
+            grid.DataContext = this;
         }
 
         #region Propertys
@@ -108,12 +95,6 @@ namespace FastTool.WPF.Controls
 
         #region Hendlers
 
-        private void ModeSwitchButton_Click(object sender, RoutedEventArgs e)
-        {
-            Mode = (Mode)(((int)Mode + 1) % 3);
-            ModeSwitchCommand?.Execute(Mode);
-        }
-
         private void MSButton_Click(object sender, RoutedEventArgs e)
         {
             MemorySaveCommand?.Execute(null);
@@ -122,15 +103,6 @@ namespace FastTool.WPF.Controls
         private void HCButton_Click(object sender, RoutedEventArgs e)
         {
             HistoryClearCommand?.Execute(null);
-        }
-        private void RoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            RoundToChangedCommand?.Execute(RoundTo);
-        }
-
-        private void ExpThresholdSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            ExpThresholdChangedCommand?.Execute(RoundTo);
         }
 
         #endregion

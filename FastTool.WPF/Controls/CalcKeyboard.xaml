@@ -14,11 +14,15 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
+        <Style TargetType="Button">
+            <EventSetter Event="Click" Handler="Button_Click" />
+        </Style>
+
         <conv:BoolToVisibility x:Key="BoolToVisibility" />
         <conv:InverseBoolToVisibility x:Key="InverseBoolToVisibility" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -60,7 +64,6 @@
             Grid.Row="0"
             Grid.Column="2"
             Margin="2,4,2,2"
-            Click="Button_Click"
             CommandParameter="abs(#)"
             Content="|x|" />
         <Button
@@ -79,35 +82,30 @@
             Grid.Row="1"
             Grid.Column="4"
             Margin="2,2,4,2"
-            Click="Button_Click"
             CommandParameter="%#"
             Content="mod" />
         <Button
             Grid.Row="2"
             Grid.Column="4"
             Margin="2,2,4,2"
-            Click="Button_Click"
             CommandParameter="/#"
             Content="÷" />
         <Button
             Grid.Row="3"
             Grid.Column="4"
             Margin="2,2,4,2"
-            Click="Button_Click"
             CommandParameter="*#"
             Content="×" />
         <Button
             Grid.Row="4"
             Grid.Column="4"
             Margin="2,2,4,2"
-            Click="Button_Click"
             CommandParameter="-#"
             Content="-" />
         <Button
             Grid.Row="5"
             Grid.Column="4"
             Margin="2,2,4,2"
-            Click="Button_Click"
             CommandParameter="+#"
             Content="+" />
         <Button
@@ -123,7 +121,6 @@
             Grid.Row="1"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="^ 2#"
             Content="x²"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -131,7 +128,6 @@
             Grid.Row="2"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="sqrt(#)"
             Content="√x"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -139,7 +135,6 @@
             Grid.Row="3"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="log(#, )"
             Content="logₓy"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -147,7 +142,6 @@
             Grid.Row="4"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="log(2, #)"
             Content="log₂x"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -155,7 +149,6 @@
             Grid.Row="5"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="lg(#)"
             Content="lg"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -163,7 +156,6 @@
             Grid.Row="6"
             Grid.Column="0"
             Margin="4,2,2,4"
-            Click="Button_Click"
             CommandParameter="ln(#)"
             Content="ln"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -172,7 +164,6 @@
             Grid.Row="1"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="𝜋#"
             Content="𝜋"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -180,7 +171,6 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="(#"
             Content="("
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -188,7 +178,6 @@
             Grid.Row="3"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="7#"
             Content="7"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -196,7 +185,6 @@
             Grid.Row="4"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="4#"
             Content="4"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -204,7 +192,6 @@
             Grid.Row="5"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="1#"
             Content="1"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -212,7 +199,6 @@
             Grid.Row="6"
             Grid.Column="1"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter=",#"
             Content=","
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -221,7 +207,6 @@
             Grid.Row="1"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="e#"
             Content="e"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -229,7 +214,6 @@
             Grid.Row="2"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter=")#"
             Content=")"
             Visibility="{Binding StandartKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -237,7 +221,6 @@
             Grid.Row="3"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="8#"
             Content="8"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -245,7 +228,6 @@
             Grid.Row="4"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="5#"
             Content="5"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -253,7 +235,6 @@
             Grid.Row="5"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="2#"
             Content="2"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -261,7 +242,6 @@
             Grid.Row="6"
             Grid.Column="2"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter="0#"
             Content="0"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -270,7 +250,6 @@
             Grid.Row="1"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="exp(#)"
             Content="exp"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -278,7 +257,6 @@
             Grid.Row="2"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="!#"
             Content="n!"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -286,7 +264,6 @@
             Grid.Row="3"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="9#"
             Content="9"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -294,7 +271,6 @@
             Grid.Row="4"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="6#"
             Content="6"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -302,7 +278,6 @@
             Grid.Row="5"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="3#"
             Content="3"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -310,7 +285,6 @@
             Grid.Row="6"
             Grid.Column="3"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter=".#"
             Content="."
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource InverseBoolToVisibility}}" />
@@ -321,7 +295,6 @@
             Grid.Row="1"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="^#"
             Content="xʸ"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -329,7 +302,6 @@
             Grid.Row="2"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="cbrt(#)"
             Content="∛x"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -337,7 +309,6 @@
             Grid.Row="3"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="root(4, #)"
             Content="∜x"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -345,7 +316,6 @@
             Grid.Row="4"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="root(#, )"
             Content="y√x"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -353,7 +323,6 @@
             Grid.Row="5"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="sign(#)"
             Content="sign"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -361,7 +330,6 @@
             Grid.Row="6"
             Grid.Column="0"
             Margin="4,2,2,4"
-            Click="Button_Click"
             CommandParameter="getcom(#, )"
             Content="imm"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -370,7 +338,6 @@
             Grid.Row="1"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="ans"
             Content="ans"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -379,7 +346,6 @@
             Grid.Row="1"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="ceiling(#)"
             Content="↑x↑"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -387,7 +353,6 @@
             Grid.Row="2"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="floor(#)"
             Content="↓x↓"
             Visibility="{Binding SecondKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -398,7 +363,6 @@
             Grid.Row="1"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="sin(#)"
             Content="sin"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -406,7 +370,6 @@
             Grid.Row="2"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="cos(#)"
             Content="cos"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -414,7 +377,6 @@
             Grid.Row="3"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="tan(#)"
             Content="tan"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -422,7 +384,6 @@
             Grid.Row="4"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="cot(#)"
             Content="cot"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -430,7 +391,6 @@
             Grid.Row="5"
             Grid.Column="0"
             Margin="4,2,2,2"
-            Click="Button_Click"
             CommandParameter="sec(#)"
             Content="sec"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -438,7 +398,6 @@
             Grid.Row="6"
             Grid.Column="0"
             Margin="4,2,2,4"
-            Click="Button_Click"
             CommandParameter="csc(#)"
             Content="csc"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -447,7 +406,6 @@
             Grid.Row="1"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="asin(#)"
             Content="asin"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -455,7 +413,6 @@
             Grid.Row="2"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="acos(#)"
             Content="acos"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -463,7 +420,6 @@
             Grid.Row="3"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="atan(#)"
             Content="atan"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -471,7 +427,6 @@
             Grid.Row="4"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="acot(#)"
             Content="acot"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -479,7 +434,6 @@
             Grid.Row="5"
             Grid.Column="1"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="asec(#)"
             Content="asec"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -487,7 +441,6 @@
             Grid.Row="6"
             Grid.Column="1"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter="acsc(#)"
             Content="acsc"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -496,7 +449,6 @@
             Grid.Row="1"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="sinh(#)"
             Content="sinh"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -504,7 +456,6 @@
             Grid.Row="2"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="cosh(#)"
             Content="cosh"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -512,7 +463,6 @@
             Grid.Row="3"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="tanh(#)"
             Content="tanh"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -520,7 +470,6 @@
             Grid.Row="4"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="coth(#)"
             Content="coth"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -528,7 +477,6 @@
             Grid.Row="5"
             Grid.Column="2"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="sech(#)"
             Content="sech"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -536,7 +484,6 @@
             Grid.Row="6"
             Grid.Column="2"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter="csc(#)"
             Content="csch"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -545,7 +492,6 @@
             Grid.Row="1"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="arsh(#)"
             Content="arsh"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -553,7 +499,6 @@
             Grid.Row="2"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="arch(#)"
             Content="arch"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -561,7 +506,6 @@
             Grid.Row="3"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="arth(#)"
             Content="arth"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -569,7 +513,6 @@
             Grid.Row="4"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="arcth(#)"
             Content="arcth"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -577,7 +520,6 @@
             Grid.Row="5"
             Grid.Column="3"
             Margin="2"
-            Click="Button_Click"
             CommandParameter="arsch(#)"
             Content="arsch"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />
@@ -585,7 +527,6 @@
             Grid.Row="6"
             Grid.Column="3"
             Margin="2,2,2,4"
-            Click="Button_Click"
             CommandParameter="arcsh(#)"
             Content="arcsh"
             Visibility="{Binding TrigonometryKeyboard, Converter={StaticResource BoolToVisibility}}" />

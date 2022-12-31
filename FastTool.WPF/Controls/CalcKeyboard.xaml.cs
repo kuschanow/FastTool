@@ -1,12 +1,8 @@
 ﻿#nullable disable
-using System;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace FastTool.WPF.Controls
@@ -19,7 +15,7 @@ namespace FastTool.WPF.Controls
         public CalcKeyboard()
         {
             InitializeComponent();
-            DataContext = this;
+            grid.DataContext = this;
             StandartKeyboard = true;
         }
 
@@ -39,7 +35,7 @@ namespace FastTool.WPF.Controls
         }
 
         public static readonly DependencyProperty BackPressCommandProperty = DependencyProperty.Register("BackPressCommand", typeof(ICommand), typeof(CalcKeyboard));
-        
+
         public ICommand ClearPressCommand
         {
             get => (ICommand)GetValue(ClearPressCommandProperty);
@@ -55,7 +51,7 @@ namespace FastTool.WPF.Controls
         }
 
         public static readonly DependencyProperty EqualsPressCommandProperty = DependencyProperty.Register("EqualsPressCommand", typeof(ICommand), typeof(CalcKeyboard));
-        
+
         public bool SecondKeyboard
         {
             get => (bool)GetValue(SecondKeyboardProperty);

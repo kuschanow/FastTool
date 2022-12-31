@@ -15,30 +15,28 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <conv:EnumToString x:Key="EnumToString" />
         <conv:InverseBoolToVisibility x:Key="InverseBoolToVisibility" />
         <conv:BoolToVisibility x:Key="BoolToVisibility" />
-        <conv:SliderValueConverter x:Key="SliderValueConverter" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Visibility="{Binding OutputScreen, Converter={StaticResource InverseBoolToVisibility}}">
+        <Grid DataContext="{Binding}" Visibility="{Binding OutputScreen, Converter={StaticResource InverseBoolToVisibility}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button
-                Grid.Column="0"
+            <local:ModeButton
+                x:Name="modeButton"
                 Margin="4,4,2,4"
-                Click="ModeSwitchButton_Click"
-                Content="{Binding Mode, Converter={StaticResource EnumToString}}" />
+                Mode="{Binding Mode}"
+                ModeSwitchCommand="{Binding ModeSwitchCommand}" />
 
             <Button
                 Grid.Column="1"
@@ -53,87 +51,13 @@
                 Content="HC" />
         </Grid>
 
-        <Grid d:Visibility="Collapsed" Visibility="{Binding OutputScreen, Converter={StaticResource BoolToVisibility}}">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="2"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Text="Round to" />
-
-            <Slider
-                x:Name="roundSlider"
-                Grid.Column="1"
-                Margin="2"
-                VerticalAlignment="Center"
-                Maximum="16"
-                Minimum="0"
-                ValueChanged="RoundSlider_ValueChanged"
-                Value="{Binding RoundTo}" />
-
-            <TextBox
-                Grid.Row="0"
-                Grid.Column="2"
-                MinWidth="20"
-                Margin="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                IsReadOnly="True"
-                Text="{Binding ElementName=roundSlider, Path=Value, Converter={StaticResource SliderValueConverter}}" />
-
-            <Separator
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Height="2"
-                Margin="0,0,0,0" />
-
-            <TextBlock
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="2"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Text="Exp threshold" />
-
-            <Slider
-                x:Name="expSlider"
-                Grid.Row="2"
-                Grid.Column="1"
-                Margin="2"
-                VerticalAlignment="Center"
-                Maximum="16"
-                Minimum="0"
-                ValueChanged="ExpThresholdSlider_ValueChanged"
-                Value="{Binding ExpThreshold}" />
-
-            <TextBox
-                Grid.Row="2"
-                Grid.Column="2"
-                MinWidth="20"
-                Margin="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                IsReadOnly="True"
-                Text="{Binding ElementName=expSlider, Path=Value, Converter={StaticResource SliderValueConverter}}" />
-        </Grid>
+        <local:OutputSettings
+            d:Visibility="Collapsed"
+            ExpThreshold="{Binding ExpThreshold}"
+            ExpThresholdChangedCommand="{Binding ExpThresholdChangedCommand}"
+            RoundTo="{Binding RoundTo}"
+            RoundToChangedCommand="{Binding RoundToChangedCommand}"
+            Visibility="{Binding OutputScreen, Converter={StaticResource BoolToVisibility}}" />
 
         <ToggleButton
             Grid.Column="3"

@@ -29,6 +29,7 @@ public class ExpressionParser
     {
         var str = exp.Replace(" ", "");
         str = str.Replace(",", "\\sep");
+        str = str.Trim(Convert.ToChar("\n"));
 
         var matches = absExp.Matches(str);
         int level = 0, start = 0;
