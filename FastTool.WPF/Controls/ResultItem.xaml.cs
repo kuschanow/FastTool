@@ -39,13 +39,13 @@ namespace FastTool.WPF.Controls
 
         public static readonly DependencyProperty ExpressionProperty = DependencyProperty.Register("Expression", typeof(ICalculateble), typeof(ResultItem));
 
-        public Complex Answer
+        public string Answer
         {
-            get => (Complex)GetValue(AnswerProperty);
+            get => (string)GetValue(AnswerProperty);
             set => SetValue(AnswerProperty, value);
         }
 
-        public static readonly DependencyProperty AnswerProperty = DependencyProperty.Register("Answer", typeof(Complex), typeof(ResultItem));
+        public static readonly DependencyProperty AnswerProperty = DependencyProperty.Register("Answer", typeof(string), typeof(ResultItem));
 
         public bool Expanded
         {

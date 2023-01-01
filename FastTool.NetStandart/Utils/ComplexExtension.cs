@@ -1,33 +1,36 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Numerics;
 
 namespace FastTool.Utils
 {
     public static class ComplexExtension
     {
-        public static string ToStringSmart(this Complex complex)
+        public static string ToStringSmart(this Complex complex, int exp, int digit)
         {
-            string str = "";
+            string str;
+            string formatReal, formatIm;
+
+            string roundFormat = string.Join("", Enumerable.Range(0, digit).Select(i => '#'));
+
+            if (((int)complex.Real).ToString().Length > exp)
+                formatReal = $"0.{roundFormat}E0";
+            else
+                formatReal = $"0.{roundFormat}";
+
+            if (((int)complex.Imaginary).ToString().Length > exp)
+                formatIm = $"0.{roundFormat}E0";
+            else
+                formatIm = $"0.{roundFormat}";
+
 
             if (complex.Imaginary == 0)
-            {
-                str = $"{complex.Real}";
-            }
+                str = complex.Real.ToString(formatReal, new CultureInfo("eu-US"));
             else
-            {
-                str = $"{complex.Real} {(complex.Imaginary > 0 ? '+' : '-')} {complex.Imaginary}i";
-            }
+                str = $"{complex.Real.ToString(formatReal, new CultureInfo("eu-US"))} {(complex.Imaginary > 0 ? '+' : '-')} {complex.Imaginary.ToString(formatIm, new CultureInfo("eu-US"))}i";
 
             return str;
-        }
-
-        public static Complex Round(this Complex complex, int digit)
-        {
-            if (digit > 15)
-                return new Complex(complex.Real, complex.Imaginary);
-            else
-                return new Complex(Math.Round(complex.Real, digit), Math.Round(complex.Imaginary, digit));
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FastTool.CalculationTool.Interfaces;
+using System.Globalization;
 using System.Numerics;
 
 namespace FastTool.CalculationTool;
@@ -11,5 +12,5 @@ public class Number : ICalculateble
 
     public Complex Calculate(Mode mode) => Num;
 
-    public override string ToString() => $"{Num}";
+    public override string ToString() => Num.ToString(new CultureInfo("en-US"));
 }

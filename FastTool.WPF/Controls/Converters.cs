@@ -6,85 +6,70 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Data;
 
-namespace FastTool.WPF.Converters
+namespace FastTool.WPF.Converters;
+
+public class BoolToVisibility : IValueConverter
 {
-    public class BoolToVisibility : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is bool val)
         {
-            if (value is bool val)
-            {
-                if (val)
-                    return Visibility.Visible;
-                return Visibility.Collapsed;
-            }
-
-            throw new Exception();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
-    }
-
-    public class InverseBoolToVisibility : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is bool val)
-            {
-                if (val)
-                    return Visibility.Collapsed;
+            if (val)
                 return Visibility.Visible;
-            }
-
-            throw new Exception();
+            return Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+        throw new Exception();
     }
 
-    public class SliderValueConverter : IValueConverter
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (double)value < 16 ? (double)value : double.PositiveInfinity;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+        return DependencyProperty.UnsetValue;
     }
+}
 
-    public class ToStringConverter : IValueConverter
+public class InverseBoolToVisibility : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is bool val)
         {
-            return value == null ? null : value.ToString() ;
+            if (val)
+                return Visibility.Collapsed;
+            return Visibility.Visible;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+        throw new Exception();
     }
 
-    public class ComplexToStringConverter : IValueConverter
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return ((Complex)value).ToStringSmart();
-        }
+        return DependencyProperty.UnsetValue;
+    }
+}
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+public class SliderValueConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (double)value < 16 ? (double)value : double.PositiveInfinity;
     }
 
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return DependencyProperty.UnsetValue;
+    }
+}
+
+public class ToStringConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value == null ? null : value.ToString() ;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return DependencyProperty.UnsetValue;
+    }
 }

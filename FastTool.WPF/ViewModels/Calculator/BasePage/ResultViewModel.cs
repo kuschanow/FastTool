@@ -17,15 +17,8 @@ namespace FastTool.WPF.ViewModels.Calculator
         private int digit;
         private int expThreshold;
 
-        public Complex Answer 
-        {
-            get => answer;
-            set
-            {
-                answer = value;
-                OnPropertyChanged();
-            }
-        }
+        public string Answer => answer.ToStringSmart(expThreshold, digit);
+
         public ICalculateble Exp 
         {
             get => exp;
@@ -62,7 +55,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         public ResultViewModel(Complex answer, ICalculateble exp, Mode mode, int digit, int expThreshold)
         {
-            Answer = answer;
+            this.answer = answer;
             Exp = exp;
             Mode = mode;
             Digit = digit;
@@ -71,7 +64,11 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         public ICommand Calculate => new RelayCommand(CalculateExecute);
 
-        private void CalculateExecute(object obj) => Answer = Exp.Calculate(Mode).Round(Digit);
+        private void CalculateExecute(object obj)
+        {
+            answer = Exp.Calculate(Mode);
+            OnPropertyChanged(nameof(Answer));
+        }
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

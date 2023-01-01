@@ -69,7 +69,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
             var Exp = parser.Parse(Expression);
 
-            var result = new ResultViewModel(Exp.Calculate(Mode).Round(RoundTo), Exp, Mode, RoundTo, ExpThreshold);
+            var result = new ResultViewModel(Exp.Calculate(Mode), Exp, Mode, RoundTo, ExpThreshold);
 
             results.Add(result);
             OnPropertyChanged(nameof(Results));
