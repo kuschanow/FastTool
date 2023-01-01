@@ -26,9 +26,9 @@ namespace FastTool.Utils
 
 
             if (complex.Imaginary == 0)
-                str = complex.Real.ToString(formatReal, new CultureInfo("eu-US"));
+                str = complex.Real.ToString(formatReal, new CultureInfo("en-US"));
             else
-                str = $"{complex.Real.ToString(formatReal, new CultureInfo("eu-US"))} {(complex.Imaginary > 0 ? '+' : '-')} {complex.Imaginary.ToString(formatIm, new CultureInfo("eu-US"))}i";
+                str = $"{complex.Real.ToString(formatReal, new CultureInfo("en-US"))} {(complex.Imaginary > 0 ? '+' : '-')} {complex.Imaginary.ToString(formatIm, new CultureInfo("en-US"))}i";
 
             return str;
         }
