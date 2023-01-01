@@ -14,12 +14,12 @@ namespace FastTool.Utils
 
             string roundFormat = string.Join("", Enumerable.Range(0, digit).Select(i => '#'));
 
-            if (((int)complex.Real).ToString().Length > exp)
+            if (exp < 16 && ((int)complex.Real).ToString().Length > exp)
                 formatReal = $"0.{roundFormat}E0";
             else
                 formatReal = $"0.{roundFormat}";
 
-            if (((int)complex.Imaginary).ToString().Length > exp)
+            if (exp < 16 && ((int)complex.Imaginary).ToString().Length > exp)
                 formatIm = $"0.{roundFormat}E0";
             else
                 formatIm = $"0.{roundFormat}";

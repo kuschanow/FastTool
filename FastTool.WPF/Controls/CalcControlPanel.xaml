@@ -53,9 +53,9 @@
 
         <local:OutputSettings
             d:Visibility="Collapsed"
-            ExpThreshold="{Binding ExpThreshold}"
+            ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
             ExpThresholdChangedCommand="{Binding ExpThresholdChangedCommand}"
-            RoundTo="{Binding RoundTo}"
+            RoundTo="{Binding RoundTo, Mode=TwoWay}"
             RoundToChangedCommand="{Binding RoundToChangedCommand}"
             Visibility="{Binding OutputScreen, Converter={StaticResource BoolToVisibility}}" />
 
