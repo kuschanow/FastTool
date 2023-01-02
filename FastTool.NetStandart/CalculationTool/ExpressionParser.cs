@@ -24,10 +24,14 @@ public class ExpressionParser
     private List<IOperator> operators = new();
     private List<KeyValuePair<string, string>> values = new();
 
-    public ExpressionParser(List<KeyValuePair<string, string>> values) 
-    { 
-        this.values = values; 
-        funcExp.ToString(); 
+    public ExpressionParser(List<KeyValuePair<string, string>> values)
+    {
+        this.values = values;
+        funcExp.ToString();
+        if (!ValidateValues())
+        {
+            throw new Exception();
+        }
     }
     public ExpressionParser() : this(new List<KeyValuePair<string, string>>()) { }
 
@@ -78,7 +82,7 @@ public class ExpressionParser
 
         result = GetCalculateble(workableStr);
 
-        return result?? throw new Exception();
+        return result ?? throw new Exception();
     }
 
     private void GetFunctionsList(ref string exp)
@@ -223,7 +227,7 @@ public class ExpressionParser
             exp = exp.Replace(exp.Substring(item.Index, item.Length), $"\\const#{functions.Count - 1}");
         }
     }
-    
+
     private void GetValues(ref string exp)
     {
         for (int i = 0; i < values.Count; i++)
@@ -231,6 +235,11 @@ public class ExpressionParser
             var item = values[i];
 
             var regex = new Regex($@"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|^){item.Key}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|$)");
+
+            if (true)
+            {
+
+            }
 
             while (regex.IsMatch(exp))
             {
@@ -409,5 +418,73 @@ public class ExpressionParser
             .ToList();
 
         return new Regex(@$"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|^){string.Join("|", consts)}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|$)");
+    }
+
+    public static List<string> GetReservedNames()
+    {
+        var list = new List<string>();
+
+        var functions = GetFunctions()
+            .SelectMany(t => GetProp(t, "Names", new Type[] { typeof(ICalculateble[]) }, new object[] { new ICalculateble[0] }) as string[])
+            .OrderBy(s => s)
+            .ToList();
+
+        var consts = GetConsts()
+            .SelectMany(t => GetProp(t, "Names", new Type[0], new object[0]) as string[])
+            .OrderBy(s => s)
+            .ToList();
+
+        list.AddRange(functions);
+        list.AddRange(consts);
+
+        return list;
+    }
+
+    private bool ValidateValues()
+    {
+        List<KeyValuePair<string, List<string>>> addictions = values.Select(v => new KeyValuePair<string, List<string>>(v.Key, values.Where(_v =>
+        {
+            var regex = new Regex($@"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/!%]|(?:{funcExp})|(?:{constExp})|^){v.Key}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/!%]|(?:{funcExp})|(?:{constExp})|$)");
+
+            return regex.IsMatch(_v.Value);
+        }).Select(__v => __v.Key).ToList())
+        ).ToList();
+
+        foreach (var item in addictions)
+        {
+            if (!CheckName(item.Key, addictions, new()))
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool CheckName(string name, List<KeyValuePair<string, List<string>>> addictions, List<string> addictionTree)
+    {
+        var pare = addictions.Single(a => a.Key == name);
+
+        if (pare.Value.Count == 0)
+        {
+            return true;
+        }
+
+        foreach (var item in pare.Value)
+        {
+            if (addictionTree.Contains(item))
+            {
+                return false;
+            }
+
+            addictionTree.Add(name);
+
+            if (CheckName(item, addictions, addictionTree))
+            {
+                addictionTree = new();
+                continue;
+            }
+            break;
+        }
+
+        return addictionTree.Count == 0;
     }
 }
