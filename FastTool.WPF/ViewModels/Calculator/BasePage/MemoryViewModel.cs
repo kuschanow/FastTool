@@ -5,6 +5,8 @@ using FastTool.Utils;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FastTool.WPF.ViewModels.Calculator
 {
@@ -15,6 +17,7 @@ namespace FastTool.WPF.ViewModels.Calculator
         private Mode mode;
         private int roundTo;
         private int expThreshold;
+        private TextBox textBox;
 
         public string Expression
         {
@@ -63,8 +66,28 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void Calculate()
         {
-            answer = new ExpressionParser().Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
+            try
+            {
+                answer = new ExpressionParser().Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
+            }
+            catch
+            {
+                answer = "...";
+            }
             OnPropertyChanged(nameof(Answer));
+        }
+
+        public ICommand GetTextBox => new RelayCommand(GetTextBoxExecute);
+
+        private void GetTextBoxExecute(object obj)
+        {
+            textBox = obj as TextBox;
+            textBox.TextChanged += TextBox_TextChanged;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Expression = textBox.Text;
         }
 
         #region PropertyChanged

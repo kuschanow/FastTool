@@ -124,6 +124,12 @@ namespace FastTool.WPF.Controls
             DeleteCommand?.Execute(DeleteProperty);
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Expression = ((TextBox)sender).Text;
+        }
+
         #endregion
+
     }
 }

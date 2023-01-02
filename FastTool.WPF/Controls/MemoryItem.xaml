@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:FastTool.WPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:FastTool.WPF.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:Background="White"
@@ -37,11 +38,13 @@
             <TextBox
                 Grid.Column="0"
                 Margin="2,2,1,2"
-                Text="{Binding Expression}" />
+                Text="{Binding Expression}"
+                TextChanged="TextBox_TextChanged" />
 
             <TextBox
                 Grid.Column="1"
                 Margin="1,2,1,2"
+                IsReadOnly="True"
                 Text="{Binding Answer}" />
 
             <Button
@@ -60,7 +63,7 @@
             x:Name="more"
             Grid.Row="0"
             Grid.Column="1"
-            Margin="1,2,2,1"
+            Margin="1,2,2,2"
             Content="More"
             IsChecked="{Binding Expanded}" />
 
@@ -68,7 +71,6 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Margin="2,1,2,2"
             Visibility="{Binding Expanded, Converter={StaticResource BoolToVisibility}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -78,12 +80,13 @@
 
             <local:ModeButton
                 Grid.Column="0"
+                Margin="2,0,1,2"
                 Content="{Binding Mode, Converter={StaticResource ToStringConverter}}"
                 Mode="{Binding Mode, Mode=TwoWay}" />
 
             <local:OutputSettings
                 Grid.Column="1"
-                Margin="2,0"
+                Margin="1,0,2,2"
                 ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
                 RoundTo="{Binding RoundTo, Mode=TwoWay}" />
         </Grid>

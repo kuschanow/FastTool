@@ -1,9 +1,11 @@
 ﻿#nullable disable
 using FastTool.CalculationTool;
+using FastTool.CalculationTool.Interfaces;
 using FastTool.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -69,7 +71,17 @@ namespace FastTool.WPF.ViewModels.Calculator
         {
             var parser = new ExpressionParser();
 
-            var Exp = parser.Parse(Expression);
+            ICalculateble Exp;
+
+            try
+            {
+                Exp = parser.Parse(Expression);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid input", "Input error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             var result = new ResultViewModel() { Expression = Exp, Mode = Mode, RoundTo = RoundTo, ExpThreshold = ExpThreshold };
 
