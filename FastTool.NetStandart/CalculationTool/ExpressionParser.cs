@@ -14,7 +14,7 @@ public class ExpressionParser
     private static readonly Regex funcExp = CreateFuncRegex();
     private static readonly Regex numExp = new(@"(?<!#)\d+(\.\d+)?(?:(?:[Ee])([+-]?\d+))?");
     private static readonly Regex оperatorExp = new(@"(?<=[-+/*^%]|^)([-+])(?:(?=[-+])[-+]+|)(?!!|^)|(?<![-+/*^%])(?:(?=!)!+|)(!)|(?<![-+/*^%]|^)(\^)|(?<![-+/*^%]|^)([/*%])(?![/*^!%]|^)|([-+])(?![/*^!%])");
-    private static readonly Regex operandExp = new(@"\\([^#]+)#(\d+)");
+    private static readonly Regex operandExp = new(@"\\([^\\#]+)#(\d+)");
     private static readonly Regex absExp = new(@"(\\left\|)|(\\right\|)");
 
     private List<IFunction> functions = new();
@@ -22,8 +22,14 @@ public class ExpressionParser
     private List<Number> numbers = new();
     private List<IConst> consts = new();
     private List<IOperator> operators = new();
+    private List<KeyValuePair<string, string>> values = new();
 
-    public ExpressionParser() { funcExp.ToString(); }
+    public ExpressionParser(List<KeyValuePair<string, string>> values) 
+    { 
+        this.values = values; 
+        funcExp.ToString(); 
+    }
+    public ExpressionParser() : this(new List<KeyValuePair<string, string>>()) { }
 
     private string PreProcess(string exp)
     {
@@ -61,17 +67,18 @@ public class ExpressionParser
     public ICalculateble Parse(string exp)
     {
         string workableStr = PreProcess(exp);
-        ICalculateble result = null;
+        ICalculateble result;
 
         GetFunctionsList(ref workableStr);
         GetBrakets(ref workableStr);
         GetNumbers(ref workableStr);
         GetConsts(ref workableStr);
+        GetValues(ref workableStr);
         GetOperators(ref workableStr);
 
         result = GetCalculateble(workableStr);
 
-        return result;
+        return result?? throw new Exception();
     }
 
     private void GetFunctionsList(ref string exp)
@@ -216,6 +223,21 @@ public class ExpressionParser
             exp = exp.Replace(exp.Substring(item.Index, item.Length), $"\\const#{functions.Count - 1}");
         }
     }
+    
+    private void GetValues(ref string exp)
+    {
+        for (int i = 0; i < values.Count; i++)
+        {
+            var item = values[i];
+
+            var regex = new Regex($@"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|^){item.Key}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|$)");
+
+            while (regex.IsMatch(exp))
+            {
+                exp = regex.Replace(exp, $"\\value#{i}");
+            }
+        }
+    }
 
     private void GetOperators(ref string exp)
     {
@@ -310,14 +332,16 @@ public class ExpressionParser
     private ICalculateble GetCalculateble(string exp)
     {
         var match = operandExp.Match(exp);
+        int index = Convert.ToInt16(match.Groups[2].Value);
 
         return match.Groups[1].Value switch
         {
-            "func" => functions[Convert.ToInt16(match.Groups[2].Value)],
-            "br" => brakets[Convert.ToInt16(match.Groups[2].Value)],
-            "num" => numbers[Convert.ToInt16(match.Groups[2].Value)],
-            "const" => consts[Convert.ToInt16(match.Groups[2].Value)],
-            "op" => operators[Convert.ToInt16(match.Groups[2].Value)],
+            "func" => functions[index],
+            "br" => brakets[index],
+            "num" => numbers[index],
+            "const" => consts[index],
+            "op" => operators[index],
+            "value" => new Value(values[index].Key, Parse(values[index].Value)),
             _ => throw new NotImplementedException(),
         };
     }
@@ -384,6 +408,6 @@ public class ExpressionParser
             .OrderBy(s => s)
             .ToList();
 
-        return new Regex(string.Join("|", consts));
+        return new Regex(@$"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|^){string.Join("|", consts)}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|$)");
     }
 }
