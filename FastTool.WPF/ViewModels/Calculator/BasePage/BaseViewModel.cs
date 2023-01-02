@@ -2,8 +2,10 @@
 using FastTool.CalculationTool;
 using FastTool.CalculationTool.Interfaces;
 using FastTool.Utils;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +21,7 @@ namespace FastTool.WPF.ViewModels.Calculator
         private int expThreshold = 4;
         private TextBox textBox;
         private ScrollViewer scroll;
+        private ObservableCollection<ValueViewModel> values = new();
         private ObservableCollection<ResultViewModel> results = new();
         private ObservableCollection<MemoryViewModel> memory = new();
 
@@ -64,18 +67,18 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         public ObservableCollection<ResultViewModel> Results => results;
         public ObservableCollection<MemoryViewModel> Memory => memory;
+        public ObservableCollection<ValueViewModel> Values => values;
 
         public ICommand EqualsPress => new RelayCommand(EqualsPressExecute);
 
         private void EqualsPressExecute(object obj)
         {
-            var parser = new ExpressionParser();
 
             ICalculateble Exp;
 
             try
             {
-                Exp = parser.Parse(Expression);
+                Exp = new ExpressionParser(values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression);
             }
             catch
             {
@@ -141,7 +144,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void MemorySavePressExecute(object obj)
         {
-            Memory.Add(new MemoryViewModel() { Expression = Expression, Mode = Mode, RoundTo = RoundTo, ExpThreshold = ExpThreshold });
+            Memory.Add(new MemoryViewModel(values) { Expression = Expression, Mode = Mode, RoundTo = RoundTo, ExpThreshold = ExpThreshold });
         }
 
         public ICommand HistoryClearPress => new RelayCommand(HistoryClearPressExecute);
@@ -187,18 +190,97 @@ namespace FastTool.WPF.ViewModels.Calculator
             scroll = obj as ScrollViewer;
         }
 
-        public ICommand Apply => new RelayCommand(ApplyExecute);
+        public ICommand ApplyMemory => new RelayCommand(ApplyMemoryExecute);
 
-        private void ApplyExecute(object obj)
+        private void ApplyMemoryExecute(object obj)
         {
             Expression = $"{Expression[0..textBox.CaretIndex]}{((MemoryViewModel)obj).Expression}{Expression[textBox.CaretIndex..]}";
         }
 
-        public ICommand Delete => new RelayCommand(DeleteExecute);
+        public ICommand ApplyValue => new RelayCommand(ApplyValueExecute);
 
-        private void DeleteExecute(object obj)
+        private void ApplyValueExecute(object obj)
+        {
+            var val = (ValueViewModel)obj;
+
+            if (val.Error == Error.None)
+                Expression = $"{Expression[0..textBox.CaretIndex]}{val.Name}{Expression[textBox.CaretIndex..]}";
+        }
+
+        public ICommand DeleteFromMemory => new RelayCommand(DeleteFromMemoryExecute);
+
+        private void DeleteFromMemoryExecute(object obj)
         {
             memory.Remove((MemoryViewModel)obj);
+        }
+
+        public ICommand DeleteValue => new RelayCommand(DeleteValueExecute);
+
+        private void DeleteValueExecute(object obj)
+        {
+            values.Remove((ValueViewModel)obj);
+        }
+
+        public ICommand AddValue => new RelayCommand(AddValueExecute);
+
+        private void AddValueExecute(object obj)
+        {
+            values.Add(new ValueViewModel(values));
+        }
+
+        public ICommand ClearValue => new RelayCommand(ClearValueExecute);
+
+        private void ClearValueExecute(object obj)
+        {
+            values.Clear();
+        }
+
+        public ICommand AddToMemory => new RelayCommand(AddToMemoryExecute);
+
+        private void AddToMemoryExecute(object obj)
+        {
+            memory.Add(new MemoryViewModel(values));
+        }
+
+        public ICommand ClearMemory => new RelayCommand(ClearMemoryExecute);
+
+        private void ClearMemoryExecute(object obj)
+        {
+            memory.Clear();
+        }
+
+        public ICommand NameChanged => new RelayCommand(NameChangedExecute);
+
+        private void NameChangedExecute(object obj)
+        {
+            var val = (ValueViewModel)obj;
+            var theSameValues = values.Where(v => v.Name == val.Name);
+
+            if (theSameValues.Count() > 1)
+            {
+                foreach (var v in theSameValues)
+                    v.Error = Error.IdentityName;
+            }
+            else if (ExpressionParser.GetReservedNames().Contains(val.Name))
+            {
+                val.Error = Error.ReservedName;
+            }
+            else
+            {
+                foreach (var item in values)
+                    item.Error = Error.None;
+            }
+        }
+
+        public ICommand ValueExpressionChanged => new RelayCommand(ValueExpressionChangedExecute);
+
+        private void ValueExpressionChangedExecute(object obj)
+        {
+            foreach (var item in values)
+                item.Expression = item.Expression;
+
+            foreach (var item in memory)
+                item.Expression = item.Expression;
         }
 
         #region PropertyChanged

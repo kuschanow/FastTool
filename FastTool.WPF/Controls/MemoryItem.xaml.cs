@@ -52,13 +52,13 @@ namespace FastTool.WPF.Controls
             set => SetValue(DeleteCommandProperty, value);
         }
 
+        public static readonly DependencyProperty DeletePropertyProperty = DependencyProperty.Register("DeleteProperty", typeof(object), typeof(MemoryItem));
+
         public object DeleteProperty
         {
             get => GetValue(DeletePropertyProperty);
             set => SetValue(DeletePropertyProperty, value);
         }
-
-        public static readonly DependencyProperty DeletePropertyProperty = DependencyProperty.Register("DeleteProperty", typeof(object), typeof(MemoryItem));
 
         public static readonly DependencyProperty DeleteCommandProperty = DependencyProperty.Register("DeleteCommand", typeof(ICommand), typeof(MemoryItem));
 
