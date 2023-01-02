@@ -24,7 +24,6 @@ namespace FastTool.WPF.Controls
         public ModeButton()
         {
             InitializeComponent();
-            Content = Mode.ToString();
         }
 
         public Mode Mode

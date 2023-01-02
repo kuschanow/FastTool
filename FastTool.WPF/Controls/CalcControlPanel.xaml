@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <conv:InverseBoolToVisibility x:Key="InverseBoolToVisibility" />
         <conv:BoolToVisibility x:Key="BoolToVisibility" />
+        <conv:ToStringConverter x:Key="ToStringConverter" />
     </UserControl.Resources>
 
     <Grid x:Name="grid">
@@ -35,7 +36,8 @@
             <local:ModeButton
                 x:Name="modeButton"
                 Margin="4,4,2,4"
-                Mode="{Binding Mode}"
+                Content="{Binding Mode, Converter={StaticResource ToStringConverter}}"
+                Mode="{Binding Mode, Mode=TwoWay}"
                 ModeSwitchCommand="{Binding ModeSwitchCommand}" />
 
             <Button

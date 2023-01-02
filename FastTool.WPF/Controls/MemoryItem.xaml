@@ -76,7 +76,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <local:ModeButton Grid.Column="0" Mode="{Binding Mode, Mode=TwoWay}" />
+            <local:ModeButton
+                Grid.Column="0"
+                Content="{Binding Mode, Converter={StaticResource ToStringConverter}}"
+                Mode="{Binding Mode, Mode=TwoWay}" />
 
             <local:OutputSettings
                 Grid.Column="1"

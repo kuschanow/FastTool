@@ -71,7 +71,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
             var Exp = parser.Parse(Expression);
 
-            var result = new ResultViewModel(Exp.Calculate(Mode), Exp, Mode, RoundTo, ExpThreshold);
+            var result = new ResultViewModel() { Expression = Exp, Mode = Mode, RoundTo = RoundTo, ExpThreshold = ExpThreshold };
 
             results.Add(result);
             OnPropertyChanged(nameof(Results));
@@ -129,7 +129,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void MemorySavePressExecute(object obj)
         {
-            Memory.Add(new MemoryViewModel() { Expression = Expression, RoundTo = RoundTo, ExpThreshold = ExpThreshold });
+            Memory.Add(new MemoryViewModel() { Expression = Expression, Mode = Mode, RoundTo = RoundTo, ExpThreshold = ExpThreshold });
         }
 
         public ICommand HistoryClearPress => new RelayCommand(HistoryClearPressExecute);

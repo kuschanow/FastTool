@@ -56,15 +56,6 @@ namespace FastTool.WPF.ViewModels.Calculator
             }
         }
 
-        public ResultViewModel(Complex answer, ICalculateble exp, Mode mode, int roundTo, int expThreshold)
-        {
-            this.answer = answer;
-            Expression = exp;
-            Mode = mode;
-            RoundTo = roundTo;
-            ExpThreshold = expThreshold;
-        }
-
         private void Calculate()
         {
             answer = Expression.Calculate(Mode);
