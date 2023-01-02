@@ -18,6 +18,7 @@ namespace FastTool.WPF.ViewModels.Calculator
         private TextBox textBox;
         private ScrollViewer scroll;
         private ObservableCollection<ResultViewModel> results = new();
+        private ObservableCollection<MemoryViewModel> memory = new();
 
         public string Expression
         {
@@ -60,6 +61,7 @@ namespace FastTool.WPF.ViewModels.Calculator
         }
 
         public ObservableCollection<ResultViewModel> Results => results;
+        public ObservableCollection<MemoryViewModel> Memory => memory;
 
         public ICommand EqualsPress => new RelayCommand(EqualsPressExecute);
 
@@ -127,7 +129,7 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void MemorySavePressExecute(object obj)
         {
-
+            Memory.Add(new MemoryViewModel() { Expression = Expression, RoundTo = RoundTo, ExpThreshold = ExpThreshold });
         }
 
         public ICommand HistoryClearPress => new RelayCommand(HistoryClearPressExecute);
@@ -171,6 +173,20 @@ namespace FastTool.WPF.ViewModels.Calculator
         private void GetScrollExecute(object obj)
         {
             scroll = obj as ScrollViewer;
+        }
+
+        public ICommand Apply => new RelayCommand(ApplyExecute);
+
+        private void ApplyExecute(object obj)
+        {
+            Expression = $"{Expression[0..textBox.CaretIndex]}{((MemoryViewModel)obj).Expression}{Expression[textBox.CaretIndex..]}";
+        }
+
+        public ICommand Delete => new RelayCommand(DeleteExecute);
+
+        private void DeleteExecute(object obj)
+        {
+            memory.Remove((MemoryViewModel)obj);
         }
 
         #region PropertyChanged

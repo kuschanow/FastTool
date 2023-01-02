@@ -52,6 +52,7 @@
         </Grid>
 
         <local:OutputSettings
+            Margin="4,4,2,4"
             d:Visibility="Collapsed"
             ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
             ExpThresholdChangedCommand="{Binding ExpThresholdChangedCommand}"

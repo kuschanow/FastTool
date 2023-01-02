@@ -79,23 +79,6 @@ namespace FastTool.WPF.Controls
 
         public static readonly DependencyProperty ModeProperty = DependencyProperty.Register("Mode", typeof(Mode), typeof(ResultItem));
 
-        public ICommand CalculateCommand
-        {
-            get => (ICommand)GetValue(CalculateCommandProperty);
-            set => SetValue(CalculateCommandProperty, value);
-        }
-
-        public static readonly DependencyProperty CalculateCommandProperty = DependencyProperty.Register("CalculateCommand", typeof(ICommand), typeof(ResultItem));
-
-        #endregion
-
-        #region Handlers
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            CalculateCommand?.Execute(null);
-        }
-
         #endregion
     }
 }

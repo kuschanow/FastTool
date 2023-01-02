@@ -31,7 +31,7 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Margin="2"
+            Margin="0,0,1,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Text="Round to" />
@@ -39,7 +39,7 @@
         <Slider
             x:Name="roundSlider"
             Grid.Column="1"
-            Margin="2"
+            Margin="1,0,1,0"
             VerticalAlignment="Center"
             Maximum="16"
             Minimum="0"
@@ -50,7 +50,7 @@
             Grid.Row="0"
             Grid.Column="2"
             MinWidth="20"
-            Margin="2"
+            Margin="1,0,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
@@ -63,12 +63,12 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Height="2"
-            Margin="0,0,0,0" />
+            Margin="1" />
 
         <TextBlock
             Grid.Row="2"
             Grid.Column="0"
-            Margin="2"
+            Margin="0,0,1,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Text="Exp threshold" />
@@ -77,7 +77,7 @@
             x:Name="expSlider"
             Grid.Row="2"
             Grid.Column="1"
-            Margin="2"
+            Margin="1,0,1,0"
             VerticalAlignment="Center"
             Maximum="16"
             Minimum="0"
@@ -88,7 +88,7 @@
             Grid.Row="2"
             Grid.Column="2"
             MinWidth="20"
-            Margin="2"
+            Margin="1,0,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             HorizontalContentAlignment="Center"

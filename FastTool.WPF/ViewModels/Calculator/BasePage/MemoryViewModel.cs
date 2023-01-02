@@ -1,32 +1,37 @@
 ﻿#nullable disable
 using FastTool.CalculationTool;
-using FastTool.CalculationTool.Interfaces;
+using FastTool.CalculationTool.Functions;
 using FastTool.Utils;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel;
-using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace FastTool.WPF.ViewModels.Calculator
 {
-    public class ResultViewModel : INotifyPropertyChanged
+    public class MemoryViewModel : INotifyPropertyChanged
     {
-        private Complex answer;
-        private ICalculateble expression;
+        private string expression;
+        private string answer;
         private Mode mode;
         private int roundTo;
         private int expThreshold;
 
-        public string Answer => answer.ToStringSmart(expThreshold, roundTo);
-
-        public ICalculateble Expression 
+        public string Expression
         {
             get => expression;
-            init => expression = value;
+            set
+            {
+                expression = value;
+                OnPropertyChanged();
+                Calculate();
+            }
         }
-        public Mode Mode 
+
+        public string Answer => answer;
+
+        public Mode Mode
         {
-            get => mode; 
+            get => mode;
             set
             {
                 mode = value;
@@ -34,9 +39,9 @@ namespace FastTool.WPF.ViewModels.Calculator
                 Calculate();
             }
         }
-        public int RoundTo 
-        { 
-            get => roundTo; 
+        public int RoundTo
+        {
+            get => roundTo;
             set
             {
                 roundTo = value;
@@ -46,8 +51,8 @@ namespace FastTool.WPF.ViewModels.Calculator
         }
 
         public int ExpThreshold
-        { 
-            get => expThreshold; 
+        {
+            get => expThreshold;
             set
             {
                 expThreshold = value;
@@ -56,18 +61,9 @@ namespace FastTool.WPF.ViewModels.Calculator
             }
         }
 
-        public ResultViewModel(Complex answer, ICalculateble exp, Mode mode, int roundTo, int expThreshold)
-        {
-            this.answer = answer;
-            Expression = exp;
-            Mode = mode;
-            RoundTo = roundTo;
-            ExpThreshold = expThreshold;
-        }
-
         private void Calculate()
         {
-            answer = Expression.Calculate(Mode);
+            answer = new ExpressionParser().Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
             OnPropertyChanged(nameof(Answer));
         }
 
