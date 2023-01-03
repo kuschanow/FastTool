@@ -248,7 +248,8 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void NameChangedExecute(object obj)
         {
-            ((ValueViewModel)obj).Name = string.Join("", ((ValueViewModel)obj).Name.Where(ch => !"+-*/!^%".Contains(ch)));
+            ((ValueViewModel)obj).Name = ((ValueViewModel)obj).Name.ToLower();
+            ((ValueViewModel)obj).Name = string.Join("", ((ValueViewModel)obj).Name.Where(ch => !"+-*/!^%()".Contains(ch)));
             new Thread(() =>
             {
                 var theSameValues = values.Select((v, i) =>
@@ -258,7 +259,9 @@ namespace FastTool.WPF.ViewModels.Calculator
                         list.Add(v);
                     return list;
                 }).SelectMany(v => v);
-                var reservedValues = values.Where(v => ExpressionParser.GetReservedNames().Contains(v.Name));
+                var reserved = ExpressionParser.GetReservedNames();
+                reserved.Add("ans");
+                var reservedValues = values.Where(v => reserved.Contains(v.Name));
                 var hasPrefix = values.Select(v => values.Where(_v => !string.IsNullOrWhiteSpace(v.Name) && !string.IsNullOrWhiteSpace(_v.Name) && _v != v && _v.Name != v.Name && _v.Name.StartsWith(v.Name))).SelectMany(v => v);
 
                 if (theSameValues.Count() > 0)
