@@ -67,7 +67,7 @@
                 Grid.Column="4"
                 Margin="1,2,2,2"
                 Click="Delete_Click"
-                Content="Del" />
+                Content="🗑" />
         </Grid>
 
         <ToggleButton
@@ -75,7 +75,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="1,2,2,2"
-            Content="More"
+            Content="⯆"
             IsChecked="{Binding Expanded}" />
 
         <Grid

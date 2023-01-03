@@ -43,7 +43,7 @@
             Grid.Row="0"
             Grid.Column="2"
             Margin="1,2,2,2"
-            Content="More"
+            Content="⯆"
             IsChecked="{Binding Expanded}" />
 
         <Grid
