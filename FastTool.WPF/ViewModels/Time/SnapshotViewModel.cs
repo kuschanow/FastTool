@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,9 +9,13 @@ using System.Threading.Tasks;
 
 namespace FastTool.WPF.ViewModels.Time
 {
-    public class StopWatchItemViewModel : INotifyPropertyChanged
+    public class SnapshotViewModel : INotifyPropertyChanged
     {
+        private TimeSpan time;
 
+        public TimeSpan Time => time;
+
+        public SnapshotViewModel(TimeSpan time) => this.time = time;
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
