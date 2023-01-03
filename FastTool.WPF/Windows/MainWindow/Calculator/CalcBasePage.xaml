@@ -16,6 +16,75 @@
 
     <Page.Resources>
         <vms:BaseViewModel x:Key="vm" />
+        <DataTemplate x:Key="Result">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Separator Margin="0" />
+
+                <calc:ResultItem
+                    Grid.Row="1"
+                    Answer="{Binding Answer}"
+                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
+                    Expression="{Binding Expression}"
+                    Mode="{Binding Mode, Mode=TwoWay}"
+                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Value">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <calc:ValueItem
+                    Answer="{Binding Answer}"
+                    ApplyCommand="{Binding ApplyValue, Source={StaticResource vm}}"
+                    ApplyProperty="{Binding}"
+                    DeleteCommand="{Binding DeleteValue, Source={StaticResource vm}}"
+                    DeleteProperty="{Binding}"
+                    Error="{Binding Error}"
+                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
+                    Expression="{Binding Expression, Mode=TwoWay}"
+                    ExpressionChanged="{Binding ValueExpressionChanged, Source={StaticResource vm}}"
+                    ExpressionChangedProp="{Binding}"
+                    Mode="{Binding Mode, Mode=TwoWay}"
+                    NameChanged="{Binding NameChanged, Source={StaticResource vm}}"
+                    NameChangedProp="{Binding}"
+                    RoundTo="{Binding RoundTo, Mode=TwoWay}"
+                    ValueName="{Binding Name, Mode=TwoWay}" />
+
+                <Separator Grid.Row="1" Margin="0" />
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Memory">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <calc:MemoryItem
+                    Answer="{Binding Answer}"
+                    ApplyCommand="{Binding ApplyMemory, Source={StaticResource vm}}"
+                    ApplyProperty="{Binding}"
+                    DeleteCommand="{Binding DeleteFromMemory, Source={StaticResource vm}}"
+                    DeleteProperty="{Binding}"
+                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
+                    Expression="{Binding Expression, Mode=TwoWay}"
+                    Mode="{Binding Mode, Mode=TwoWay}"
+                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
+
+                <Separator Grid.Row="1" Margin="0" />
+
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -41,36 +110,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ScrollViewer x:Name="scroll" VerticalScrollBarVisibility="Hidden">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding GetScroll, Source={StaticResource vm}}" CommandParameter="{Binding ElementName=scroll}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ItemsControl VerticalAlignment="Bottom" ItemsSource="{Binding Results, Source={StaticResource vm}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <Separator Margin="0" />
-
-                                <calc:ResultItem
-                                    Grid.Row="1"
-                                    Answer="{Binding Answer}"
-                                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                                    Expression="{Binding Expression}"
-                                    Mode="{Binding Mode, Mode=TwoWay}"
-                                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <calc:ListView
+                Aligment="Bottom"
+                ItemTemplate="{Binding Source={StaticResource Result}}"
+                Items="{Binding Results, Source={StaticResource vm}}" />
 
             <TextBox
                 x:Name="expField"
@@ -107,40 +150,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{Binding Values, Source={StaticResource vm}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <calc:ValueItem
-                                    Answer="{Binding Answer}"
-                                    ApplyCommand="{Binding ApplyValue, Source={StaticResource vm}}"
-                                    ApplyProperty="{Binding}"
-                                    DeleteCommand="{Binding DeleteValue, Source={StaticResource vm}}"
-                                    DeleteProperty="{Binding}"
-                                    Error="{Binding Error}"
-                                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                                    Expression="{Binding Expression, Mode=TwoWay}"
-                                    ExpressionChanged="{Binding ValueExpressionChanged, Source={StaticResource vm}}"
-                                    ExpressionChangedProp="{Binding}"
-                                    Mode="{Binding Mode, Mode=TwoWay}"
-                                    NameChanged="{Binding NameChanged, Source={StaticResource vm}}"
-                                    NameChangedProp="{Binding}"
-                                    RoundTo="{Binding RoundTo, Mode=TwoWay}"
-                                    ValueName="{Binding Name, Mode=TwoWay}" />
-
-                                <Separator Grid.Row="1" Margin="0" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <calc:ListView
+                Aligment="Top"
+                ItemTemplate="{Binding Source={StaticResource Value}}"
+                Items="{Binding Values, Source={StaticResource vm}}" />
 
             <calc:ListControl
                 Grid.Row="1"
@@ -164,34 +177,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{Binding Memory, Source={StaticResource vm}}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <calc:MemoryItem
-                                    Answer="{Binding Answer}"
-                                    ApplyCommand="{Binding ApplyMemory, Source={StaticResource vm}}"
-                                    ApplyProperty="{Binding}"
-                                    DeleteCommand="{Binding DeleteFromMemory, Source={StaticResource vm}}"
-                                    DeleteProperty="{Binding}"
-                                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                                    Expression="{Binding Expression, Mode=TwoWay}"
-                                    Mode="{Binding Mode, Mode=TwoWay}"
-                                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
-
-                                <Separator Grid.Row="1" Margin="0" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <calc:ListView
+                Aligment="Top"
+                ItemTemplate="{Binding Source={StaticResource Memory}}"
+                Items="{Binding Memory, Source={StaticResource vm}}" />
 
             <calc:ListControl
                 Grid.Row="1"

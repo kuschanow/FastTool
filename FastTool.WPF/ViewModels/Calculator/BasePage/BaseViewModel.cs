@@ -22,7 +22,6 @@ namespace FastTool.WPF.ViewModels.Calculator
         private int roundTo = 4;
         private int expThreshold = 4;
         private TextBox textBox;
-        private ScrollViewer scroll;
         private ObservableCollection<ValueViewModel> values = new();
         private ObservableCollection<ResultViewModel> results = new();
         private ObservableCollection<MemoryViewModel> memory = new();
@@ -92,8 +91,6 @@ namespace FastTool.WPF.ViewModels.Calculator
 
             results.Add(result);
             OnPropertyChanged(nameof(Results));
-
-            scroll.ScrollToEnd();
         }
 
         public ICommand BackPress => new RelayCommand(BackPressExecute);
@@ -183,13 +180,6 @@ namespace FastTool.WPF.ViewModels.Calculator
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             Expression = textBox.Text;
-        }
-
-        public ICommand GetScroll => new RelayCommand(GetScrollExecute);
-
-        private void GetScrollExecute(object obj)
-        {
-            scroll = obj as ScrollViewer;
         }
 
         public ICommand ApplyMemory => new RelayCommand(ApplyMemoryExecute);
