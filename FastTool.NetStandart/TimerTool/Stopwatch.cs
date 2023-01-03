@@ -11,7 +11,17 @@ public class Stopwatch : ITimer
     private readonly System.Timers.Timer timer;
     private readonly System.Diagnostics.Stopwatch stopwatch;
 
-    public TimeSpan Time { get; private set; }
+    private TimeSpan time;
+
+    public TimeSpan Time 
+    { 
+        get => time; 
+        private set 
+        { 
+            time = value; 
+            TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time)); 
+        } 
+    }
 
     public Stopwatch(int span)
     {
@@ -35,8 +45,8 @@ public class Stopwatch : ITimer
     public void Stop()
     {
         stopwatch.Reset();
-        TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(TimeSpan.Zero));
         timer.Stop();
+        Time = TimeSpan.Zero;
     }
 
     public void Restart()
@@ -45,11 +55,7 @@ public class Stopwatch : ITimer
         timer.Start();
     }
 
-    public void Update(object source, ElapsedEventArgs e)
-    {
-        Time = stopwatch.Elapsed;
-        TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
-    }
+    public void Update(object source, ElapsedEventArgs e) => Time = stopwatch.Elapsed;
 
     public event TimerUpdateEventHandler TimerUpdate;
 }
