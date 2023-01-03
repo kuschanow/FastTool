@@ -26,7 +26,7 @@ public class ExpressionParser
 
     public ExpressionParser(List<KeyValuePair<string, string>> values)
     {
-        this.values = values;
+        this.values = values.Where(v => !string.IsNullOrWhiteSpace(v.Value) || !string.IsNullOrWhiteSpace(v.Key)).ToList();
         funcExp.ToString();
         if (!ValidateValues())
         {

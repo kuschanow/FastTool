@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -22,7 +24,15 @@ namespace FastTool.WPF.ViewModels.Calculator
         private TextBox textBox;
         private ObservableCollection<ValueViewModel> values;
 
-        public string Answer { get => answer; protected set => answer = value; }
+        public string Answer 
+        { 
+            get => answer;
+            protected set
+            {
+                answer = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Expression
         {
@@ -76,15 +86,17 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         protected virtual void Calculate()
         {
-            try
+            new Thread(() =>
             {
-                Answer = new ExpressionParser(values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
-            }
-            catch
-            {
-                Answer = "...";
-            }
-            OnPropertyChanged(nameof(Answer));
+                try
+                {
+                    Answer = new ExpressionParser(values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
+                }
+                catch
+                {
+                    Answer = "...";
+                }
+            }).Start();
         }
 
         private void GetTextBoxExecute(object obj)

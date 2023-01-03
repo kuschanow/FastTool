@@ -31,7 +31,7 @@ namespace FastTool.WPF.ViewModels.Calculator
             {
                 error = value;
                 OnPropertyChanged();
-                Answer = $"{error}";
+                Calculate();
             }
         }
 
@@ -41,6 +41,8 @@ namespace FastTool.WPF.ViewModels.Calculator
         {
             if (Error == Error.None)
                 base.Calculate();
+            else
+                Answer = $"{error}";
         }
     }
 }
