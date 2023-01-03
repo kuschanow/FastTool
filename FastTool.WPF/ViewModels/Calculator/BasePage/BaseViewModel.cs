@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -253,34 +254,40 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void NameChangedExecute(object obj)
         {
-            var val = (ValueViewModel)obj;
-            var theSameValues = values.Where(v => v.Name == val.Name);
+            new Thread(() =>
+            {
+                var theSameValues = values.Select((v, i) => values.Skip(i+1).Where(_v => v.Name == _v.Name)).SelectMany(v => v);
+                var reservedValues = values.Where(v => ExpressionParser.GetReservedNames().Contains(v.Name));
 
-            if (theSameValues.Count() > 1)
-            {
-                foreach (var v in theSameValues)
-                    v.Error = Error.IdentityName;
-            }
-            else if (ExpressionParser.GetReservedNames().Contains(val.Name))
-            {
-                val.Error = Error.ReservedName;
-            }
-            else
-            {
-                foreach (var item in values)
-                    item.Error = Error.None;
-            }
+                if (theSameValues.Count() > 0)
+                {
+                    foreach (var v in theSameValues)
+                        v.Error = Error.IdentityName;
+                }
+
+                if (reservedValues.Count() > 0)
+                {
+                    foreach (var v in reservedValues)
+                        v.Error = Error.ReservedName;
+                }
+
+                foreach (var v in values.Where(v => !theSameValues.Contains(v) && !reservedValues.Contains(v) && v.Error != Error.None))
+                    v.Error = Error.None;
+            }).Start();
         }
 
         public ICommand ValueExpressionChanged => new RelayCommand(ValueExpressionChangedExecute);
 
         private void ValueExpressionChangedExecute(object obj)
         {
-            foreach (var item in values)
-                item.Expression = item.Expression;
+            new Thread(() =>
+            {
+                foreach (var item in values)
+                    item.Expression = item.Expression;
 
-            foreach (var item in memory)
-                item.Expression = item.Expression;
+                foreach (var item in memory)
+                    item.Expression = item.Expression;
+            }).Start();
         }
 
         #region PropertyChanged

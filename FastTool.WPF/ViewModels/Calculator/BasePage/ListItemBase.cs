@@ -24,8 +24,8 @@ namespace FastTool.WPF.ViewModels.Calculator
         private TextBox textBox;
         private ObservableCollection<ValueViewModel> values;
 
-        public string Answer 
-        { 
+        public string Answer
+        {
             get => answer;
             protected set
             {
