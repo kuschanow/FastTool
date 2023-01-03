@@ -10,7 +10,6 @@ public class Timer : ITimer
 {
     private readonly System.Timers.Timer timer;
 
-    #region props
     public TimeSpan Time { get; }
     public string Message { get; }
     public TimeSpan TimeLeft { get; private set; }
@@ -18,11 +17,9 @@ public class Timer : ITimer
     private DateTimeOffset TimerStart { get; set; }
     private DateTimeOffset TimerStop { get; set; }
     private TimeSpan StopedTime { get; set; }
-    #endregion
 
-    #region constructors
     public Timer(TimeSpan time) : this(time, "") { }
-    public Timer(TimeSpan time, string message) : this(time, message, 1000) { }
+    public Timer(TimeSpan time, string message) : this(time, message, 10) { }
     public Timer(TimeSpan time, string message, int span)
     {
         Time = time;
@@ -30,20 +27,6 @@ public class Timer : ITimer
         timer = new System.Timers.Timer(span);
         timer.Elapsed += Update;
     }
-
-    event TimerUpdateEventHandler ITimer.TimerUpdate
-    {
-        add
-        {
-            throw new NotImplementedException();
-        }
-
-        remove
-        {
-            throw new NotImplementedException();
-        }
-    }
-    #endregion
 
     public void Start()
     {
