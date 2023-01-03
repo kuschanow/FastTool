@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using FastTool.CalculationTool;
+using FastTool.CalculationTool.Functions;
 using FastTool.CalculationTool.Interfaces;
 using FastTool.Utils;
 using SQLitePCL;
@@ -79,7 +80,9 @@ namespace FastTool.WPF.ViewModels.Calculator
 
             try
             {
-                Exp = new ExpressionParser(values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression);
+                var vals = values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList();
+                vals.Add(new KeyValuePair<string, string>("ans", results.Count > 0 ? new GetComplex(new ICalculateble[] { new Number(results.Last().Expression.Calculate(Mode).Real), new Number(results.Last().Expression.Calculate(Mode).Imaginary) }).ToString() : ""));
+                Exp = new ExpressionParser(vals).Parse(Expression);
             }
             catch
             {
