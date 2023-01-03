@@ -16,7 +16,7 @@
         <vms:CalculatorViewModel x:Key="vm" />
     </Page.Resources>
 
-    <Grid>
+    <Grid DataContext="{Binding Source={StaticResource vm}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="Auto" />
@@ -30,38 +30,38 @@
             ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <RadioButton
                 Margin="10,5,5,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="basePage"
                 Content="Base"
                 IsChecked="True" />
             <RadioButton
                 Margin="10,5,5,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="programPage"
                 Content="Programming" />
             <RadioButton
                 Margin="5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="matrixPage"
                 Content="Matrix" />
             <RadioButton
                 Margin="5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="transPage"
                 Content="Transform" />
             <RadioButton
                 Margin="5,5,5,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="graphPage"
                 Content="Graphic" />
             <RadioButton
                 Margin="5,5,5,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="formulsPage"
                 Content="Formuls" />
             <RadioButton
                 Margin="5,5,10,5"
-                Command="{Binding ChangePage, Source={StaticResource vm}}"
+                Command="{Binding ChangePage}"
                 CommandParameter="boardPage"
                 Content="MathBoard" />
         </StackPanel>
@@ -71,7 +71,7 @@
         <Frame
             x:Name="calcFrame"
             Grid.Row="2"
-            Content="{Binding CurrPage, Source={StaticResource vm}}"
+            Content="{Binding CurrPage}"
             NavigationUIVisibility="Hidden" />
     </Grid>
 </Page>

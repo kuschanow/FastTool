@@ -16,6 +16,7 @@ public class Stopwatch : ITimer
     private DateTimeOffset TimerStart { get; set; }
     private DateTimeOffset TimerStop { get; set; }
     private TimeSpan StopedTime { get; set; }
+    private bool IsStopped { get; set; } = true;
     #endregion
 
     #region constructors
@@ -25,29 +26,19 @@ public class Stopwatch : ITimer
         timer.Elapsed += Update;
     }
 
-    event TimerUpdateEventHandler ITimer.TimerUpdate
-    {
-        add
-        {
-            throw new NotImplementedException();
-        }
-
-        remove
-        {
-            throw new NotImplementedException();
-        }
-    }
     #endregion
 
     public void Start()
     {
         if (!timer.Enabled)
         {
-            TimerStart = DateTimeOffset.Now;
-            if (StopedTime != TimeSpan.Zero)
+            if (IsStopped)
             {
-                StopedTime += DateTimeOffset.Now - TimerStop;
+                IsStopped = false;
+                TimerStart = DateTimeOffset.Now;
             }
+            if (TimerStop != DateTimeOffset.MinValue)
+                StopedTime += DateTimeOffset.Now - TimerStop;
             timer.Start();
         }
     }
@@ -64,8 +55,11 @@ public class Stopwatch : ITimer
     public void Stop()
     {
         timer.Stop();
+        IsStopped = true;
         Time = TimeSpan.Zero;
         StopedTime = TimeSpan.Zero;
+        TimerStop = DateTimeOffset.MinValue;
+        TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
     }
 
     public void Update(object source, ElapsedEventArgs e)

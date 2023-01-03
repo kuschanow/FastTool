@@ -94,3 +94,17 @@ public class ErrorToColorConverter : IValueConverter
         return DependencyProperty.UnsetValue;
     }
 }
+public class TimeSpanToString : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var time = (TimeSpan)value;
+
+        return $"{time.TotalHours:00}:{time.Minutes:00}:{time.Seconds:00}.{time.Milliseconds:000}";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return DependencyProperty.UnsetValue;
+    }
+}

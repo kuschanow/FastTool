@@ -87,9 +87,9 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
+    <Grid DataContext="{Binding Source={StaticResource vm}}">
         <Grid.InputBindings>
-            <KeyBinding Key="Return" Command="{Binding EqualsPress, Source={StaticResource vm}}" />
+            <KeyBinding Key="Return" Command="{Binding EqualsPress}" />
         </Grid.InputBindings>
 
         <Grid.RowDefinitions>
@@ -113,7 +113,7 @@
             <calc:ListView
                 Aligment="Bottom"
                 ItemTemplate="{Binding Source={StaticResource Result}}"
-                Items="{Binding Results, Source={StaticResource vm}}" />
+                Items="{Binding Results}" />
 
             <TextBox
                 x:Name="expField"
@@ -121,10 +121,10 @@
                 VerticalAlignment="Bottom"
                 BorderThickness="0,4"
                 FontSize="20"
-                Text="{Binding Expression, Source={StaticResource vm}, Mode=TwoWay}">
+                Text="{Binding Expression, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding GetTextBox, Source={StaticResource vm}}" CommandParameter="{Binding ElementName=expField}" />
+                        <i:InvokeCommandAction Command="{Binding GetTextBox}" CommandParameter="{Binding ElementName=expField}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBox>
@@ -132,14 +132,14 @@
             <calc:CalcControlPanel
                 Grid.Row="3"
                 BorderBrush="#FFABADB3"
-                ExpThreshold="{Binding ExpThreshold, Source={StaticResource vm}, Mode=TwoWay}"
-                ExpThresholdChangedCommand="{Binding ExpThresholdChanged, Source={StaticResource vm}}"
-                HistoryClearCommand="{Binding HistoryClearPress, Source={StaticResource vm}}"
-                MemorySaveCommand="{Binding MemorySavePress, Source={StaticResource vm}}"
-                Mode="{Binding Mode, Source={StaticResource vm}, Mode=TwoWay}"
-                ModeSwitchCommand="{Binding ModePress, Source={StaticResource vm}}"
-                RoundTo="{Binding RoundTo, Source={StaticResource vm}, Mode=TwoWay}"
-                RoundToChangedCommand="{Binding RoundToChanged, Source={StaticResource vm}}" />
+                ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
+                ExpThresholdChangedCommand="{Binding ExpThresholdChanged}"
+                HistoryClearCommand="{Binding HistoryClearPress}"
+                MemorySaveCommand="{Binding MemorySavePress}"
+                Mode="{Binding Mode, Mode=TwoWay}"
+                ModeSwitchCommand="{Binding ModePress}"
+                RoundTo="{Binding RoundTo, Mode=TwoWay}"
+                RoundToChangedCommand="{Binding RoundToChanged}" />
 
         </Grid>
 
@@ -153,22 +153,22 @@
             <calc:ListView
                 Aligment="Top"
                 ItemTemplate="{Binding Source={StaticResource Value}}"
-                Items="{Binding Values, Source={StaticResource vm}}" />
+                Items="{Binding Values}" />
 
             <calc:ListControl
                 Grid.Row="1"
-                AddCommand="{Binding AddValue, Source={StaticResource vm}}"
-                ClearCommand="{Binding ClearValue, Source={StaticResource vm}}" />
+                AddCommand="{Binding AddValue}"
+                ClearCommand="{Binding ClearValue}" />
 
         </Grid>
 
         <calc:CalcKeyboard
             x:Name="keyboard"
             Grid.Row="2"
-            BackPressCommand="{Binding BackPress, Source={StaticResource vm}}"
-            ButtonPressCommand="{Binding ButtonPress, Source={StaticResource vm}}"
-            ClearPressCommand="{Binding ClearPress, Source={StaticResource vm}}"
-            EqualsPressCommand="{Binding EqualsPress, Source={StaticResource vm}}" />
+            BackPressCommand="{Binding BackPress}"
+            ButtonPressCommand="{Binding ButtonPress}"
+            ClearPressCommand="{Binding ClearPress}"
+            EqualsPressCommand="{Binding EqualsPress}" />
 
         <Grid Grid.Row="2" Grid.Column="2">
 
@@ -180,12 +180,12 @@
             <calc:ListView
                 Aligment="Top"
                 ItemTemplate="{Binding Source={StaticResource Memory}}"
-                Items="{Binding Memory, Source={StaticResource vm}}" />
+                Items="{Binding Memory}" />
 
             <calc:ListControl
                 Grid.Row="1"
-                AddCommand="{Binding AddToMemory, Source={StaticResource vm}}"
-                ClearCommand="{Binding ClearMemory, Source={StaticResource vm}}" />
+                AddCommand="{Binding AddToMemory}"
+                ClearCommand="{Binding ClearMemory}" />
 
         </Grid>
 
