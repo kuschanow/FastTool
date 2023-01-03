@@ -39,7 +39,11 @@ public class Stopwatch : ITimer
         timer.Stop();
     }
 
-    public void Restart() => stopwatch.Restart();
+    public void Restart()
+    {
+        stopwatch.Restart();
+        timer.Start();
+    }
 
     public void Update(object source, ElapsedEventArgs e)
     {
