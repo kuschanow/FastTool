@@ -2,6 +2,7 @@
 using FastTool.CalculationTool;
 using FastTool.CalculationTool.Interfaces;
 using FastTool.Utils;
+using SQLitePCL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -254,10 +255,18 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         private void NameChangedExecute(object obj)
         {
+            ((ValueViewModel)obj).Name = string.Join("", ((ValueViewModel)obj).Name.Where(ch => !"+-*/!^%".Contains(ch)));
             new Thread(() =>
             {
-                var theSameValues = values.Select((v, i) => values.Skip(i+1).Where(_v => v.Name == _v.Name)).SelectMany(v => v);
+                var theSameValues = values.Select((v, i) =>
+                {
+                    var list = values.Skip(i + 1).Where(_v => !string.IsNullOrWhiteSpace(v.Name) && !string.IsNullOrWhiteSpace(_v.Name) && v.Name == _v.Name).ToList();
+                    if (list.Count > 0)
+                        list.Add(v);
+                    return list;
+                }).SelectMany(v => v);
                 var reservedValues = values.Where(v => ExpressionParser.GetReservedNames().Contains(v.Name));
+                var hasPrefix = values.Select(v => values.Where(_v => !string.IsNullOrWhiteSpace(v.Name) && !string.IsNullOrWhiteSpace(_v.Name) && _v != v && _v.Name != v.Name && _v.Name.StartsWith(v.Name))).SelectMany(v => v);
 
                 if (theSameValues.Count() > 0)
                 {
@@ -271,7 +280,13 @@ namespace FastTool.WPF.ViewModels.Calculator
                         v.Error = Error.ReservedName;
                 }
 
-                foreach (var v in values.Where(v => !theSameValues.Contains(v) && !reservedValues.Contains(v) && v.Error != Error.None))
+                if (hasPrefix.Count() > 0)
+                {
+                    foreach (var v in hasPrefix)
+                        v.Error = Error.HasPrefix;
+                }
+
+                foreach (var v in values.Where(v => !theSameValues.Contains(v) && !reservedValues.Contains(v) && !hasPrefix.Contains(v) && v.Error != Error.None))
                     v.Error = Error.None;
             }).Start();
         }

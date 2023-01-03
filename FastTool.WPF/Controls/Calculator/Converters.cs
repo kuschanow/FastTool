@@ -82,8 +82,9 @@ public class ErrorToColorConverter : IValueConverter
         return (Error)value switch
         {
             Error.None => Brushes.Black,
-            Error.IdentityName => Brushes.DarkRed,
+            Error.IdentityName => Brushes.IndianRed,
             Error.ReservedName => Brushes.IndianRed,
+            Error.HasPrefix => Brushes.IndianRed,
             _ => throw new NotImplementedException(),
         };
     }

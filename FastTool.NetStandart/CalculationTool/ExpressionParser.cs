@@ -234,7 +234,7 @@ public class ExpressionParser
         {
             var item = values[i];
 
-            var regex = new Regex($@"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|^){item.Key}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|$)");
+            var regex = new Regex($@"(?<=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|{string.Join("|", values.Select(v => v.Key))}|^){item.Key}(?=\\(?:[^\\#]+)#(?:\d+)|[-+*/^!%]|{string.Join("|", values.Select(v => v.Key))}|$)");
 
             if (true)
             {

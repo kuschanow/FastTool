@@ -28,4 +28,9 @@
     <ProjectReference Include="..\FastTool.NetStandart\FastTool.NetStandart.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controls\Time\" />
+    <Folder Include="ViewModels\Time\" />
+  </ItemGroup>
+
 </Project>

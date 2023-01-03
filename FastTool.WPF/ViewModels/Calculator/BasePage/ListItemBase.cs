@@ -90,7 +90,7 @@ namespace FastTool.WPF.ViewModels.Calculator
             {
                 try
                 {
-                    Answer = new ExpressionParser(values.Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
+                    Answer = new ExpressionParser(values.Where(v => v.Error == Error.None).Select(v => new KeyValuePair<string, string>(v.Name, v.Expression)).ToList()).Parse(Expression).Calculate(Mode).ToStringSmart(expThreshold, roundTo);
                 }
                 catch
                 {

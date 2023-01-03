@@ -10,6 +10,7 @@ namespace FastTool.WPF
     {
         None,
         IdentityName,
-        ReservedName
+        ReservedName,
+        HasPrefix
     }
 }
