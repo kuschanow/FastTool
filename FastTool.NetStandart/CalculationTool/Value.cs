@@ -6,7 +6,7 @@ namespace FastTool.CalculationTool;
 public class Value : ICalculateble
 {
     public string Name { get; init; }
-    public ICalculateble Expression {get; init; }
+    public ICalculateble Expression { get; init; }
 
     public Value(string name, ICalculateble expression)
     {

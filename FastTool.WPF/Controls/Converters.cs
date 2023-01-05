@@ -1,8 +1,6 @@
 ﻿#nullable disable
-using FastTool.Utils;
 using System;
 using System.Globalization;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;

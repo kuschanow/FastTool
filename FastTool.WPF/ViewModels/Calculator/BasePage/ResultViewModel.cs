@@ -2,11 +2,9 @@
 using FastTool.CalculationTool;
 using FastTool.CalculationTool.Interfaces;
 using FastTool.Utils;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 
 namespace FastTool.WPF.ViewModels.Calculator
 {
@@ -20,14 +18,14 @@ namespace FastTool.WPF.ViewModels.Calculator
 
         public string Answer => answer.ToStringSmart(expThreshold, roundTo);
 
-        public ICalculateble Expression 
+        public ICalculateble Expression
         {
             get => expression;
             init => expression = value;
         }
-        public Mode Mode 
+        public Mode Mode
         {
-            get => mode; 
+            get => mode;
             set
             {
                 mode = value;
@@ -35,9 +33,9 @@ namespace FastTool.WPF.ViewModels.Calculator
                 Calculate();
             }
         }
-        public int RoundTo 
-        { 
-            get => roundTo; 
+        public int RoundTo
+        {
+            get => roundTo;
             set
             {
                 roundTo = value;
@@ -47,8 +45,8 @@ namespace FastTool.WPF.ViewModels.Calculator
         }
 
         public int ExpThreshold
-        { 
-            get => expThreshold; 
+        {
+            get => expThreshold;
             set
             {
                 expThreshold = value;

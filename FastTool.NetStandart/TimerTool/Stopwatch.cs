@@ -13,14 +13,14 @@ public class Stopwatch : ITimer
 
     private TimeSpan time;
 
-    public TimeSpan Time 
-    { 
-        get => time; 
-        private set 
-        { 
-            time = value; 
-            TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time)); 
-        } 
+    public TimeSpan Time
+    {
+        get => time;
+        private set
+        {
+            time = value;
+            TimerUpdate?.Invoke(this, new TimerUpdateEventArgs(Time));
+        }
     }
 
     public Stopwatch(int span)

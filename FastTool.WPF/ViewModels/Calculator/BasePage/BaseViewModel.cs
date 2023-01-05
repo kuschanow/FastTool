@@ -2,8 +2,6 @@
 using FastTool.CalculationTool;
 using FastTool.CalculationTool.Functions;
 using FastTool.CalculationTool.Interfaces;
-using FastTool.Utils;
-using SQLitePCL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
