@@ -6,9 +6,6 @@ namespace FastTool.Models;
 
 public class DBContext : DbContext
 {
-    public DbSet<CalculatorResultsHistory> calcHistory { get; set; }
-    public DbSet<Settings> settings { get; set; }
-
     public string DbPath { get; }
 
     public DBContext()
@@ -22,20 +19,5 @@ public class DBContext : DbContext
     {
         options.UseSqlite($"Data Source={DbPath}");
     }
-}
-
-public class CalculatorResultsHistory
-{
-    public int id { get; set; }
-    public string expression { get; set; }
-    public float result { get; set; }
-}
-
-public class Settings
-{
-    public int id { get; set; }
-    public string name { get; set; }
-    public bool inUse { get; set; }
-    public string settingsString { get; set; }
 }
 
