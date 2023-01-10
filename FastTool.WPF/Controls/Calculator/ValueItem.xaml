@@ -7,6 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:FastTool.WPF.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vms="clr-namespace:FastTool.WPF.ViewModels.Calculator"
     d:Background="White"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -43,20 +44,20 @@
                 Margin="2,2,1,2"
                 Foreground="{Binding Error, Converter={StaticResource ErrorToColorConverter}}"
                 Loaded="Name_Loaded"
-                Text="{Binding ValueName}"
+                Text="{Binding Name, Mode=TwoWay}"
                 TextChanged="Name_TextChanged" />
 
             <TextBox
                 Grid.Column="1"
                 Margin="1,2,1,2"
-                Text="{Binding Expression}"
+                Text="{Binding Expression, Mode=TwoWay}"
                 TextChanged="Expression_TextChanged" />
 
             <TextBox
                 Grid.Column="2"
                 Margin="1,2,1,2"
                 IsReadOnly="True"
-                Text="{Binding Answer}" />
+                Text="{Binding Answer, Mode=OneWay}" />
 
             <Button
                 Grid.Column="3"
@@ -76,7 +77,7 @@
             Grid.Column="1"
             Margin="1,2,2,2"
             Content="⯆"
-            IsChecked="{Binding Expanded}" />
+            IsChecked="{Binding Expanded, Mode=TwoWay}" />
 
         <Grid
             Grid.Row="1"

@@ -2,10 +2,9 @@
 
 using System.Collections.ObjectModel;
 
-namespace FastTool.WPF.ViewModels.Calculator
+namespace FastTool.WPF.ViewModels.Calculator;
+
+public class MemoryViewModel : ListItemBase
 {
-    public class MemoryViewModel : ListItemBase
-    {
-        public MemoryViewModel(ObservableCollection<ValueViewModel> values) : base(values) { }
-    }
+    public MemoryViewModel(ObservableCollection<ValueViewModel> values) : base(values) { }
 }

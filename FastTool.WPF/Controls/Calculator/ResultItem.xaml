@@ -6,16 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FastTool.WPF.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vms="clr-namespace:FastTool.WPF.ViewModels.Calculator"
     d:Background="White"
     d:DesignWidth="200"
     mc:Ignorable="d">
+
+    <d:UserControl.DataContext>
+        <vms:ResultViewModel />
+    </d:UserControl.DataContext>
 
     <UserControl.Resources>
         <conv:BoolToVisibility x:Key="BoolToVisibility" />
         <conv:ToStringConverter x:Key="ToStringConverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="grid">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
@@ -36,7 +41,7 @@
             Grid.Column="1"
             Margin="1,2,1,2"
             IsReadOnly="True"
-            Text="{Binding Answer}" />
+            Text="{Binding Answer, Mode=OneWay}" />
 
 
         <ToggleButton
@@ -44,7 +49,7 @@
             Grid.Column="2"
             Margin="1,2,2,2"
             Content="⯆"
-            IsChecked="{Binding Expanded}" />
+            IsChecked="{Binding Expanded, Mode=TwoWay}" />
 
         <Grid
             Grid.Row="1"

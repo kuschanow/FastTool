@@ -25,13 +25,7 @@
 
                 <Separator Margin="0" />
 
-                <calc:ResultItem
-                    Grid.Row="1"
-                    Answer="{Binding Answer}"
-                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                    Expression="{Binding Expression}"
-                    Mode="{Binding Mode, Mode=TwoWay}"
-                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
+                <calc:ResultItem Grid.Row="1" DataContext="{Binding}" />
 
             </Grid>
         </DataTemplate>
@@ -43,21 +37,11 @@
                 </Grid.RowDefinitions>
 
                 <calc:ValueItem
-                    Answer="{Binding Answer}"
                     ApplyCommand="{Binding ApplyValue, Source={StaticResource vm}}"
-                    ApplyProperty="{Binding}"
+                    DataContext="{Binding}"
                     DeleteCommand="{Binding DeleteValue, Source={StaticResource vm}}"
-                    DeleteProperty="{Binding}"
-                    Error="{Binding Error}"
-                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                    Expression="{Binding Expression, Mode=TwoWay}"
-                    ExpressionChanged="{Binding ValueExpressionChanged, Source={StaticResource vm}}"
-                    ExpressionChangedProp="{Binding}"
-                    Mode="{Binding Mode, Mode=TwoWay}"
-                    NameChanged="{Binding NameChanged, Source={StaticResource vm}}"
-                    NameChangedProp="{Binding}"
-                    RoundTo="{Binding RoundTo, Mode=TwoWay}"
-                    ValueName="{Binding Name, Mode=TwoWay}" />
+                    ExpressionChangedCommand="{Binding ValueExpressionChanged, Source={StaticResource vm}}"
+                    NameChangedCommand="{Binding NameChanged, Source={StaticResource vm}}" />
 
                 <Separator Grid.Row="1" Margin="0" />
 
@@ -71,16 +55,9 @@
                 </Grid.RowDefinitions>
 
                 <calc:MemoryItem
-                    Answer="{Binding Answer}"
                     ApplyCommand="{Binding ApplyMemory, Source={StaticResource vm}}"
-                    ApplyProperty="{Binding}"
-                    DeleteCommand="{Binding DeleteFromMemory, Source={StaticResource vm}}"
-                    DeleteProperty="{Binding}"
-                    ExpThreshold="{Binding ExpThreshold, Mode=TwoWay}"
-                    Expression="{Binding Expression, Mode=TwoWay}"
-                    Mode="{Binding Mode, Mode=TwoWay}"
-                    RoundTo="{Binding RoundTo, Mode=TwoWay}" />
-
+                    DataContext="{Binding}"
+                    DeleteCommand="{Binding DeleteFromMemory, Source={StaticResource vm}}" />
                 <Separator Grid.Row="1" Margin="0" />
 
             </Grid>

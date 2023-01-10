@@ -21,6 +21,17 @@ namespace FastTool.WPF.ViewModels.Calculator
         private int roundTo = 4;
         private TextBox textBox;
         private ObservableCollection<ValueViewModel> values;
+        private bool expanded;
+
+        public bool Expanded
+        {
+            get => expanded;
+            set
+            {
+                expanded = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Answer
         {
@@ -77,10 +88,7 @@ namespace FastTool.WPF.ViewModels.Calculator
             }
         }
 
-        public ListItemBase(ObservableCollection<ValueViewModel> values)
-        {
-            this.values = values;
-        }
+        public ListItemBase(ObservableCollection<ValueViewModel> values) => this.values = values;
 
         protected virtual void Calculate()
         {

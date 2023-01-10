@@ -6,67 +6,77 @@ using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace FastTool.WPF.ViewModels.Calculator
+namespace FastTool.WPF.ViewModels.Calculator;
+
+public class ResultViewModel : INotifyPropertyChanged
 {
-    public class ResultViewModel : INotifyPropertyChanged
+    private Complex answer;
+    private ICalculateble expression;
+    private Mode mode;
+    private int roundTo;
+    private int expThreshold;
+    private bool expanded;
+
+    public bool Expanded
     {
-        private Complex answer;
-        private ICalculateble expression;
-        private Mode mode;
-        private int roundTo;
-        private int expThreshold;
-
-        public string Answer => answer.ToStringSmart(expThreshold, roundTo);
-
-        public ICalculateble Expression
+        get => expanded;
+        set
         {
-            get => expression;
-            init => expression = value;
+            expanded = value;
+            OnPropertyChanged();
         }
-        public Mode Mode
-        {
-            get => mode;
-            set
-            {
-                mode = value;
-                OnPropertyChanged();
-                Calculate();
-            }
-        }
-        public int RoundTo
-        {
-            get => roundTo;
-            set
-            {
-                roundTo = value;
-                OnPropertyChanged();
-                Calculate();
-            }
-        }
-
-        public int ExpThreshold
-        {
-            get => expThreshold;
-            set
-            {
-                expThreshold = value;
-                OnPropertyChanged();
-                Calculate();
-            }
-        }
-
-        private void Calculate()
-        {
-            answer = Expression.Calculate(Mode);
-            OnPropertyChanged(nameof(Answer));
-        }
-
-        #region PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-        #endregion
     }
+
+    public string Answer => answer.ToStringSmart(expThreshold, roundTo);
+
+    public ICalculateble Expression
+    {
+        get => expression;
+        init => expression = value;
+    }
+    public Mode Mode
+    {
+        get => mode;
+        set
+        {
+            mode = value;
+            OnPropertyChanged();
+            Calculate();
+        }
+    }
+    public int RoundTo
+    {
+        get => roundTo;
+        set
+        {
+            roundTo = value;
+            OnPropertyChanged();
+            Calculate();
+        }
+    }
+
+    public int ExpThreshold
+    {
+        get => expThreshold;
+        set
+        {
+            expThreshold = value;
+            OnPropertyChanged();
+            Calculate();
+        }
+    }
+
+    private void Calculate()
+    {
+        answer = Expression.Calculate(Mode);
+        OnPropertyChanged(nameof(Answer));
+    }
+
+    #region PropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+    public void OnPropertyChanged([CallerMemberName] string name = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+    #endregion
 }

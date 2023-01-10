@@ -23,31 +23,11 @@
         <conv:IntToString x:Key="IntToString" />
     </UserControl.Resources>
 
-    <Grid x:Name="grid" Height="80">
+    <Grid Height="80">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="81" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
-        <!--<Ellipse
-            Width="80"
-            Height="80"
-            Margin="0,0,1,0"
-            VerticalAlignment="Top"
-            d:Visibility="Visible"
-            Stroke="Gray"
-            StrokeThickness="4"
-            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />
-
-        <Path
-            x:Name="path"
-            Grid.RowSpan="2"
-            d:Data="M 40 2 A 38 38 0 1 1 39.990 2"
-            d:Visibility="Visible"
-            Data="{Binding Arc}"
-            Stroke="Black"
-            StrokeThickness="4"
-            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />-->
 
         <ProgressBar
             Width="80"
@@ -57,7 +37,7 @@
             Maximum="1"
             Style="{DynamicResource RoundProgressBarStyle}"
             Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}"
-            Value="{Binding T}" />
+            Value="{Binding T, Mode=OneWay}" />
 
         <Grid
             Margin="6,10,7,10"
@@ -79,7 +59,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 IsReadOnly="True"
-                Text="{Binding LeftTime, Converter={StaticResource TimeSpanToString}}" />
+                Text="{Binding LeftTime, Mode=OneWay, Converter={StaticResource TimeSpanToString}}" />
 
             <TextBox
                 Grid.Row="2"
@@ -91,7 +71,7 @@
                 FontSize="10"
                 FontWeight="Bold"
                 IsReadOnly="True"
-                Text="{Binding EndTime, Converter={StaticResource HoursAndMinutesToString}}" />
+                Text="{Binding EndTime, Mode=OneWay, Converter={StaticResource HoursAndMinutesToString}}" />
 
         </Grid>
 
@@ -142,7 +122,7 @@
                 FontWeight="Bold"
                 GotFocus="Piker_GotFocus"
                 MaxLength="2"
-                Text="{Binding Hours, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+                Text="{Binding Hours, Mode=TwoWay, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
 
             <TextBox
                 Grid.Row="1"
@@ -154,7 +134,7 @@
                 GotFocus="Piker_GotFocus"
                 LostFocus="Piker_LostFocus"
                 MaxLength="2"
-                Text="{Binding Minutes, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+                Text="{Binding Minutes, Mode=TwoWay, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
 
             <TextBox
                 Grid.Row="2"
@@ -166,7 +146,7 @@
                 GotFocus="Piker_GotFocus"
                 LostFocus="Piker_LostFocus"
                 MaxLength="2"
-                Text="{Binding Seconds, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+                Text="{Binding Seconds, Mode=TwoWay, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
 
         </Grid>
 
@@ -186,7 +166,7 @@
                 BorderThickness="{Binding IsEditMode, Converter={StaticResource BoolToThickness}}"
                 FontWeight="Bold"
                 IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}"
-                Text="{Binding TimerName, Mode=TwoWay}"
+                Text="{Binding Name, Mode=TwoWay}"
                 TextWrapping="Wrap" />
 
             <TextBox
@@ -198,7 +178,7 @@
                 BorderThickness="0"
                 FontWeight="Bold"
                 IsReadOnly="True"
-                Text="{Binding TimerAction, Converter={StaticResource ToStringConverter}}"
+                Text="{Binding TimerAction, Mode=OneWay, Converter={StaticResource ToStringConverter}}"
                 TextWrapping="Wrap"
                 Visibility="Hidden" />
 
@@ -213,12 +193,12 @@
                     x:Name="control"
                     Margin="0,1,-2,0"
                     HorizontalAlignment="Right"
-                    PauseCommand="{Binding PauseCommand}"
+                    PauseCommand="{Binding Pause}"
                     Paused="{Binding Paused, Mode=TwoWay}"
-                    ResetCommand="{Binding ResetCommand}"
+                    ResetCommand="{Binding Reset}"
                     Resetted="{Binding Resetted, Mode=TwoWay}"
-                    RestartCommand="{Binding RestartCommand}"
-                    StartCommand="{Binding StartCommand}"
+                    RestartCommand="{Binding Restart}"
+                    StartCommand="{Binding Start}"
                     Started="{Binding Started, Mode=TwoWay}"
                     Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />
 
@@ -228,7 +208,7 @@
                     Margin="0,1,0,0"
                     HorizontalAlignment="Right"
                     Content="🔄"
-                    IsChecked="{Binding AutoReset}"
+                    IsChecked="{Binding AutoReset, Mode=TwoWay}"
                     Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}" />
 
                 <ToggleButton
@@ -245,8 +225,7 @@
                     Grid.Column="2"
                     Width="{Binding ElementName=delete, Path=ActualHeight}"
                     Margin="2,1,0,0"
-                    Command="{Binding DeleteCommand}"
-                    CommandParameter="{Binding DeleteCommandParametr}"
+                    Click="Delete_Click"
                     Content="🗑"
                     Visibility="{Binding ElementName=control, Path=Resetted, Converter={StaticResource BoolToVisibility}}" />
 

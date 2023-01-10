@@ -22,37 +22,12 @@
         <conv:InverseBool x:Key="InverseBool" />
         <DataTemplate x:Key="Snapshot">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBox
-                    Margin="4,0,2,0"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    FontSize="15"
-                    FontWeight="Bold"
-                    IsReadOnly="True"
-                    Text="{Binding Time, Mode=OneWay, Converter={StaticResource TimeSpanToString}}" />
-
-                <Button
-                    Grid.Column="1"
-                    Margin="2,0,2,0"
-                    Content="Copy"
-                    Visibility="Collapsed" />
-                <Button
-                    Grid.Column="2"
-                    Margin="2,0,4,0"
-                    Command="{Binding DeleteSnapshot, Source={StaticResource vm}}"
-                    CommandParameter="{Binding}"
-                    Content="🗑" />
+                <time:Snapshot DataContext="{Binding}" DeleteCommand="{Binding DeleteSnapshot, Source={StaticResource vm}}" />
 
                 <Separator
                     Grid.Row="1"
@@ -70,25 +45,8 @@
 
                 <time:Timer
                     Margin="4,2"
-                    AutoReset="{Binding AutoReset, Mode=TwoWay}"
-                    DeleteCommand="{Binding DeleteTimer, Source={StaticResource vm}}"
-                    DeleteCommandParametr="{Binding}"
-                    EndTime="{Binding EndTime}"
-                    Hours="{Binding Hours, Mode=TwoWay}"
-                    IsEditMode="{Binding IsEditMode, Mode=TwoWay}"
-                    LeftTime="{Binding LeftTime}"
-                    Minutes="{Binding Minutes, Mode=TwoWay}"
-                    PauseCommand="{Binding Pause}"
-                    Paused="{Binding Paused, Mode=TwoWay}"
-                    ResetCommand="{Binding Reset}"
-                    Resetted="{Binding Resetted, Mode=TwoWay}"
-                    RestartCommand="{Binding Restart}"
-                    Seconds="{Binding Seconds, Mode=TwoWay}"
-                    StartCommand="{Binding Start}"
-                    Started="{Binding Started, Mode=TwoWay}"
-                    T="{Binding T}"
-                    Time="{Binding Time}"
-                    TimerName="{Binding Name, Mode=TwoWay}" />
+                    DataContext="{Binding}"
+                    DeleteCommand="{Binding DeleteTimer, Source={StaticResource vm}}" />
 
                 <Separator Grid.Row="1" Margin="4,1,4,1" />
 

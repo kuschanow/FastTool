@@ -17,7 +17,7 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="grid">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
@@ -38,14 +38,14 @@
             <TextBox
                 Grid.Column="0"
                 Margin="2,2,1,2"
-                Text="{Binding Expression}"
+                Text="{Binding Expression, Mode=TwoWay}"
                 TextChanged="TextBox_TextChanged" />
 
             <TextBox
                 Grid.Column="1"
                 Margin="1,2,1,2"
                 IsReadOnly="True"
-                Text="{Binding Answer}" />
+                Text="{Binding Answer, Mode=OneWay}" />
 
             <Button
                 Grid.Column="2"
@@ -65,7 +65,7 @@
             Grid.Column="1"
             Margin="1,2,2,2"
             Content="⯆"
-            IsChecked="{Binding Expanded}" />
+            IsChecked="{Binding Expanded, Mode=TwoWay}" />
 
         <Grid
             Grid.Row="1"

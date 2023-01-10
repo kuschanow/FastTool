@@ -25,6 +25,18 @@ namespace FastTool.WPF.ViewModels.Time
         private bool started;
         private bool paused;
         private bool resetted = true;
+        private TimerAction timerAction;
+
+
+        public TimerAction TimerAction
+        {
+            get => timerAction;
+            set
+            {
+                timerAction = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Name
         {

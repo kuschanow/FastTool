@@ -1,42 +1,41 @@
 ﻿#nullable disable
 using System.Collections.ObjectModel;
 
-namespace FastTool.WPF.ViewModels.Calculator
+namespace FastTool.WPF.ViewModels.Calculator;
+
+public class ValueViewModel : ListItemBase
 {
-    public class ValueViewModel : ListItemBase
+    private string name;
+    private Error error;
+
+    public string Name
     {
-        private string name;
-        private Error error;
-
-        public string Name
+        get => name;
+        set
         {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged();
-            }
+            name = value;
+            OnPropertyChanged();
         }
+    }
 
-        public Error Error
+    public Error Error
+    {
+        get => error;
+        set
         {
-            get => error;
-            set
-            {
-                error = value;
-                OnPropertyChanged();
-                Calculate();
-            }
+            error = value;
+            OnPropertyChanged();
+            Calculate();
         }
+    }
 
-        public ValueViewModel(ObservableCollection<ValueViewModel> values) : base(values) { }
+    public ValueViewModel(ObservableCollection<ValueViewModel> values) : base(values) { }
 
-        protected override void Calculate()
-        {
-            if (Error == Error.None)
-                base.Calculate();
-            else
-                Answer = $"{error}";
-        }
+    protected override void Calculate()
+    {
+        if (Error == Error.None)
+            base.Calculate();
+        else
+            Answer = $"{error}";
     }
 }
