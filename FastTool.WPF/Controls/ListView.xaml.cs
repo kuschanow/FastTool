@@ -44,11 +44,12 @@ namespace FastTool.WPF.Controls
 
         #endregion
 
-        private void ItemsControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void ItemsControl_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
         {
             if (((ItemsControl)sender).ActualHeight > size)
                 scroll.ScrollToEnd();
             size = ((ItemsControl)sender).ActualHeight;
         }
+
     }
 }

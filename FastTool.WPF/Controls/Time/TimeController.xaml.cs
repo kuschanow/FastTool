@@ -19,14 +19,6 @@ namespace FastTool.WPF.Controls.Time
 
         #region Propertys
 
-        public TimeSpan Time
-        {
-            get => (TimeSpan)GetValue(TimeProperty);
-            set => SetValue(TimeProperty, value);
-        }
-
-        public static readonly DependencyProperty TimeProperty = DependencyProperty.Register("Time", typeof(TimeSpan), typeof(TimeController));
-
         public bool Paused
         {
             get => (bool)GetValue(PausedProperty);

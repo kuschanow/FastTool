@@ -31,7 +31,7 @@ public class TimerTests
         timer.Pause();
 
         // Assert
-        Math.Round(timer.TimeLeft.TotalSeconds).Should().Be(3);
+        Math.Round(timer.LeftTime.TotalSeconds).Should().Be(3);
     }
 
 }

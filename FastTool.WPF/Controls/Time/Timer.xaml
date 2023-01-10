@@ -1,0 +1,258 @@
+﻿<UserControl
+    x:Class="FastTool.WPF.Controls.Time.Timer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:FastTool.WPF.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FastTool.WPF.Controls.Time"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+    MinHeight="80"
+    d:Background="White"
+    d:DesignHeight="80"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <conv:TimeSpanToString2 x:Key="TimeSpanToString" />
+        <conv:TimeSpanToString3 x:Key="HoursAndMinutesToString" />
+        <conv:BoolToVisibility x:Key="BoolToVisibility" />
+        <conv:InverseBoolToVisibility x:Key="InverseBoolToVisibility" />
+        <conv:ToStringConverter x:Key="ToStringConverter" />
+        <conv:BoolToThickness x:Key="BoolToThickness" />
+        <conv:IntToString x:Key="IntToString" />
+    </UserControl.Resources>
+
+    <Grid x:Name="grid" Height="80">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="81" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--<Ellipse
+            Width="80"
+            Height="80"
+            Margin="0,0,1,0"
+            VerticalAlignment="Top"
+            d:Visibility="Visible"
+            Stroke="Gray"
+            StrokeThickness="4"
+            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />
+
+        <Path
+            x:Name="path"
+            Grid.RowSpan="2"
+            d:Data="M 40 2 A 38 38 0 1 1 39.990 2"
+            d:Visibility="Visible"
+            Data="{Binding Arc}"
+            Stroke="Black"
+            StrokeThickness="4"
+            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />-->
+
+        <ProgressBar
+            Width="80"
+            Height="80"
+            Background="Gray"
+            Foreground="Black"
+            Maximum="1"
+            Style="{DynamicResource RoundProgressBarStyle}"
+            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}"
+            Value="{Binding T}" />
+
+        <Grid
+            Margin="6,10,7,10"
+            d:Visibility="Collapsed"
+            Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+
+            <TextBox
+                Grid.Row="1"
+                Padding="0"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="{x:Null}"
+                BorderThickness="0"
+                FontSize="16"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding LeftTime, Converter={StaticResource TimeSpanToString}}" />
+
+            <TextBox
+                Grid.Row="2"
+                Padding="0"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="{x:Null}"
+                BorderThickness="0"
+                FontSize="10"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding EndTime, Converter={StaticResource HoursAndMinutesToString}}" />
+
+        </Grid>
+
+        <Grid d:Visibility="Hidden" Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Margin="0,0,2,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="H:" />
+
+            <TextBlock
+                Grid.Row="1"
+                Margin="0,0,2,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="M:" />
+
+            <TextBlock
+                Grid.Row="2"
+                Margin="0,0,1,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                FontSize="16"
+                FontWeight="Bold"
+                Text="S:" />
+
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="1,0,1,1"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontWeight="Bold"
+                GotFocus="Piker_GotFocus"
+                MaxLength="2"
+                Text="{Binding Hours, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="1"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontWeight="Bold"
+                GotFocus="Piker_GotFocus"
+                LostFocus="Piker_LostFocus"
+                MaxLength="2"
+                Text="{Binding Minutes, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+
+            <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="1,1,1,0"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontWeight="Bold"
+                GotFocus="Piker_GotFocus"
+                LostFocus="Piker_LostFocus"
+                MaxLength="2"
+                Text="{Binding Seconds, Converter={StaticResource IntToString}, ConverterParameter='00'}" />
+
+        </Grid>
+
+        <Grid Grid.RowSpan="2" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+
+            <TextBox
+                Grid.Row="0"
+                Margin="1,0,0,1"
+                HorizontalAlignment="Right"
+                VerticalContentAlignment="Center"
+                d:Text="Name"
+                BorderThickness="{Binding IsEditMode, Converter={StaticResource BoolToThickness}}"
+                FontWeight="Bold"
+                IsReadOnly="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}"
+                Text="{Binding TimerName, Mode=TwoWay}"
+                TextWrapping="Wrap" />
+
+            <TextBox
+                Grid.Row="1"
+                Margin="1,1,0,1"
+                HorizontalAlignment="Right"
+                VerticalContentAlignment="Center"
+                d:Text="Action"
+                BorderThickness="0"
+                FontWeight="Bold"
+                IsReadOnly="True"
+                Text="{Binding TimerAction, Converter={StaticResource ToStringConverter}}"
+                TextWrapping="Wrap"
+                Visibility="Hidden" />
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <local:TimeController
+                    x:Name="control"
+                    Margin="0,1,-2,0"
+                    HorizontalAlignment="Right"
+                    PauseCommand="{Binding PauseCommand}"
+                    Paused="{Binding Paused, Mode=TwoWay}"
+                    ResetCommand="{Binding ResetCommand}"
+                    Resetted="{Binding Resetted, Mode=TwoWay}"
+                    RestartCommand="{Binding RestartCommand}"
+                    StartCommand="{Binding StartCommand}"
+                    Started="{Binding Started, Mode=TwoWay}"
+                    Visibility="{Binding IsEditMode, Converter={StaticResource InverseBoolToVisibility}}" />
+
+                <ToggleButton
+                    x:Name="autoReset"
+                    Width="{Binding ElementName=autoReset, Path=ActualHeight}"
+                    Margin="0,1,0,0"
+                    HorizontalAlignment="Right"
+                    Content="🔄"
+                    IsChecked="{Binding AutoReset}"
+                    Visibility="{Binding IsEditMode, Converter={StaticResource BoolToVisibility}}" />
+
+                <ToggleButton
+                    x:Name="edit"
+                    Grid.Column="1"
+                    Width="{Binding ElementName=edit, Path=ActualHeight}"
+                    Margin="4,1,2,0"
+                    Content="✏"
+                    IsChecked="{Binding IsEditMode, Mode=TwoWay}"
+                    Visibility="{Binding ElementName=control, Path=Resetted, Converter={StaticResource BoolToVisibility}}" />
+
+                <Button
+                    x:Name="delete"
+                    Grid.Column="2"
+                    Width="{Binding ElementName=delete, Path=ActualHeight}"
+                    Margin="2,1,0,0"
+                    Command="{Binding DeleteCommand}"
+                    CommandParameter="{Binding DeleteCommandParametr}"
+                    Content="🗑"
+                    Visibility="{Binding ElementName=control, Path=Resetted, Converter={StaticResource BoolToVisibility}}" />
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

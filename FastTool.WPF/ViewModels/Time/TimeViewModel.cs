@@ -13,11 +13,12 @@ namespace FastTool.WPF.ViewModels.Time
     public class TimeViewModel : INotifyPropertyChanged
     {
         private Stopwatch stopWatch = new(10);
-        private List<Timer> timers = new();
         private bool started;
         private bool paused;
         private bool resetted = true;
+        private ObservableCollection<TimerViewModel> timers = new();
         private ObservableCollection<SnapshotViewModel> snapshots = new();
+
 
         public TimeSpan StopWatchTime => stopWatch.Time;
 
@@ -52,13 +53,17 @@ namespace FastTool.WPF.ViewModels.Time
         }
 
         public ObservableCollection<SnapshotViewModel> Snapshots => snapshots;
+        public ObservableCollection<TimerViewModel> Timers => timers;
 
         public TimeViewModel()
         {
-            stopWatch.TimerUpdate += StopWatch_TimerUpdate;
+            stopWatch.Elapsed += StopWatch_Elapsed;
         }
 
-        private void StopWatch_TimerUpdate(object sender, TimerTool.EventHandlers.Args.TimerUpdateEventArgs e)
+
+        #region Stopwatch
+
+        private void StopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             OnPropertyChanged(nameof(StopWatchTime));
         }
@@ -73,7 +78,11 @@ namespace FastTool.WPF.ViewModels.Time
 
         public ICommand ResetStopWatch => new RelayCommand(ResetStopWatchExecute);
 
-        private void ResetStopWatchExecute(object obj) => stopWatch.Stop();
+        private void ResetStopWatchExecute(object obj)
+        {
+            stopWatch.Stop();
+            OnPropertyChanged(nameof(StopWatchTime));
+        }
 
         public ICommand RestartStopWatch => new RelayCommand(RestartStopWatchExecute);
 
@@ -90,6 +99,20 @@ namespace FastTool.WPF.ViewModels.Time
         public ICommand DeleteSnapshot => new RelayCommand(DeleteSnapshotExecute);
 
         private void DeleteSnapshotExecute(object obj) => snapshots.Remove((SnapshotViewModel)obj);
+
+        #endregion
+
+        #region Timer
+
+        public ICommand DeleteTimer => new RelayCommand(DeleteTimerExecute);
+
+        private void DeleteTimerExecute(object obj) => timers.Remove((TimerViewModel)obj);
+
+        public ICommand AddTimer => new RelayCommand(AddTimerExecute);
+
+        private void AddTimerExecute(object obj) => timers.Add(new TimerViewModel(new TimeSpan(0, 0, 2)));
+
+        #endregion
 
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;

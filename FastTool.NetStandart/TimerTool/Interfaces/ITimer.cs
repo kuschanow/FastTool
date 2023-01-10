@@ -8,7 +8,6 @@ namespace FastTool.TimerTool.Interfaces
         void Start();
         void Pause();
         void Stop();
-        void Update(object source, ElapsedEventArgs e);
-        event TimerUpdateEventHandler TimerUpdate;
+        void Restart();
     }
 }

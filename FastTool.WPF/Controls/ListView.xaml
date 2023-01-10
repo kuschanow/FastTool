@@ -15,7 +15,7 @@
             VerticalAlignment="{Binding Aligment}"
             ItemTemplate="{Binding ItemTemplate}"
             ItemsSource="{Binding Items}"
-            SizeChanged="ItemsControl_SizeChanged" />
+            SourceUpdated="ItemsControl_SourceUpdated" />
     </ScrollViewer>
 
 </UserControl>
