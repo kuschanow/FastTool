@@ -2,6 +2,7 @@
 using FastTool.TimerTool.EventHandlers.Hendlers;
 using FastTool.TimerTool.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 
 namespace FastTool.TimerTool;
@@ -12,26 +13,22 @@ public class Timer : ITimer
     private readonly System.Timers.Timer eventTimer;
     private readonly System.Diagnostics.Stopwatch stopwatch = new();
 
-    private Action<object> action;
-    private object parametr;
     private TimeSpan time;
     private bool autoReset;
 
+    public List<ITimerAction> Actions { get; }
     public TimeSpan Time { get => time; set => time = value; }
     public TimeSpan LeftTime => Time - stopwatch.Elapsed;
-    public Action<object> Action { get => action; set => action = value; }
-    public object Parametr { get => parametr; set => parametr = value; }
     public bool AutoReset { get => autoReset; set => autoReset = value; }
 
-    public Timer(double span, TimeSpan time, Action<object> action, object parametr, bool autoReset = false)
+    public Timer(double span, TimeSpan time, List<ITimerAction> actions, bool autoReset = false)
     {
         timer = new(span);
         eventTimer = new(time.TotalMilliseconds);
         AutoReset = autoReset;
         eventTimer.Elapsed += EventTimer_Elapsed;
         Time = time;
-        Action = action;
-        Parametr = parametr;
+        Actions = actions;
     }
 
     public void Start()
@@ -64,7 +61,7 @@ public class Timer : ITimer
 
     private void EventTimer_Elapsed(object sender, ElapsedEventArgs e)
     {
-        Action?.Invoke(Parametr);
+        Actions.ForEach(a => a.Execute());
         EndTimer?.Invoke(this, new EventArgs());
         if (AutoReset)
             Restart();

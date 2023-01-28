@@ -1,9 +1,11 @@
 ﻿#nullable disable
 using FastTool.TimerTool;
+using FastTool.TimerTool.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -25,18 +27,7 @@ namespace FastTool.WPF.ViewModels.Time
         private bool started;
         private bool paused;
         private bool resetted = true;
-        private TimerAction timerAction;
 
-
-        public TimerAction TimerAction
-        {
-            get => timerAction;
-            set
-            {
-                timerAction = value;
-                OnPropertyChanged();
-            }
-        }
 
         public string Name
         {
@@ -146,9 +137,9 @@ namespace FastTool.WPF.ViewModels.Time
             return (value - a) / (b - a);
         }
 
-        public TimerViewModel(TimeSpan time, Action<object> action = null, object parametr = null, bool autoreset = false)
+        public TimerViewModel(TimeSpan time, List<ITimerAction> actions = null, object parametr = null, bool autoreset = false)
         {
-            timer = new(50, time, action, parametr, autoreset);
+            timer = new(50, time, actions, autoreset);
             timer.Elapsed += Timer_Elapsed;
             timer.EndTimer += Timer_EndTimer;
             hours = Time.Hours;
@@ -168,6 +159,12 @@ namespace FastTool.WPF.ViewModels.Time
             }
             OnPropertyChanged(nameof(LeftTime));
             OnPropertyChanged(nameof(T));
+
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            var file = File.OpenRead("timeEnd.mp3");
+            mediaPlayer.Open(new Uri($"file://{file.Name}"));
+            file.Close();
+            mediaPlayer.Play();
         }
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)

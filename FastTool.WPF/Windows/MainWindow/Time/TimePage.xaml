@@ -20,6 +20,7 @@
         <conv:TimeSpanToString x:Key="TimeSpanToString" />
         <conv:TimeSpanToString2 x:Key="TimeSpanToString2" />
         <conv:InverseBool x:Key="InverseBool" />
+        <conv:IntToString x:Key="IntToString" />
         <DataTemplate x:Key="Snapshot">
             <Grid>
                 <Grid.RowDefinitions>
@@ -103,7 +104,6 @@
 
             </Grid>
 
-
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -143,10 +143,13 @@
                 ItemTemplate="{Binding Source={StaticResource Timer}}"
                 Items="{Binding Timers}" />
 
-            <Button
-                Grid.Row="1"
-                Command="{Binding AddTimer}"
-                Content="Add" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+            </Grid>
 
         </Grid>
 
