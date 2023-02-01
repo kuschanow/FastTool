@@ -33,7 +33,7 @@ namespace FastTool.WPF.Controls.Time
             set => SetValue(DeleteCommandProperty, value);
         }
 
-        public static readonly DependencyProperty DeleteCommandProperty = DependencyProperty.Register("DeleteCommand", typeof(ICommand), typeof(TimeController));
+        public static readonly DependencyProperty DeleteCommandProperty = DependencyProperty.Register("DeleteCommand", typeof(ICommand), typeof(Snapshot));
 
         #endregion
 
