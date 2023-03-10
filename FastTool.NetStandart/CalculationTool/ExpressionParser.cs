@@ -1,6 +1,5 @@
 ﻿using FastTool.CalculationTool.Interfaces;
 using FastTool.CalculationTool.Operators;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -311,7 +310,7 @@ public class ExpressionParser
     {
         var match = оperatorExp.Match(exp);
 
-        return match.Groups.Cast<Group>().IndexOf(match.Groups.Cast<Group>().Skip(1).Single(g => g.Success)) switch
+        return match.Groups.Cast<Group>().ToList().IndexOf(match.Groups.Cast<Group>().Skip(1).Single(g => g.Success)) switch
         {
             1 => match.Groups[1].Value switch
             {
