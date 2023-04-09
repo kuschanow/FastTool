@@ -2,6 +2,7 @@
 using FastTool.CalculationTool.Operators;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -214,7 +215,7 @@ public class ExpressionParser
         start = match.Index;
         length += match.Length;
 
-        return new Number(Convert.ToDouble(match.Value.Replace(".", ",")));
+        return new Number(Convert.ToDouble(match.Value, new NumberFormatInfo()));
     }
 
     private void GetConsts(ref string exp)
